@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
-export const alt = 'Dog Training Tracker - Pay Once, Train Forever - $39';
+export const alt = 'Puppy Pro - Dog Trainer - Pay Once, Train Forever - $39';
 export const size = {
   width: 1200,
   height: 630,
@@ -84,7 +84,7 @@ export default async function Image() {
               lineHeight: 1.1,
             }}
           >
-            Dog Training Tracker
+            Puppy Pro
           </h1>
 
           {/* Subtitle */}

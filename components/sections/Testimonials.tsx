@@ -1,10 +1,11 @@
+import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { StarRating } from "@/components/shared/StarRating";
 import type { Testimonial } from "@/types";
 
 const testimonials: Testimonial[] = [
   {
-    quote: "When we brought Mochi home, I was completely overwhelmed. Every app I tried wanted my credit card before I could even see what training looked like. Dog Training Tracker let me jump straight in. Within 3 weeks, Mochi learned sit, stay, down, and come. The progress tracking kept me motivated on days when it felt like nothing was working. Looking back at where we started? Night and day.",
+    quote: "When we brought Mochi home, I was completely overwhelmed. Every app I tried wanted my credit card before I could even see what training looked like. Puppy Pro let me jump straight in. Within 3 weeks, Mochi learned sit, stay, down, and come. The progress tracking kept me motivated on days when it felt like nothing was working. Looking back at where we started? Night and day.",
     headline: "I finally feel like I know what I'm doing.",
     author: "Jessica T.",
     context: "First-time puppy owner, 8-month-old Goldendoodle",
@@ -22,7 +23,7 @@ const testimonials: Testimonial[] = [
     dogBreed: "🦮",
   },
   {
-    quote: "I have a senior Beagle, a 2-year-old rescue, and a new puppy. Every other app either charged per dog or made me create separate accounts. Dog Training Tracker lets me track all three in one place. I can see that Bruno (the senior) needs refreshers on recall, while Pepper (the puppy) is crushing her crate training. The unlimited dogs feature alone made this worth it.",
+    quote: "I have a senior Beagle, a 2-year-old rescue, and a new puppy. Every other app either charged per dog or made me create separate accounts. Puppy Pro lets me track all three in one place. I can see that Bruno (the senior) needs refreshers on recall, while Pepper (the puppy) is crushing her crate training. The unlimited dogs feature alone made this worth it.",
     headline: "Finally, one app for all three of my dogs.",
     author: "Rachel & Tom K.",
     context: "3-dog household",
@@ -93,10 +94,12 @@ export function Testimonials() {
                 {/* Author with Photo */}
                 <div className="border-t border-border pt-4">
                   <div className="flex items-center gap-3">
-                    <img
+                    <Image
                       src={testimonial.photo}
-                      alt={testimonial.author}
-                      className="w-12 h-12 rounded-full object-cover border-2 border-primary/20"
+                      alt={`Photo of ${testimonial.author}`}
+                      width={48}
+                      height={48}
+                      className="rounded-full object-cover border-2 border-primary/20"
                     />
                     <div>
                       <p className="font-medium text-foreground">{testimonial.author}</p>

@@ -33,7 +33,7 @@ export function CTA() {
           <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
             You&apos;ve read this far. You know the frustration of subscription traps, per-dog limits,
             and apps that don&apos;t work when you need them most. You&apos;ve seen what&apos;s different
-            about Dog Training Tracker.
+            about Puppy Pro.
           </p>
 
           <p className="mt-4 text-xl font-semibold text-foreground">
@@ -85,13 +85,13 @@ export function CTA() {
                   (waitlistInput as HTMLInputElement).focus();
                 }
               }}
-              aria-label="Get Pack Leader for $39 - Join waitlist"
+              aria-label="Join waitlist for Pack Leader plan at $39"
             >
-              Get Pack Leader - $39
+              Join Waitlist - $39
               <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
             </Button>
             <p className="mt-3 text-sm text-muted-foreground">
-              Unlimited dogs. One-time payment. Lifetime updates.
+              Lock in founding member pricing. Unlimited dogs. Lifetime updates.
             </p>
           </div>
 
@@ -130,7 +130,7 @@ export function CTA() {
               <h3 className="font-semibold">30-Day &ldquo;Happy Pup&rdquo; Guarantee</h3>
             </div>
             <p className="mt-3 text-sm text-muted-foreground">
-              Try Dog Training Tracker for 30 days. Use every feature. Train every day.
+              Try Puppy Pro for 30 days. Use every feature. Train every day.
               If you don&apos;t love it, if you don&apos;t see progress, if it&apos;s just not for you,
               email us and we&apos;ll refund every penny.
             </p>
@@ -165,13 +165,13 @@ export function CTA() {
                 (waitlistInput as HTMLInputElement).focus();
               }
             }}
-            aria-label="Start training today for $39 - Join waitlist"
+            aria-label="Join waitlist to get early access at $39"
           >
-            Start Training Today - $39
+            Get Early Access - $39
             <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
           </Button>
           <p className="mt-3 text-sm text-muted-foreground">
-            One-time payment. No subscription. No regrets.
+            Join the waitlist. One-time payment. No subscription ever.
           </p>
 
           {/* Trust Badges */}

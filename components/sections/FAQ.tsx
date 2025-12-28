@@ -92,8 +92,8 @@ export function FAQ() {
           <div className="mt-10 text-center">
             <p className="text-muted-foreground">
               Still have questions? Email us at{" "}
-              <a href="mailto:support@dogtrainingtracker.app" className="font-medium text-primary hover:underline">
-                support@dogtrainingtracker.app
+              <a href="mailto:support@puppypro.app" className="font-medium text-primary hover:underline">
+                support@puppypro.app
               </a>
               {" "}and we&apos;ll get back to you within 24 hours.
             </p>

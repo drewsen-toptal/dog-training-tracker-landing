@@ -145,7 +145,7 @@ export function Pricing() {
 
                 {/* CTA Button */}
                 <Button
-                  className="w-full"
+                  className="w-full h-12"
                   variant={tier.popular ? "default" : "outline"}
                   onClick={() => {
                     // Scroll to waitlist form to capture leads
@@ -155,9 +155,9 @@ export function Pricing() {
                       (heroSection as HTMLInputElement).focus();
                     }
                   }}
-                  aria-label={`${tier.cta} - Join waitlist for ${tier.name} plan`}
+                  aria-label={`Join waitlist for ${tier.name} plan at $${tier.price}`}
                 >
-                  {tier.cta}
+                  Join Waitlist - ${tier.price}
                 </Button>
               </CardContent>
             </Card>
@@ -178,7 +178,7 @@ export function Pricing() {
             <div className="grid grid-cols-3 bg-muted font-semibold">
               <div className="border-b border-r border-border p-4 text-sm"></div>
               <div className="border-b border-r border-border p-4 text-center text-sm text-primary">
-                Dog Training Tracker
+                Puppy Pro
               </div>
               <div className="border-b border-border p-4 text-center text-sm text-muted-foreground">
                 Typical Subscription App
@@ -217,13 +217,13 @@ export function Pricing() {
 
         {/* Founding Member Note - Updated */}
         <div className="mx-auto mt-8 max-w-lg rounded-xl border border-secondary/50 bg-secondary/10 p-6 text-center">
-          <p className="font-semibold text-foreground">Founding Member Pricing</p>
+          <p className="font-semibold text-foreground">Launching Soon - Founding Member Pricing</p>
           <p className="mt-2 text-sm text-muted-foreground">
-            These are our launch prices for early supporters.
-            Regular pricing: Puppy $49, Pack Leader $99, Family $149
+            Join the waitlist to lock in these launch prices.
+            Regular pricing after launch: Puppy $49, Pack Leader $99, Family $149
           </p>
           <p className="mt-3 text-lg font-bold text-secondary">
-            Save up to 60% today
+            Save up to 60% as an early supporter
           </p>
         </div>
       </div>

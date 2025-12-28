@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// In production, you would connect to a database or email service
-// For now, we'll store emails in a simple in-memory array (demo only)
+// In production, replace with database or email service (e.g., Mailchimp, ConvertKit)
+// WARNING: In-memory storage loses data on server restart - for demo purposes only
 const waitlistEmails: string[] = [];
 
 export async function POST(request: NextRequest) {
@@ -33,12 +33,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Add to waitlist (in production, save to database)
+    // Add to waitlist (in production, save to database or email service)
     waitlistEmails.push(email.toLowerCase());
 
-    // Log for demo purposes
-    console.log(`[Waitlist] New signup: ${email}`);
-    console.log(`[Waitlist] Total signups: ${waitlistEmails.length}`);
+    // TODO: In production, integrate with email service like:
+    // - Mailchimp API
+    // - ConvertKit API
+    // - Resend API
+    // - Or persist to database (Supabase, Vercel KV, etc.)
 
     return NextResponse.json(
       {
@@ -48,8 +50,7 @@ export async function POST(request: NextRequest) {
       },
       { status: 200 }
     );
-  } catch (error) {
-    console.error("[Waitlist] Error:", error);
+  } catch {
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 }
@@ -57,10 +58,5 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET() {
-  // Return waitlist stats (admin endpoint - protect in production)
-  return NextResponse.json({
-    count: waitlistEmails.length,
-    message: "Waitlist stats"
-  });
-}
+// GET endpoint removed - exposes sensitive data without authentication
+// If needed, implement proper authentication (API key, session, etc.)

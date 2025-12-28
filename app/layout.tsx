@@ -6,6 +6,7 @@ const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
+  preload: true,
 });
 
 export const viewport: Viewport = {
@@ -15,11 +16,11 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Dog Training Tracker | Pay Once, Train Forever",
-  description: "The dog training app that respects your wallet and your time. No subscriptions. No account required. No limits on how many dogs you can train.",
-  keywords: ["dog training", "puppy training", "dog training app", "dog tracker", "pet training"],
-  authors: [{ name: "Dog Training Tracker" }],
-  metadataBase: new URL("https://dogtrainingtracker.app"),
+  title: "Puppy Pro - Dog Trainer | Pay Once, Train Forever",
+  description: "The dog training app that respects your wallet and your time. No subscriptions. No account required. Track progress, master commands, train any dog.",
+  keywords: ["dog training", "puppy training", "dog trainer app", "puppy pro", "dog commands", "pet training", "dog obedience", "puppy tracker"],
+  authors: [{ name: "Puppy Pro" }],
+  metadataBase: new URL("https://puppypro.app"),
   alternates: {
     canonical: "/",
   },
@@ -28,23 +29,23 @@ export const metadata: Metadata = {
     follow: true,
   },
   openGraph: {
-    title: "Dog Training Tracker | Pay Once, Train Forever",
+    title: "Puppy Pro - Dog Trainer | Pay Once, Train Forever",
     description: "Professional dog training app for $39 one-time. No subscriptions, unlimited dogs, works offline. 4.9★ rated.",
     type: "website",
     locale: "en_US",
-    siteName: "Dog Training Tracker",
+    siteName: "Puppy Pro",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Dog Training Tracker - Pay Once, Train Forever - $39",
+        alt: "Puppy Pro - Dog Trainer - Pay Once, Train Forever - $39",
       }
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dog Training Tracker | Pay Once, Train Forever",
+    title: "Puppy Pro - Dog Trainer | Pay Once, Train Forever",
     description: "Professional dog training app for $39 one-time. No subscriptions, unlimited dogs, works offline.",
     images: ["/og-image.png"],
   },
@@ -54,7 +55,7 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "Dog Training Tracker",
+  name: "Puppy Pro - Dog Trainer",
   applicationCategory: "LifestyleApplication",
   operatingSystem: "iOS",
   offers: {
@@ -67,7 +68,30 @@ const jsonLd = {
     ratingValue: "4.9",
     ratingCount: "500",
   },
-  description: "The dog training app that respects your wallet and your time. No subscriptions. No account required.",
+  description: "The dog training app that respects your wallet and your time. Track progress, master commands, train any dog.",
+};
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Puppy Pro",
+  url: "https://puppypro.app",
+  logo: "https://puppypro.app/icon.png",
+  sameAs: [],
+  description: "Professional dog training app with one-time payment. No subscriptions, unlimited dogs, works offline.",
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "customer support",
+    email: "support@puppypro.app",
+  },
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Puppy Pro",
+  url: "https://puppypro.app",
+  description: "Professional dog training app with one-time payment. No subscriptions, unlimited dogs, works offline.",
 };
 
 const faqSchema = {
@@ -144,11 +168,11 @@ const faqSchema = {
 const reviewSchema = {
   "@context": "https://schema.org",
   "@type": "Product",
-  "name": "Dog Training Tracker",
+  "name": "Puppy Pro - Dog Trainer",
   "description": "Professional dog training app with one-time payment",
   "brand": {
     "@type": "Brand",
-    "name": "Dog Training Tracker"
+    "name": "Puppy Pro"
   },
   "aggregateRating": {
     "@type": "AggregateRating",
@@ -215,6 +239,14 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>

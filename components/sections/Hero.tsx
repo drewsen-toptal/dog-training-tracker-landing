@@ -27,7 +27,7 @@ export function Hero() {
             </div>
 
             {/* Headline */}
-            <h1 className="text-4xl font-bold tracking-tight text-foreground md:text-5xl lg:text-6xl">
+            <h1 className="text-[2.5rem] leading-tight font-bold tracking-tight text-foreground md:text-5xl lg:text-6xl">
               Stop Paying $47/Month{" "}
               <span className="text-primary">to Train Your Dog</span>
             </h1>
@@ -47,7 +47,7 @@ export function Hero() {
             <div className="mt-10 flex flex-col items-center lg:items-start justify-center lg:justify-start gap-4 sm:flex-row">
               <Button
                 size="lg"
-                className="w-full sm:w-auto"
+                className="w-full sm:w-auto h-14 text-lg px-8"
                 onClick={() => {
                   const pricingSection = document.getElementById("pricing");
                   if (pricingSection) {
@@ -57,9 +57,9 @@ export function Hero() {
                 aria-label="Get lifetime access for $39 - view pricing"
               >
                 Get Lifetime Access - $39
-                <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
               </Button>
-              <Button variant="outline" size="lg" className="w-full sm:w-auto" asChild>
+              <Button variant="outline" size="lg" className="w-full sm:w-auto h-14 text-lg px-8" asChild>
                 <a href="#features">See How It Works</a>
               </Button>
             </div>
@@ -85,7 +85,7 @@ export function Hero() {
               <StarRating rating={5} label="4.9 out of 5 stars rating" />
               <div className="text-sm text-muted-foreground">
                 <span className="font-semibold text-foreground">4.9 star rating</span>
-                {" "}from happy dog owners
+                {" "}from 500+ dog owners
               </div>
             </div>
 

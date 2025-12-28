@@ -47,16 +47,16 @@ export function StickyMobileCTA() {
       aria-label="Quick access to pricing"
     >
       <Button
-        className="w-full"
+        className="w-full h-12"
         size="lg"
         onClick={scrollToPricing}
         aria-label="View pricing options - $39 one-time payment"
       >
-        Get Pack Leader - $39
+        Get Early Access - $39
         <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
       </Button>
       <p className="text-xs text-center mt-2 text-muted-foreground">
-        One-time payment • 30-day guarantee
+        Join waitlist • One-time payment • 30-day guarantee
       </p>
     </div>
   );
