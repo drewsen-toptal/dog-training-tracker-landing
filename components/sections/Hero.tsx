@@ -81,9 +81,9 @@ export function Hero() {
 
             {/* Social Proof */}
             <div className="mt-10 flex flex-col items-center lg:items-start gap-4 sm:flex-row lg:justify-start">
-              <div className="flex gap-1" aria-hidden="true">
+              <div className="flex gap-1" role="img" aria-label="4.9 out of 5 stars rating">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-5 w-5 fill-secondary text-secondary" />
+                  <Star key={i} className="h-5 w-5 fill-secondary text-secondary" aria-hidden="true" />
                 ))}
               </div>
               <div className="text-sm text-muted-foreground">
