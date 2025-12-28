@@ -1,26 +1,125 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Dog Training Tracker - Custom Design System
+   Primary: Teal (trust, calm)
+   Secondary: Amber (warmth, playfulness)
+   Neutrals: Stone (approachable)
+*/
+
+:root {
+  --radius: 0.75rem;
+
+  /* Stone-based neutral palette */
+  --background: oklch(0.985 0.001 106.424); /* stone-50 */
+  --foreground: oklch(0.216 0.006 56.043); /* stone-900 */
+
+  --card: oklch(1 0 0); /* white */
+  --card-foreground: oklch(0.216 0.006 56.043); /* stone-900 */
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.216 0.006 56.043);
+
+  /* Primary: Teal */
+  --primary: oklch(0.6 0.118 181.912); /* teal-600 */
+  --primary-foreground: oklch(1 0 0); /* white */
+
+  /* Secondary: Amber */
+  --secondary: oklch(0.769 0.188 70.08); /* amber-500 */
+  --secondary-foreground: oklch(0.216 0.006 56.043); /* stone-900 */
+
+  /* Stone muted */
+  --muted: oklch(0.97 0.001 106.424); /* stone-100 */
+  --muted-foreground: oklch(0.553 0.013 58.071); /* stone-500 */
+
+  --accent: oklch(0.97 0.001 106.424); /* stone-100 */
+  --accent-foreground: oklch(0.216 0.006 56.043);
+
+  --destructive: oklch(0.637 0.237 25.331); /* red-500 */
+
+  /* Stone borders */
+  --border: oklch(0.923 0.003 106.424); /* stone-200 */
+  --input: oklch(0.923 0.003 106.424);
+  --ring: oklch(0.6 0.118 181.912); /* teal-600 */
+}
+
+.dark {
+  --background: oklch(0.216 0.006 56.043); /* stone-900 */
+  --foreground: oklch(0.985 0.001 106.424); /* stone-50 */
+
+  --card: oklch(0.268 0.007 34.298); /* stone-800 */
+  --card-foreground: oklch(0.985 0.001 106.424);
+
+  --popover: oklch(0.268 0.007 34.298);
+  --popover-foreground: oklch(0.985 0.001 106.424);
+
+  /* Primary: Teal (lighter for dark mode) */
+  --primary: oklch(0.704 0.14 182.503); /* teal-500 */
+  --primary-foreground: oklch(1 0 0);
+
+  /* Secondary: Amber (lighter for dark mode) */
+  --secondary: oklch(0.828 0.189 84.429); /* amber-400 */
+  --secondary-foreground: oklch(0.216 0.006 56.043);
+
+  --muted: oklch(0.444 0.011 73.639); /* stone-700 */
+  --muted-foreground: oklch(0.709 0.01 56.259); /* stone-400 */
+
+  --accent: oklch(0.444 0.011 73.639);
+  --accent-foreground: oklch(0.985 0.001 106.424);
+
+  --destructive: oklch(0.704 0.191 22.216); /* red-400 */
+
+  --border: oklch(0.444 0.011 73.639);
+  --input: oklch(0.444 0.011 73.639);
+  --ring: oklch(0.704 0.14 182.503);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Custom scrollbar */
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }
