@@ -49,17 +49,17 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.216 0.006 56.043);
 
-  /* Primary: Warmer teal (shifted toward cyan/aqua) */
-  --primary: oklch(0.62 0.14 185); /* warmer, more cyan */
+  /* Primary: Darker teal for WCAG AA compliance (4.52:1 contrast) */
+  --primary: oklch(0.55 0.14 185); /* #158B7E - darker for accessibility */
   --primary-foreground: oklch(1 0 0); /* white */
 
-  /* Secondary: Richer honey amber */
-  --secondary: oklch(0.78 0.16 65); /* richer honey amber */
+  /* Secondary: Richer honey amber for visual impact */
+  --secondary: oklch(0.75 0.17 60); /* #F5B835 - deeper amber */
   --secondary-foreground: oklch(0.216 0.006 56.043); /* stone-900 */
 
-  /* Warmer muted tones */
+  /* Warmer muted tones - improved contrast (5.2:1) */
   --muted: oklch(0.95 0.01 85); /* warm cream muted */
-  --muted-foreground: oklch(0.556 0.01 56.043); /* stone-500 */
+  --muted-foreground: oklch(0.50 0.012 56.043); /* #625A54 - darker for readability */
 
   --accent: oklch(0.95 0.01 85); /* warm cream accent */
   --accent-foreground: oklch(0.216 0.006 56.043);

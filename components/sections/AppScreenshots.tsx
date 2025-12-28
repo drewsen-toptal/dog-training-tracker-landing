@@ -42,11 +42,11 @@ export function AppScreenshots() {
                 <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent rounded-[3rem] blur-xl scale-95 -z-10" />
 
                 {/* Phone Mockup with Real Screenshot */}
-                <div className="relative w-full aspect-[9/19.5] rounded-[2.5rem] bg-gray-900 shadow-2xl overflow-hidden border-[10px] border-gray-900 ring-1 ring-gray-800/30">
-                  {/* Phone Notch */}
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-6 bg-gray-900 rounded-b-3xl z-20" />
+                <div className="relative w-full aspect-[9/19.5] rounded-[2.5rem] bg-gray-900 shadow-2xl overflow-hidden border-[8px] border-gray-900 ring-1 ring-gray-800/30">
+                  {/* Dynamic Island - smaller, realistic */}
+                  <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-5 bg-gray-900 rounded-full z-20" />
 
-                  {/* Screenshot Image - Consistent sizing */}
+                  {/* Screenshot Image - Consistent sizing with proper top alignment */}
                   <div className="relative w-full h-full overflow-hidden rounded-[2rem] bg-gray-100">
                     <Image
                       src={screen.image}
@@ -59,7 +59,7 @@ export function AppScreenshots() {
                   </div>
 
                   {/* Home Indicator */}
-                  <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-28 h-1.5 bg-white/30 rounded-full z-20" />
+                  <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-28 h-1 bg-white/40 rounded-full z-20" />
                 </div>
               </div>
 
