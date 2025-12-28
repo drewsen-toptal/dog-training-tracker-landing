@@ -43,8 +43,8 @@ export function AppScreenshots() {
 
                 {/* Phone Mockup with Real Screenshot */}
                 <div className="relative w-full aspect-[9/19.5] rounded-[2.5rem] bg-gray-900 shadow-2xl overflow-hidden border-[8px] border-gray-900 ring-1 ring-gray-800/30">
-                  {/* Dynamic Island - smaller, realistic */}
-                  <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-5 bg-gray-900 rounded-full z-20" />
+                  {/* Dynamic Island - compact pill shape like iPhone 14/15 Pro */}
+                  <div className="absolute top-3 left-1/2 -translate-x-1/2 w-[62px] h-[18px] bg-black rounded-full z-20" />
 
                   {/* Screenshot Image - Consistent sizing with proper top alignment */}
                   <div className="relative w-full h-full overflow-hidden rounded-[2rem] bg-gray-100">
