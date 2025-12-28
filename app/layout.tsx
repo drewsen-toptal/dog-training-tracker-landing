@@ -197,6 +197,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
+        {/* Preload hero image for better LCP */}
+        <link
+          rel="preload"
+          as="image"
+          href="/screenshots/progress-dashboard.png"
+          fetchPriority="high"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

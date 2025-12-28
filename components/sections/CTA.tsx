@@ -79,11 +79,16 @@ export function CTA() {
               size="lg"
               className="text-lg px-10 py-6 h-auto"
               onClick={() => {
-                alert("Coming soon to the App Store! Join the waitlist to be notified.");
+                const waitlistInput = document.querySelector('[aria-label="Email address for waitlist"]');
+                if (waitlistInput) {
+                  waitlistInput.scrollIntoView({ behavior: "smooth", block: "center" });
+                  (waitlistInput as HTMLInputElement).focus();
+                }
               }}
+              aria-label="Get Pack Leader for $39 - Join waitlist"
             >
               Get Pack Leader - $39
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
             </Button>
             <p className="mt-3 text-sm text-muted-foreground">
               Unlimited dogs. One-time payment. Lifetime updates.
@@ -96,7 +101,10 @@ export function CTA() {
               variant="link"
               className="text-muted-foreground hover:text-foreground"
               onClick={() => {
-                alert("Coming soon to the App Store! Join the waitlist to be notified.");
+                const pricingSection = document.getElementById("pricing");
+                if (pricingSection) {
+                  pricingSection.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
               }}
             >
               Just one dog? Get Puppy for $19
@@ -105,7 +113,10 @@ export function CTA() {
               variant="link"
               className="text-muted-foreground hover:text-foreground"
               onClick={() => {
-                alert("Coming soon to the App Store! Join the waitlist to be notified.");
+                const pricingSection = document.getElementById("pricing");
+                if (pricingSection) {
+                  pricingSection.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
               }}
             >
               Training as a family? Get Family for $59
@@ -115,7 +126,7 @@ export function CTA() {
           {/* Risk Reversal */}
           <div className="mx-auto mt-10 max-w-xl rounded-xl border border-primary/20 bg-primary/5 p-6">
             <div className="flex items-center justify-center gap-2 text-primary">
-              <Shield className="h-5 w-5" />
+              <Shield className="h-5 w-5" aria-hidden="true" />
               <h3 className="font-semibold">30-Day &ldquo;Happy Pup&rdquo; Guarantee</h3>
             </div>
             <p className="mt-3 text-sm text-muted-foreground">
@@ -148,11 +159,16 @@ export function CTA() {
             size="lg"
             className="mt-8 text-lg px-10 py-6 h-auto"
             onClick={() => {
-              alert("Coming soon to the App Store! Join the waitlist to be notified.");
+              const waitlistInput = document.querySelector('[aria-label="Email address for waitlist"]');
+              if (waitlistInput) {
+                waitlistInput.scrollIntoView({ behavior: "smooth", block: "center" });
+                (waitlistInput as HTMLInputElement).focus();
+              }
             }}
+            aria-label="Start training today for $39 - Join waitlist"
           >
             Start Training Today - $39
-            <ArrowRight className="ml-2 h-5 w-5" />
+            <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
           </Button>
           <p className="mt-3 text-sm text-muted-foreground">
             One-time payment. No subscription. No regrets.
@@ -167,7 +183,7 @@ export function CTA() {
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             {trustElements.map((element, index) => (
               <div key={index} className="flex items-center gap-2 text-sm text-muted-foreground">
-                <element.icon className="h-4 w-4 text-primary" />
+                <element.icon className="h-4 w-4 text-primary" aria-hidden="true" />
                 <span>{element.label}</span>
               </div>
             ))}

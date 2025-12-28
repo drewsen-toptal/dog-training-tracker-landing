@@ -25,7 +25,7 @@ export function Header() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         {/* Logo */}
         <a href="/" className="flex items-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary" aria-hidden="true">
             <Dog className="h-5 w-5 text-primary-foreground" />
           </div>
           <span className="text-lg font-semibold">Dog Training Tracker</span>
@@ -49,7 +49,10 @@ export function Header() {
           <Button
             size="sm"
             onClick={() => {
-              alert("Coming soon to the App Store! Join the waitlist to be notified.");
+              const pricingSection = document.getElementById("pricing");
+              if (pricingSection) {
+                pricingSection.scrollIntoView({ behavior: "smooth", block: "start" });
+              }
             }}
           >
             Get Lifetime Access
@@ -82,7 +85,10 @@ export function Header() {
                   className="w-full"
                   onClick={() => {
                     setIsOpen(false);
-                    alert("Coming soon to the App Store! Join the waitlist to be notified.");
+                    const pricingSection = document.getElementById("pricing");
+                    if (pricingSection) {
+                      pricingSection.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }
                   }}
                 >
                   Get Lifetime Access

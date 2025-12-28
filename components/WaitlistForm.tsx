@@ -53,8 +53,12 @@ export function WaitlistForm({ variant = "hero", className = "" }: WaitlistFormP
 
   if (status === "success") {
     return (
-      <div className={`flex items-center gap-2 text-primary ${className}`}>
-        <CheckCircle className="h-5 w-5" />
+      <div
+        className={`flex items-center gap-2 text-primary ${className}`}
+        role="status"
+        aria-live="polite"
+      >
+        <CheckCircle className="h-5 w-5" aria-hidden="true" />
         <span className="font-medium">{message}</span>
       </div>
     );
@@ -79,9 +83,11 @@ export function WaitlistForm({ variant = "hero", className = "" }: WaitlistFormP
             className="h-12 text-base"
             disabled={status === "loading"}
             aria-label="Email address for waitlist"
+            aria-invalid={status === "error"}
+            aria-describedby={status === "error" ? "email-error" : undefined}
           />
           {status === "error" && (
-            <p className="mt-1 text-sm text-destructive">{message}</p>
+            <p className="mt-1 text-sm text-destructive" role="alert" aria-live="assertive" id="email-error">{message}</p>
           )}
         </div>
         <Button
@@ -92,13 +98,13 @@ export function WaitlistForm({ variant = "hero", className = "" }: WaitlistFormP
         >
           {status === "loading" ? (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
               Joining...
             </>
           ) : (
             <>
               Join Waitlist
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
             </>
           )}
         </Button>
@@ -123,6 +129,8 @@ export function WaitlistForm({ variant = "hero", className = "" }: WaitlistFormP
         className="h-10"
         disabled={status === "loading"}
         aria-label="Email address for waitlist"
+        aria-invalid={status === "error"}
+        aria-describedby={status === "error" ? "email-error-inline" : undefined}
       />
       <Button
         type="submit"
@@ -130,13 +138,13 @@ export function WaitlistForm({ variant = "hero", className = "" }: WaitlistFormP
         disabled={status === "loading"}
       >
         {status === "loading" ? (
-          <Loader2 className="h-4 w-4 animate-spin" />
+          <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
         ) : (
           "Join"
         )}
       </Button>
       {status === "error" && (
-        <p className="absolute mt-12 text-sm text-destructive">{message}</p>
+        <p className="absolute mt-12 text-sm text-destructive" role="alert" aria-live="assertive" id="email-error-inline">{message}</p>
       )}
     </form>
   );

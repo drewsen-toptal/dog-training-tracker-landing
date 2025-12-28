@@ -48,11 +48,15 @@ export function Hero() {
                 size="lg"
                 className="w-full sm:w-auto"
                 onClick={() => {
-                  alert("Coming soon to the App Store! Join the waitlist to be notified.");
+                  const pricingSection = document.getElementById("pricing");
+                  if (pricingSection) {
+                    pricingSection.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }
                 }}
+                aria-label="Get lifetime access for $39 - view pricing"
               >
                 Get Lifetime Access - $39
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
               </Button>
               <Button variant="outline" size="lg" className="w-full sm:w-auto" asChild>
                 <a href="#features">See How It Works</a>
@@ -77,7 +81,7 @@ export function Hero() {
 
             {/* Social Proof */}
             <div className="mt-10 flex flex-col items-center lg:items-start gap-4 sm:flex-row lg:justify-start">
-              <div className="flex gap-1">
+              <div className="flex gap-1" aria-hidden="true">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="h-5 w-5 fill-secondary text-secondary" />
                 ))}

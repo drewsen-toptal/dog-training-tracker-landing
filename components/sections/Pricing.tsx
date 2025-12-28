@@ -134,7 +134,7 @@ export function Pricing() {
                 <ul className="mb-8 flex-1 space-y-3">
                   {tier.features.map((feature, featureIndex) => (
                     <li key={featureIndex} className="flex items-start gap-3">
-                      <Check className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+                      <Check className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
                       <span className={`text-sm ${featureIndex < 3 && tier.popular ? "font-medium text-foreground" : "text-muted-foreground"}`}>
                         {feature}
                       </span>
@@ -147,8 +147,14 @@ export function Pricing() {
                   className="w-full"
                   variant={tier.popular ? "default" : "outline"}
                   onClick={() => {
-                    alert("Coming soon to the App Store! Join the waitlist to be notified.");
+                    // Scroll to waitlist form to capture leads
+                    const heroSection = document.querySelector('[aria-label="Email address for waitlist"]');
+                    if (heroSection) {
+                      heroSection.scrollIntoView({ behavior: "smooth", block: "center" });
+                      (heroSection as HTMLInputElement).focus();
+                    }
                   }}
+                  aria-label={`${tier.cta} - Join waitlist for ${tier.name} plan`}
                 >
                   {tier.cta}
                 </Button>
@@ -199,7 +205,7 @@ export function Pricing() {
         {/* Money-Back Guarantee */}
         <div className="mx-auto mt-12 max-w-xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-primary">
-            <Shield className="h-5 w-5" />
+            <Shield className="h-5 w-5" aria-hidden="true" />
             <span className="font-semibold">30-Day &ldquo;Happy Pup&rdquo; Guarantee</span>
           </div>
           <p className="mt-4 text-sm text-muted-foreground">

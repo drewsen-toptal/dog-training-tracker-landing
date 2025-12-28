@@ -81,7 +81,7 @@ export function Features() {
             <Card key={index} className="group relative overflow-hidden border-border/50 transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
               <CardContent className="p-6 md:p-8">
                 {/* Icon */}
-                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-transform duration-300 group-hover:scale-110">
+                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-transform duration-300 group-hover:scale-110" aria-hidden="true">
                   <feature.icon className="h-6 w-6" />
                 </div>
 
@@ -125,7 +125,7 @@ export function Features() {
                 key={index}
                 className="flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm"
               >
-                <feature.icon className="h-4 w-4 text-primary" />
+                <feature.icon className="h-4 w-4 text-primary" aria-hidden="true" />
                 <span>{feature.label}</span>
               </div>
             ))}
