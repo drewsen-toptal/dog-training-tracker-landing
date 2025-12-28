@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Command Library</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: 'oklch(0.62 0.14 185)',
+                        secondary: 'oklch(0.78 0.16 65)',
+                        background: 'oklch(0.985 0.008 85)',
+                        foreground: 'oklch(0.216 0.006 56.043)',
+                        muted: 'oklch(0.95 0.01 85)',
+                        'muted-foreground': 'oklch(0.556 0.01 56.043)',
+                        border: 'oklch(0.92 0.005 85)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .ios-notch {
+            height: 44px;
+            background: linear-gradient(to bottom, #000 0%, #000 20px, transparent 20px);
+        }
+        .status-bar {
+            padding-top: 12px;
+            color: white;
+            font-size: 14px;
+        }
+        .progress-bar {
+            height: 6px;
+            background: oklch(0.95 0.01 85);
+            border-radius: 100px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: oklch(0.62 0.14 185);
+            border-radius: 100px;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body style="background: oklch(0.985 0.008 85); margin: 0; padding: 0; width: 390px; height: 844px; overflow: hidden;">
+
+    <!-- iOS Status Bar -->
+    <div class="ios-notch">
+        <div class="status-bar flex justify-between px-6">
+            <span style="font-weight: 600;">9:41</span>
+            <div class="flex items-center gap-1">
+                <svg width="18" height="12" viewBox="0 0 18 12" fill="white">
+                    <path d="M0 3h2v6H0V3zm3 2h2v4H3V5zm3-1h2v5H6V4zm3 1h2v4H9V5zm3-2h2v6h-2V3zm3 1h2v5h-2V4z"/>
+                </svg>
+                <svg width="16" height="12" viewBox="0 0 16 12" fill="white">
+                    <path d="M14 2v8a1 1 0 01-1 1H1a1 1 0 01-1-1V2a1 1 0 011-1h12a1 1 0 011 1z"/>
+                    <path d="M15 4v4a1 1 0 001-1V5a1 1 0 00-1-1z" fill="white"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- App Content -->
+    <div style="background: oklch(0.985 0.008 85); height: calc(100% - 44px); overflow-y: auto; padding-bottom: 34px;">
+
+        <!-- Header -->
+        <div class="px-6 pt-6 pb-4">
+            <h1 style="font-size: 32px; font-weight: 700; color: oklch(0.216 0.006 56.043); margin: 0 0 4px 0; line-height: 1;">Commands</h1>
+            <p style="font-size: 15px; color: oklch(0.556 0.01 56.043); margin: 0;">Track progress for each command</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="px-6 pb-6">
+            <div style="position: relative;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="oklch(0.556 0.01 56.043)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); pointer-events: none;">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+                <input type="text" placeholder="Search commands..." style="width: 100%; height: 52px; padding: 0 20px 0 52px; border-radius: 14px; border: 1px solid oklch(0.92 0.005 85); background: white; font-size: 16px; color: oklch(0.216 0.006 56.043); outline: none;">
+            </div>
+        </div>
+
+        <!-- Commands List -->
+        <div class="px-6 space-y-3">
+
+            <!-- Sit Command - Mastered -->
+            <div style="background: white; border-radius: 16px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); border-left: 4px solid oklch(0.62 0.14 185);">
+                <div class="flex items-start gap-4">
+                    <div style="width: 56px; height: 56px; border-radius: 14px; background: oklch(0.62 0.14 185 / 0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="oklch(0.62 0.14 185)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2v20M2 12h20"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="flex items-start justify-between gap-2 mb-2">
+                            <div>
+                                <h3 style="font-size: 17px; font-weight: 600; color: oklch(0.216 0.006 56.043); margin: 0;">Sit</h3>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span style="display: inline-block; padding: 3px 10px; border-radius: 6px; background: oklch(0.62 0.14 185 / 0.1); color: oklch(0.62 0.14 185); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Mastered</span>
+                                    <span style="display: inline-block; padding: 3px 10px; border-radius: 6px; background: oklch(0.78 0.16 65 / 0.15); color: oklch(0.78 0.16 65); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Easy</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="progress-bar" style="margin-top: 12px;">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <div style="font-size: 13px; color: oklch(0.556 0.01 56.043); margin-top: 6px;">100% • 48 sessions</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stay Command - In Progress -->
+            <div style="background: white; border-radius: 16px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                <div class="flex items-start gap-4">
+                    <div style="width: 56px; height: 56px; border-radius: 14px; background: oklch(0.78 0.16 65 / 0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="oklch(0.78 0.16 65)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 11l3 3L22 4"></path>
+                            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="flex items-start justify-between gap-2 mb-2">
+                            <div>
+                                <h3 style="font-size: 17px; font-weight: 600; color: oklch(0.216 0.006 56.043); margin: 0;">Stay</h3>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span style="display: inline-block; padding: 3px 10px; border-radius: 6px; background: oklch(0.95 0.01 85); color: oklch(0.556 0.01 56.043); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Medium</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="progress-bar" style="margin-top: 12px;">
+                            <div class="progress-fill" style="width: 68%;"></div>
+                        </div>
+                        <div style="font-size: 13px; color: oklch(0.556 0.01 56.043); margin-top: 6px;">68% • 24 sessions</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Come Command -->
+            <div style="background: white; border-radius: 16px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                <div class="flex items-start gap-4">
+                    <div style="width: 56px; height: 56px; border-radius: 14px; background: oklch(0.95 0.01 85); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="oklch(0.556 0.01 56.043)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14"></path>
+                            <path d="m12 5 7 7-7 7"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="flex items-start justify-between gap-2 mb-2">
+                            <div>
+                                <h3 style="font-size: 17px; font-weight: 600; color: oklch(0.216 0.006 56.043); margin: 0;">Come</h3>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span style="display: inline-block; padding: 3px 10px; border-radius: 6px; background: oklch(0.95 0.01 85); color: oklch(0.556 0.01 56.043); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Medium</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="progress-bar" style="margin-top: 12px;">
+                            <div class="progress-fill" style="width: 45%;"></div>
+                        </div>
+                        <div style="font-size: 13px; color: oklch(0.556 0.01 56.043); margin-top: 6px;">45% • 15 sessions</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Down Command -->
+            <div style="background: white; border-radius: 16px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                <div class="flex items-start gap-4">
+                    <div style="width: 56px; height: 56px; border-radius: 14px; background: oklch(0.95 0.01 85); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="oklch(0.556 0.01 56.043)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 5v14"></path>
+                            <path d="m19 12-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="flex items-start justify-between gap-2 mb-2">
+                            <div>
+                                <h3 style="font-size: 17px; font-weight: 600; color: oklch(0.216 0.006 56.043); margin: 0;">Down</h3>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span style="display: inline-block; padding: 3px 10px; border-radius: 6px; background: oklch(0.95 0.01 85); color: oklch(0.556 0.01 56.043); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Easy</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="progress-bar" style="margin-top: 12px;">
+                            <div class="progress-fill" style="width: 32%;"></div>
+                        </div>
+                        <div style="font-size: 13px; color: oklch(0.556 0.01 56.043); margin-top: 6px;">32% • 8 sessions</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Heel Command -->
+            <div style="background: white; border-radius: 16px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                <div class="flex items-start gap-4">
+                    <div style="width: 56px; height: 56px; border-radius: 14px; background: oklch(0.95 0.01 85); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="oklch(0.556 0.01 56.043)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 20V10"></path>
+                            <path d="M12 20V4"></path>
+                            <path d="M6 20v-6"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="flex items-start justify-between gap-2 mb-2">
+                            <div>
+                                <h3 style="font-size: 17px; font-weight: 600; color: oklch(0.216 0.006 56.043); margin: 0;">Heel</h3>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span style="display: inline-block; padding: 3px 10px; border-radius: 6px; background: oklch(0.637 0.237 25.331 / 0.1); color: oklch(0.637 0.237 25.331); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Hard</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="progress-bar" style="margin-top: 12px;">
+                            <div class="progress-fill" style="width: 18%;"></div>
+                        </div>
+                        <div style="font-size: 13px; color: oklch(0.556 0.01 56.043); margin-top: 6px;">18% • 5 sessions</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leave It Command -->
+            <div style="background: white; border-radius: 16px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                <div class="flex items-start gap-4">
+                    <div style="width: 56px; height: 56px; border-radius: 14px; background: oklch(0.95 0.01 85); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="oklch(0.556 0.01 56.043)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="m15 9-6 6"></path>
+                            <path d="m9 9 6 6"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="flex items-start justify-between gap-2 mb-2">
+                            <div>
+                                <h3 style="font-size: 17px; font-weight: 600; color: oklch(0.216 0.006 56.043); margin: 0;">Leave It</h3>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span style="display: inline-block; padding: 3px 10px; border-radius: 6px; background: oklch(0.95 0.01 85); color: oklch(0.556 0.01 56.043); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Medium</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="progress-bar" style="margin-top: 12px;">
+                            <div class="progress-fill" style="width: 0%;"></div>
+                        </div>
+                        <div style="font-size: 13px; color: oklch(0.556 0.01 56.043); margin-top: 6px;">Not started</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Add padding at bottom for scroll -->
+        <div style="height: 20px;"></div>
+    </div>
+
+    <!-- iOS Home Indicator -->
+    <div style="position: fixed; bottom: 8px; left: 50%; transform: translateX(-50%); width: 134px; height: 5px; background: rgba(0,0,0,0.3); border-radius: 100px;"></div>
+
+</body>
+</html>

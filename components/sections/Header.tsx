@@ -7,6 +7,7 @@ import {
   Sheet,
   SheetContent,
   SheetTrigger,
+  SheetTitle,
 } from "@/components/ui/sheet";
 
 const navLinks = [
@@ -45,7 +46,14 @@ export function Header() {
 
         {/* Desktop CTAs */}
         <div className="hidden items-center gap-2 md:flex">
-          <Button size="sm">Get Lifetime Access</Button>
+          <Button
+            size="sm"
+            onClick={() => {
+              alert("Coming soon to the App Store! Join the waitlist to be notified.");
+            }}
+          >
+            Get Lifetime Access
+          </Button>
         </div>
 
         {/* Mobile Menu */}
@@ -57,6 +65,7 @@ export function Header() {
             </Button>
           </SheetTrigger>
           <SheetContent side="right" className="w-[280px] sm:w-[320px]">
+            <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
             <nav className="flex flex-col gap-4 pt-8">
               {navLinks.map((link) => (
                 <a
@@ -69,7 +78,13 @@ export function Header() {
                 </a>
               ))}
               <div className="mt-8 flex flex-col gap-2">
-                <Button className="w-full" onClick={() => setIsOpen(false)}>
+                <Button
+                  className="w-full"
+                  onClick={() => {
+                    setIsOpen(false);
+                    alert("Coming soon to the App Store! Join the waitlist to be notified.");
+                  }}
+                >
                   Get Lifetime Access
                 </Button>
               </div>

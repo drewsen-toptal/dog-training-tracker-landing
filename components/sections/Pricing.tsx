@@ -1,3 +1,5 @@
+"use client";
+
 import { Check, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -144,6 +146,9 @@ export function Pricing() {
                 <Button
                   className="w-full"
                   variant={tier.popular ? "default" : "outline"}
+                  onClick={() => {
+                    alert("Coming soon to the App Store! Join the waitlist to be notified.");
+                  }}
                 >
                   {tier.cta}
                 </Button>

@@ -24,7 +24,9 @@ export function WaitlistForm({ variant = "hero", className = "" }: WaitlistFormP
       return;
     }
 
+    // Clear any previous errors
     setStatus("loading");
+    setMessage("");
 
     try {
       const response = await fetch("/api/waitlist", {
@@ -66,9 +68,17 @@ export function WaitlistForm({ variant = "hero", className = "" }: WaitlistFormP
             type="email"
             placeholder="Enter your email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              // Clear error when user starts typing a valid email
+              if (status === "error" && e.target.value.includes("@")) {
+                setStatus("idle");
+                setMessage("");
+              }
+            }}
             className="h-12 text-base"
             disabled={status === "loading"}
+            aria-label="Email address for waitlist"
           />
           {status === "error" && (
             <p className="mt-1 text-sm text-destructive">{message}</p>
@@ -102,9 +112,17 @@ export function WaitlistForm({ variant = "hero", className = "" }: WaitlistFormP
         type="email"
         placeholder="your@email.com"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e) => {
+          setEmail(e.target.value);
+          // Clear error when user starts typing a valid email
+          if (status === "error" && e.target.value.includes("@")) {
+            setStatus("idle");
+            setMessage("");
+          }
+        }}
         className="h-10"
         disabled={status === "loading"}
+        aria-label="Email address for waitlist"
       />
       <Button
         type="submit"

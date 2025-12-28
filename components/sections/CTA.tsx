@@ -1,3 +1,5 @@
+"use client";
+
 import { ArrowRight, Star, Shield, Wifi, UserX, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -73,7 +75,13 @@ export function CTA() {
             <p className="mb-4 text-sm font-medium uppercase tracking-wider text-muted-foreground">
               Most Popular Choice
             </p>
-            <Button size="lg" className="text-lg px-10 py-6 h-auto">
+            <Button
+              size="lg"
+              className="text-lg px-10 py-6 h-auto"
+              onClick={() => {
+                alert("Coming soon to the App Store! Join the waitlist to be notified.");
+              }}
+            >
               Get Pack Leader - $39
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
@@ -84,10 +92,22 @@ export function CTA() {
 
           {/* Secondary Options */}
           <div className="mt-6 flex flex-col items-center gap-2 sm:flex-row sm:justify-center sm:gap-6">
-            <Button variant="link" className="text-muted-foreground hover:text-foreground">
+            <Button
+              variant="link"
+              className="text-muted-foreground hover:text-foreground"
+              onClick={() => {
+                alert("Coming soon to the App Store! Join the waitlist to be notified.");
+              }}
+            >
               Just one dog? Get Puppy for $19
             </Button>
-            <Button variant="link" className="text-muted-foreground hover:text-foreground">
+            <Button
+              variant="link"
+              className="text-muted-foreground hover:text-foreground"
+              onClick={() => {
+                alert("Coming soon to the App Store! Join the waitlist to be notified.");
+              }}
+            >
               Training as a family? Get Family for $59
             </Button>
           </div>
@@ -124,7 +144,13 @@ export function CTA() {
           </div>
 
           {/* Final CTA */}
-          <Button size="lg" className="mt-8 text-lg px-10 py-6 h-auto">
+          <Button
+            size="lg"
+            className="mt-8 text-lg px-10 py-6 h-auto"
+            onClick={() => {
+              alert("Coming soon to the App Store! Join the waitlist to be notified.");
+            }}
+          >
             Start Training Today - $39
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>

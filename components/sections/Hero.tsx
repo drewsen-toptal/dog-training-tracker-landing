@@ -43,11 +43,17 @@ export function Hero() {
 
             {/* Button Group */}
             <div className="mt-10 flex flex-col items-center lg:items-start justify-center lg:justify-start gap-4 sm:flex-row">
-              <Button size="lg" className="w-full sm:w-auto">
+              <Button
+                size="lg"
+                className="w-full sm:w-auto"
+                onClick={() => {
+                  alert("Coming soon to the App Store! Join the waitlist to be notified.");
+                }}
+              >
                 Get Lifetime Access - $39
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-              <Button variant="outline" size="lg" className="w-full sm:w-auto">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto" asChild>
                 <a href="#features">See How It Works</a>
               </Button>
             </div>

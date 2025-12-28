@@ -1,23 +1,20 @@
-import { TrendingUp, Radio, BookOpen } from "lucide-react";
+import Image from "next/image";
 
 const screenshots = [
   {
     title: "Progress Tracking",
     description: "Visual charts showing your dog's training progress over time",
-    icon: TrendingUp,
-    gradient: "from-blue-500/20 to-cyan-500/20",
+    image: "/screenshots/progress-dashboard.png",
   },
   {
     title: "Built-in Clicker",
     description: "Professional clicker training tool always at your fingertips",
-    icon: Radio,
-    gradient: "from-primary/20 to-secondary/20",
+    image: "/screenshots/clicker.png",
   },
   {
     title: "Command Library",
     description: "Step-by-step guides for teaching essential commands",
-    icon: BookOpen,
-    gradient: "from-purple-500/20 to-pink-500/20",
+    image: "/screenshots/command-library.png",
   },
 ];
 
@@ -37,37 +34,39 @@ export function AppScreenshots() {
 
         {/* Screenshots Grid */}
         <div className="grid gap-8 md:grid-cols-3 max-w-5xl mx-auto">
-          {screenshots.map((screen, index) => {
-            const Icon = screen.icon;
-            return (
-              <div key={index} className="flex flex-col items-center">
-                {/* Phone Mockup */}
-                <div
-                  className={`relative w-full max-w-[240px] aspect-[9/16] rounded-3xl bg-gradient-to-br ${screen.gradient} shadow-2xl flex items-center justify-center border border-border overflow-hidden`}
-                >
-                  <div className="absolute inset-0 bg-grid-pattern opacity-5" />
-                  <div className="text-center p-8 relative z-10">
-                    <Icon className="h-16 w-16 mx-auto text-primary/60 mb-4" />
-                    <div className="space-y-2">
-                      <div className="h-2 bg-primary/20 rounded-full w-3/4 mx-auto" />
-                      <div className="h-2 bg-primary/10 rounded-full w-full mx-auto" />
-                      <div className="h-2 bg-primary/10 rounded-full w-5/6 mx-auto" />
-                    </div>
-                  </div>
+          {screenshots.map((screen, index) => (
+            <div key={index} className="flex flex-col items-center">
+              {/* Phone Mockup with Real Screenshot */}
+              <div className="relative w-full max-w-[240px] aspect-[9/19] rounded-[2.5rem] bg-gray-900 shadow-2xl overflow-hidden border-[8px] border-gray-900">
+                {/* Phone Notch */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-gray-900 rounded-b-2xl z-20" />
+
+                {/* Screenshot Image */}
+                <div className="relative w-full h-full overflow-hidden rounded-[2rem]">
+                  <Image
+                    src={screen.image}
+                    alt={`${screen.title} screenshot`}
+                    fill
+                    className="object-cover object-top"
+                    sizes="(max-width: 768px) 240px, 240px"
+                  />
                 </div>
 
-                {/* Description */}
-                <div className="mt-6 text-center">
-                  <h3 className="text-lg font-semibold text-foreground mb-2">
-                    {screen.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    {screen.description}
-                  </p>
-                </div>
+                {/* Home Indicator */}
+                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-24 h-1 bg-white/30 rounded-full z-20" />
               </div>
-            );
-          })}
+
+              {/* Description */}
+              <div className="mt-6 text-center">
+                <h3 className="text-lg font-semibold text-foreground mb-2">
+                  {screen.title}
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  {screen.description}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
