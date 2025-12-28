@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrustBadges } from "@/components/TrustBadges";
+import type { PricingTier, ComparisonRow } from "@/types";
 
-const pricingTiers = [
+const pricingTiers: PricingTier[] = [
   {
     name: "Puppy",
     description: "First-time dog owners focused on one furry friend",
@@ -67,7 +68,7 @@ const pricingTiers = [
   },
 ];
 
-const comparisonData = [
+const comparisonData: ComparisonRow[] = [
   { label: "Year 1 Cost", us: "$39", them: "$564 ($47/month)" },
   { label: "Year 2 Cost", us: "$0", them: "$564" },
   { label: "5-Year Cost", us: "$39", them: "$2,820" },

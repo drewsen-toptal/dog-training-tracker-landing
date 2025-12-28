@@ -1,7 +1,8 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { StarRating } from "@/components/shared/StarRating";
+import type { Testimonial } from "@/types";
 
-const testimonials = [
+const testimonials: Testimonial[] = [
   {
     quote: "When we brought Mochi home, I was completely overwhelmed. Every app I tried wanted my credit card before I could even see what training looked like. Dog Training Tracker let me jump straight in. Within 3 weeks, Mochi learned sit, stay, down, and come. The progress tracking kept me motivated on days when it felt like nothing was working. Looking back at where we started? Night and day.",
     headline: "I finally feel like I know what I'm doing.",

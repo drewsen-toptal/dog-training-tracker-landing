@@ -1,6 +1,7 @@
 import Image from "next/image";
+import type { Screenshot } from "@/types";
 
-const screenshots = [
+const screenshots: Screenshot[] = [
   {
     title: "Progress Tracking",
     description: "Visual charts showing your dog's training progress over time",

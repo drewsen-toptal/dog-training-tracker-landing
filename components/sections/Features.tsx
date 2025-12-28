@@ -1,7 +1,8 @@
 import { DollarSign, Zap, Users, Wifi, MousePointer2, TrendingUp, Timer, Bell, BookOpen, Camera, Moon, Cloud } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import type { MainFeature, BonusFeature } from "@/types";
 
-const mainFeatures = [
+const mainFeatures: MainFeature[] = [
   {
     icon: DollarSign,
     title: "Never Get Charged Again",
@@ -52,7 +53,7 @@ const mainFeatures = [
   },
 ];
 
-const bonusFeatures = [
+const bonusFeatures: BonusFeature[] = [
   { icon: Timer, label: "Session Timer" },
   { icon: Bell, label: "Training Reminders" },
   { icon: BookOpen, label: "50+ Command Guides" },
