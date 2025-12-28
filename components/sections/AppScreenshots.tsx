@@ -47,13 +47,13 @@ export function AppScreenshots() {
                   {/* Dynamic Island - compact pill shape like iPhone 14/15 Pro */}
                   <div className="absolute top-3 left-1/2 -translate-x-1/2 w-[62px] h-[18px] bg-black rounded-full z-20" />
 
-                  {/* Screenshot Image - Minimal scale to preserve edge content */}
+                  {/* Screenshot Image - No scale to preserve all edge content */}
                   <div className="relative w-full h-full overflow-hidden rounded-[2rem] bg-gray-100">
                     <Image
                       src={screen.image}
                       alt={`${screen.title} screenshot`}
                       fill
-                      className="object-cover scale-[1.02] translate-y-[1%]"
+                      className="object-contain"
                       sizes="(max-width: 768px) 260px, (max-width: 1024px) 33vw, 260px"
                       quality={90}
                     />
