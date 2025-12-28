@@ -32,36 +32,43 @@ export function AppScreenshots() {
           </p>
         </div>
 
-        {/* Screenshots Grid */}
-        <div className="grid gap-8 md:grid-cols-3 max-w-5xl mx-auto">
+        {/* Screenshots Grid - Fixed alignment and centering */}
+        <div className="grid gap-12 md:grid-cols-3 md:gap-8 lg:gap-10 max-w-6xl mx-auto items-start">
           {screenshots.map((screen, index) => (
             <div key={index} className="flex flex-col items-center">
-              {/* Phone Mockup with Real Screenshot */}
-              <div className="relative w-full max-w-[240px] aspect-[9/19] rounded-[2.5rem] bg-gray-900 shadow-2xl overflow-hidden border-[8px] border-gray-900">
-                {/* Phone Notch */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-gray-900 rounded-b-2xl z-20" />
+              {/* Phone Mockup Container - Fixed for alignment */}
+              <div className="relative w-full max-w-[260px] mx-auto mb-6">
+                {/* Subtle glow effect for depth */}
+                <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent rounded-[3rem] blur-xl scale-95 -z-10" />
 
-                {/* Screenshot Image */}
-                <div className="relative w-full h-full overflow-hidden rounded-[2rem]">
-                  <Image
-                    src={screen.image}
-                    alt={`${screen.title} screenshot`}
-                    fill
-                    className="object-cover object-top"
-                    sizes="(max-width: 768px) 240px, 240px"
-                  />
+                {/* Phone Mockup with Real Screenshot */}
+                <div className="relative w-full aspect-[9/19.5] rounded-[2.5rem] bg-gray-900 shadow-2xl overflow-hidden border-[10px] border-gray-900 ring-1 ring-gray-800/30">
+                  {/* Phone Notch */}
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-6 bg-gray-900 rounded-b-3xl z-20" />
+
+                  {/* Screenshot Image - Consistent sizing */}
+                  <div className="relative w-full h-full overflow-hidden rounded-[2rem] bg-gray-100">
+                    <Image
+                      src={screen.image}
+                      alt={`${screen.title} screenshot`}
+                      fill
+                      className="object-cover object-top"
+                      sizes="(max-width: 768px) 260px, (max-width: 1024px) 33vw, 260px"
+                      quality={90}
+                    />
+                  </div>
+
+                  {/* Home Indicator */}
+                  <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-28 h-1.5 bg-white/30 rounded-full z-20" />
                 </div>
-
-                {/* Home Indicator */}
-                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-24 h-1 bg-white/30 rounded-full z-20" />
               </div>
 
-              {/* Description */}
-              <div className="mt-6 text-center">
-                <h3 className="text-lg font-semibold text-foreground mb-2">
+              {/* Description - Consistent spacing */}
+              <div className="text-center max-w-[260px]">
+                <h3 className="text-lg font-semibold text-foreground mb-2 leading-tight">
                   {screen.title}
                 </h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground leading-relaxed">
                   {screen.description}
                 </p>
               </div>

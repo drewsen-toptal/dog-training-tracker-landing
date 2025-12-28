@@ -1,9 +1,10 @@
 "use client";
 
-import { ArrowRight, Star, Dog } from "lucide-react";
+import { ArrowRight, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { WaitlistForm } from "@/components/WaitlistForm";
+import Image from "next/image";
 
 export function Hero() {
   return (
@@ -101,13 +102,37 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Right Column - App Mockup Placeholder */}
-          <div className="relative hidden lg:block">
-            <div className="relative mx-auto max-w-sm aspect-[9/16] rounded-3xl bg-gradient-to-br from-primary/20 to-secondary/20 shadow-2xl flex items-center justify-center border border-border">
-              <div className="text-center p-8">
-                <Dog className="h-16 w-16 mx-auto text-primary/50 mb-4" />
-                <p className="text-muted-foreground text-sm">App Screenshot</p>
-                <p className="text-muted-foreground text-xs mt-1">Coming Soon</p>
+          {/* Right Column - App Mockup */}
+          <div className="relative hidden lg:flex justify-center items-center">
+            {/* Floating decoration elements */}
+            <div className="absolute -top-8 -right-8 w-32 h-32 bg-primary/10 rounded-full blur-3xl" />
+            <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-secondary/10 rounded-full blur-3xl" />
+
+            {/* Phone Mockup with Real Screenshot */}
+            <div className="relative w-full max-w-[300px] aspect-[9/19.5] mx-auto">
+              {/* Shadow layers for depth */}
+              <div className="absolute inset-0 bg-gradient-to-b from-primary/20 to-primary/5 rounded-[3rem] blur-2xl scale-95" />
+
+              <div className="relative rounded-[2.75rem] bg-gray-900 shadow-2xl overflow-hidden border-[10px] border-gray-900 ring-1 ring-gray-800/50">
+                {/* Phone Notch */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-gray-900 rounded-b-3xl z-20" />
+
+                {/* Screenshot Image with improved loading */}
+                <div className="relative w-full aspect-[9/19.5] overflow-hidden rounded-[2.25rem] bg-gray-100">
+                  <Image
+                    src="/screenshots/progress-dashboard.png"
+                    alt="Dog Training Progress Dashboard showing success rate and training streak"
+                    fill
+                    className="object-cover object-top"
+                    sizes="(max-width: 1024px) 0px, 300px"
+                    priority
+                    quality={95}
+                    unoptimized={false}
+                  />
+                </div>
+
+                {/* Home Indicator */}
+                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-1.5 bg-white/30 rounded-full z-20" />
               </div>
             </div>
           </div>
