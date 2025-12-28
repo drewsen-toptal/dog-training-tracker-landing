@@ -8,6 +8,8 @@ const testimonials = [
     author: "Jessica T.",
     context: "First-time puppy owner, 8-month-old Goldendoodle",
     result: "4 commands mastered in 3 weeks",
+    photo: "https://ui-avatars.com/api/?name=Jessica+T&background=0D9488&color=fff&size=128",
+    dogBreed: "🐕",
   },
   {
     quote: "I'll be honest, I almost didn't buy it. Another dog app? But the no-subscription thing caught my eye. I was paying $12/month for an app that barely worked offline and kept pushing premium features. This one just... works. Duke went from pulling on every walk to loose-leash walking in about 6 weeks. The session logs helped me see that consistency was more important than session length. Game changer.",
@@ -15,6 +17,8 @@ const testimonials = [
     author: "Marcus L.",
     context: "New dog owner, 1-year-old Lab mix",
     result: "Loose-leash walking in 6 weeks",
+    photo: "https://ui-avatars.com/api/?name=Marcus+L&background=0D9488&color=fff&size=128",
+    dogBreed: "🦮",
   },
   {
     quote: "I have a senior Beagle, a 2-year-old rescue, and a new puppy. Every other app either charged per dog or made me create separate accounts. Dog Training Tracker lets me track all three in one place. I can see that Bruno (the senior) needs refreshers on recall, while Pepper (the puppy) is crushing her crate training. The unlimited dogs feature alone made this worth it.",
@@ -22,6 +26,8 @@ const testimonials = [
     author: "Rachel & Tom K.",
     context: "3-dog household",
     result: "All three dogs on individualized training plans",
+    photo: "https://ui-avatars.com/api/?name=Rachel+K&background=0D9488&color=fff&size=128",
+    dogBreed: "🐶",
   },
   {
     quote: "We live on 5 acres and our WiFi is... let's call it \"aspirational.\" Most apps are useless out in the field where we actually train. This one works perfectly offline. I can log sessions, use the clicker, review our progress, and everything syncs when I'm back at the house. Our two Border Collies have never been more focused. We've been working on distance commands and they're now reliable at 50+ feet.",
@@ -29,6 +35,8 @@ const testimonials = [
     author: "David M.",
     context: "2 Border Collies, rural property",
     result: "Reliable off-leash commands at 50+ feet",
+    photo: "https://ui-avatars.com/api/?name=David+M&background=0D9488&color=fff&size=128",
+    dogBreed: "🐕‍🦺",
   },
   {
     quote: "We adopted Biscuit from a shelter. He came with some baggage, no training history, and a lot of fear. The command library helped us start with basics, but what really mattered was the progress tracking. On hard days, when it felt like we weren't getting anywhere, I could look back and see how far we'd come. It took 4 months, but Biscuit went from cowering at everything to confidently greeting strangers. The notes feature was huge for tracking what triggered him and what helped him feel safe.",
@@ -36,6 +44,8 @@ const testimonials = [
     author: "Anika P.",
     context: "Rescue adopter, 3-year-old mixed breed",
     result: "Fear-reactive to confident in 4 months",
+    photo: "https://ui-avatars.com/api/?name=Anika+P&background=0D9488&color=fff&size=128",
+    dogBreed: "🐾",
   },
 ];
 
@@ -61,11 +71,14 @@ export function Testimonials() {
               className={`border-border/50 ${index === 4 ? "md:col-span-2 lg:col-span-1" : ""}`}
             >
               <CardContent className="p-6 md:p-8">
-                {/* Star Rating */}
-                <div className="mb-4 flex gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 fill-secondary text-secondary" />
-                  ))}
+                {/* Star Rating and Dog Breed */}
+                <div className="mb-4 flex items-center justify-between">
+                  <div className="flex gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="h-5 w-5 fill-secondary text-secondary" />
+                    ))}
+                  </div>
+                  <span className="text-2xl">{testimonial.dogBreed}</span>
                 </div>
 
                 {/* Headline */}
@@ -80,11 +93,20 @@ export function Testimonials() {
                   </p>
                 </blockquote>
 
-                {/* Author */}
+                {/* Author with Photo */}
                 <div className="border-t border-border pt-4">
-                  <p className="font-medium text-foreground">{testimonial.author}</p>
-                  <p className="text-sm text-muted-foreground">{testimonial.context}</p>
-                  <p className="mt-2 text-sm font-medium text-primary">
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={testimonial.photo}
+                      alt={testimonial.author}
+                      className="w-12 h-12 rounded-full object-cover border-2 border-primary/20"
+                    />
+                    <div>
+                      <p className="font-medium text-foreground">{testimonial.author}</p>
+                      <p className="text-sm text-muted-foreground">{testimonial.context}</p>
+                    </div>
+                  </div>
+                  <p className="mt-3 text-sm font-medium text-primary">
                     Results: {testimonial.result}
                   </p>
                 </div>

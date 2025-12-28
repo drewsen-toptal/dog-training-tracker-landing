@@ -31,16 +31,16 @@
 }
 
 /* Dog Training Tracker - Custom Design System
-   Primary: Teal (trust, calm)
-   Secondary: Amber (warmth, playfulness)
-   Neutrals: Stone (approachable)
+   Primary: Warmer Teal (trust, calm, approachable)
+   Secondary: Rich Amber (warmth, playfulness)
+   Neutrals: Warm Cream (welcoming, friendly)
 */
 
 :root {
   --radius: 0.75rem;
 
-  /* Stone-based neutral palette */
-  --background: oklch(0.985 0.001 106.424); /* stone-50 */
+  /* Warmer backgrounds */
+  --background: oklch(0.985 0.008 85); /* warm cream instead of cold stone */
   --foreground: oklch(0.216 0.006 56.043); /* stone-900 */
 
   --card: oklch(1 0 0); /* white */
@@ -49,27 +49,27 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.216 0.006 56.043);
 
-  /* Primary: Teal */
-  --primary: oklch(0.6 0.118 181.912); /* teal-600 */
+  /* Primary: Warmer teal (shifted toward cyan/aqua) */
+  --primary: oklch(0.62 0.14 185); /* warmer, more cyan */
   --primary-foreground: oklch(1 0 0); /* white */
 
-  /* Secondary: Amber */
-  --secondary: oklch(0.769 0.188 70.08); /* amber-500 */
+  /* Secondary: Richer honey amber */
+  --secondary: oklch(0.78 0.16 65); /* richer honey amber */
   --secondary-foreground: oklch(0.216 0.006 56.043); /* stone-900 */
 
-  /* Stone muted */
-  --muted: oklch(0.97 0.001 106.424); /* stone-100 */
-  --muted-foreground: oklch(0.553 0.013 58.071); /* stone-500 */
+  /* Warmer muted tones */
+  --muted: oklch(0.95 0.01 85); /* warm cream muted */
+  --muted-foreground: oklch(0.556 0.01 56.043); /* stone-500 */
 
-  --accent: oklch(0.97 0.001 106.424); /* stone-100 */
+  --accent: oklch(0.95 0.01 85); /* warm cream accent */
   --accent-foreground: oklch(0.216 0.006 56.043);
 
   --destructive: oklch(0.637 0.237 25.331); /* red-500 */
 
-  /* Stone borders */
-  --border: oklch(0.923 0.003 106.424); /* stone-200 */
-  --input: oklch(0.923 0.003 106.424);
-  --ring: oklch(0.6 0.118 181.912); /* teal-600 */
+  /* Warmer borders */
+  --border: oklch(0.92 0.005 85); /* warm cream border */
+  --input: oklch(0.92 0.005 85);
+  --ring: oklch(0.62 0.14 185); /* warmer teal */
 }
 
 .dark {
@@ -82,12 +82,12 @@
   --popover: oklch(0.268 0.007 34.298);
   --popover-foreground: oklch(0.985 0.001 106.424);
 
-  /* Primary: Teal (lighter for dark mode) */
-  --primary: oklch(0.704 0.14 182.503); /* teal-500 */
+  /* Primary: Warmer teal (lighter for dark mode) */
+  --primary: oklch(0.7 0.14 185); /* warmer teal for dark mode */
   --primary-foreground: oklch(1 0 0);
 
-  /* Secondary: Amber (lighter for dark mode) */
-  --secondary: oklch(0.828 0.189 84.429); /* amber-400 */
+  /* Secondary: Richer amber (lighter for dark mode) */
+  --secondary: oklch(0.83 0.17 65); /* richer honey amber for dark mode */
   --secondary-foreground: oklch(0.216 0.006 56.043);
 
   --muted: oklch(0.444 0.011 73.639); /* stone-700 */
@@ -100,7 +100,7 @@
 
   --border: oklch(0.444 0.011 73.639);
   --input: oklch(0.444 0.011 73.639);
-  --ring: oklch(0.704 0.14 182.503);
+  --ring: oklch(0.7 0.14 185);
 }
 
 @layer base {
@@ -121,5 +121,13 @@
   }
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+}
+
+/* Button hover enhancements - warm glow effect */
+@layer components {
+  .btn-primary:hover,
+  button[class*="bg-primary"]:hover {
+    box-shadow: 0 4px 14px 0 oklch(0.62 0.14 185 / 0.4);
   }
 }

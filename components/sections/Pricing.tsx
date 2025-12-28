@@ -2,6 +2,7 @@ import { Check, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { TrustBadges } from "@/components/TrustBadges";
 
 const pricingTiers = [
   {
@@ -151,6 +152,11 @@ export function Pricing() {
           ))}
         </div>
 
+        {/* Trust Badges */}
+        <div className="mx-auto mt-12 max-w-4xl">
+          <TrustBadges />
+        </div>
+
         {/* Comparison Table */}
         <div className="mx-auto mt-16 max-w-2xl">
           <h3 className="mb-6 text-center text-xl font-semibold">
@@ -197,15 +203,15 @@ export function Pricing() {
           </p>
         </div>
 
-        {/* Founding Member Note */}
+        {/* Founding Member Note - Updated */}
         <div className="mx-auto mt-8 max-w-lg rounded-xl border border-secondary/50 bg-secondary/10 p-6 text-center">
           <p className="font-semibold text-foreground">Founding Member Pricing</p>
           <p className="mt-2 text-sm text-muted-foreground">
-            These prices are our founding member rates. When we hit 500 members, prices go up:
-            Puppy $19→$49, Pack Leader $39→$99, Family $59→$149
+            These are our launch prices for early supporters.
+            Regular pricing: Puppy $49, Pack Leader $99, Family $149
           </p>
           <p className="mt-3 text-lg font-bold text-secondary">
-            427 of 500 spots remaining
+            Save up to 60% today
           </p>
         </div>
       </div>

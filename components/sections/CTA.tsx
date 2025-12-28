@@ -1,6 +1,7 @@
 import { ArrowRight, Star, Shield, Wifi, UserX, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { TrustBadges } from "@/components/TrustBadges";
 
 const successStories = [
   "Luna learned recall in 3 weeks with this app.",
@@ -37,35 +38,32 @@ export function CTA() {
             Now there&apos;s just one question: Are you ready to actually train your dog?
           </p>
 
-          {/* Urgency Card */}
+          {/* Urgency Card - Updated */}
           <Card className="mx-auto mt-10 max-w-lg border-secondary/50 bg-secondary/10">
             <CardContent className="p-6">
               <h3 className="font-semibold text-foreground">
-                Founding Member Pricing Ends Soon
+                Founding Member Pricing
               </h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                We&apos;re offering these launch prices to our first 500 founding members.
-                Once we hit 500, prices increase.
+                Lock in these launch prices before they increase.
+                Early supporters get the best deal.
               </p>
               <div className="mt-4 grid grid-cols-3 gap-4 text-center">
                 <div>
                   <p className="text-xs text-muted-foreground">Puppy</p>
-                  <p className="font-semibold">$19 <span className="text-xs text-muted-foreground">→ $49</span></p>
+                  <p className="font-semibold">$19 <span className="text-xs text-muted-foreground line-through">$49</span></p>
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">Pack Leader</p>
-                  <p className="font-semibold text-primary">$39 <span className="text-xs text-muted-foreground">→ $99</span></p>
+                  <p className="font-semibold text-primary">$39 <span className="text-xs text-muted-foreground line-through">$99</span></p>
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">Family</p>
-                  <p className="font-semibold">$59 <span className="text-xs text-muted-foreground">→ $149</span></p>
+                  <p className="font-semibold">$59 <span className="text-xs text-muted-foreground line-through">$149</span></p>
                 </div>
               </div>
-              <p className="mt-4 text-lg font-bold text-secondary">
-                427 of 500 spots remaining
-              </p>
-              <p className="text-xs text-muted-foreground italic">
-                When they&apos;re gone, they&apos;re gone.
+              <p className="mt-4 text-sm font-medium text-secondary">
+                Save up to 60% as a founding member
               </p>
             </CardContent>
           </Card>
@@ -133,6 +131,11 @@ export function CTA() {
           <p className="mt-3 text-sm text-muted-foreground">
             One-time payment. No subscription. No regrets.
           </p>
+
+          {/* Trust Badges */}
+          <div className="mt-8">
+            <TrustBadges />
+          </div>
 
           {/* Trust Elements */}
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">

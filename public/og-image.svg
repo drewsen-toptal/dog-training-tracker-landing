@@ -1,0 +1,81 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0D9488;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#14B8A6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="badgeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#F59E0B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D97706;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+
+  <!-- Decorative paw prints -->
+  <g opacity="0.1" fill="#FFFFFF">
+    <!-- Paw 1 -->
+    <circle cx="100" cy="100" r="20"/>
+    <circle cx="85" cy="70" r="12"/>
+    <circle cx="115" cy="70" r="12"/>
+    <circle cx="75" cy="85" r="10"/>
+    <circle cx="125" cy="85" r="10"/>
+
+    <!-- Paw 2 -->
+    <circle cx="1100" cy="530" r="20"/>
+    <circle cx="1085" cy="500" r="12"/>
+    <circle cx="1115" cy="500" r="12"/>
+    <circle cx="1075" cy="515" r="10"/>
+    <circle cx="1125" cy="515" r="10"/>
+  </g>
+
+  <!-- Main content container -->
+  <g>
+    <!-- Main title -->
+    <text x="600" y="220" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="800" fill="#FFFFFF" text-anchor="middle">
+      Dog Training Tracker
+    </text>
+
+    <!-- Subtitle -->
+    <text x="600" y="300" font-family="system-ui, -apple-system, sans-serif" font-size="48" font-weight="600" fill="#E0F2F1" text-anchor="middle">
+      Pay Once, Train Forever
+    </text>
+
+    <!-- Price badge -->
+    <g transform="translate(600, 380)">
+      <rect x="-150" y="-40" width="300" height="80" rx="40" fill="url(#badgeGradient)"/>
+      <text x="0" y="10" font-family="system-ui, -apple-system, sans-serif" font-size="42" font-weight="800" fill="#FFFFFF" text-anchor="middle">
+        $39 One-Time
+      </text>
+    </g>
+
+    <!-- Feature highlights -->
+    <g transform="translate(600, 500)">
+      <text x="0" y="0" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="500" fill="#E0F2F1" text-anchor="middle">
+        No Subscriptions • Unlimited Dogs • Works Offline
+      </text>
+    </g>
+
+    <!-- Rating -->
+    <g transform="translate(600, 560)">
+      <!-- Stars -->
+      <text x="-50" y="0" font-family="system-ui, -apple-system, sans-serif" font-size="32" fill="#FCD34D" text-anchor="end">
+        ★★★★★
+      </text>
+      <text x="-35" y="0" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="600" fill="#FFFFFF" text-anchor="start">
+        4.9 (500+ reviews)
+      </text>
+    </g>
+  </g>
+
+  <!-- Central paw icon -->
+  <g transform="translate(600, 100)">
+    <circle cx="0" cy="0" r="35" fill="#FFFFFF" opacity="0.95"/>
+    <circle cx="-15" cy="-20" r="18" fill="#FFFFFF" opacity="0.95"/>
+    <circle cx="15" cy="-20" r="18" fill="#FFFFFF" opacity="0.95"/>
+    <circle cx="-25" cy="-5" r="15" fill="#FFFFFF" opacity="0.95"/>
+    <circle cx="25" cy="-5" r="15" fill="#FFFFFF" opacity="0.95"/>
+  </g>
+</svg>
