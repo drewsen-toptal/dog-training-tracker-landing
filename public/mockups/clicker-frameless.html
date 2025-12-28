@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=390, height=844">
+  <title>Clicker - Frameless</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+      width: 390px;
+      height: 844px;
+      overflow: hidden;
+    }
+
+    .screen {
+      width: 390px;
+      height: 844px;
+      background: linear-gradient(180deg, #0F172A 0%, #1E293B 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* iOS Status Bar */
+    .status-bar {
+      height: 54px;
+      background: transparent;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 0 28px 8px;
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .status-bar-right {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .status-bar-right svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Header */
+    .header {
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .back-button, .settings-button {
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .back-button svg, .settings-button svg {
+      width: 20px;
+      height: 20px;
+      color: white;
+    }
+
+    .header-title {
+      color: white;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    /* Session Info */
+    .session-info {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .session-command {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(13, 148, 136, 0.3);
+      border: 1px solid rgba(13, 148, 136, 0.5);
+      border-radius: 30px;
+      padding: 10px 20px;
+      color: #5EEAD4;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .session-command svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .session-timer {
+      margin-top: 24px;
+      color: white;
+    }
+
+    .timer-label {
+      font-size: 13px;
+      opacity: 0.6;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .timer-value {
+      font-size: 48px;
+      font-weight: 200;
+      letter-spacing: 4px;
+    }
+
+    /* Main Clicker Button */
+    .clicker-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      position: relative;
+    }
+
+    .clicker-wrapper {
+      position: relative;
+      width: 280px;
+      height: 280px;
+    }
+
+    .clicker-ring-outer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, #0D9488 0%, #14B8A6 25%, #0D9488 50%, #14B8A6 75%, #0D9488 100%);
+      opacity: 0.3;
+    }
+
+    .clicker-button-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 264px;
+      height: 264px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #0F172A 0%, #1E293B 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .clicker-button {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #14B8A6 0%, #0D9488 50%, #0F766E 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        0 10px 40px rgba(13, 148, 136, 0.5),
+        0 0 0 8px rgba(13, 148, 136, 0.2),
+        inset 0 -8px 20px rgba(0,0,0,0.2),
+        inset 0 8px 20px rgba(255,255,255,0.1);
+    }
+
+    .clicker-icon {
+      font-size: 50px;
+      margin-bottom: 8px;
+    }
+
+    .clicker-text {
+      color: white;
+      font-size: 20px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+    }
+
+    .clicker-subtitle {
+      color: rgba(255,255,255,0.7);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    /* Session Stats */
+    .session-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 30px 20px;
+    }
+
+    .stat-item {
+      text-align: center;
+      color: white;
+    }
+
+    .stat-number {
+      font-size: 36px;
+      font-weight: 700;
+      color: #5EEAD4;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      opacity: 0.6;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+
+    /* Sound Options */
+    .sound-options {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 20px;
+    }
+
+    .sound-option {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 8px 16px;
+      color: rgba(255,255,255,0.6);
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sound-option.active {
+      background: rgba(13, 148, 136, 0.3);
+      border-color: rgba(13, 148, 136, 0.5);
+      color: #5EEAD4;
+    }
+
+    .sound-option svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Home Indicator */
+    .home-indicator {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 134px;
+      height: 5px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="screen">
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="status-bar-right">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C7.46 3 3.34 4.78.29 7.67c-.18.18-.29.43-.29.71 0 .28.11.53.29.71l2.48 2.48c.18.18.43.29.71.29.27 0 .52-.11.7-.28.79-.74 1.69-1.36 2.66-1.85.33-.16.56-.5.56-.9v-3.1c1.45-.48 3-.73 4.6-.73s3.15.25 4.6.72v3.1c0 .39.23.74.56.9.98.49 1.87 1.12 2.67 1.85.18.18.43.28.7.28.28 0 .53-.11.71-.29l2.48-2.48c.18-.18.29-.43.29-.71 0-.28-.11-.53-.29-.71C20.66 4.78 16.54 3 12 3z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 22h20V2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+      <div class="back-button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      </div>
+      <span class="header-title">Training Session</span>
+      <div class="settings-button">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+      </div>
+    </div>
+
+    <!-- Session Info -->
+    <div class="session-info">
+      <div class="session-command">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        Training: Stay
+      </div>
+      <div class="session-timer">
+        <div class="timer-label">Session Time</div>
+        <div class="timer-value">03:24</div>
+      </div>
+    </div>
+
+    <!-- Main Clicker Button -->
+    <div class="clicker-container">
+      <div class="clicker-wrapper">
+        <div class="clicker-ring-outer"></div>
+        <div class="clicker-button-container">
+          <div class="clicker-button">
+            <span class="clicker-icon">👆</span>
+            <span class="clicker-text">Click</span>
+            <span class="clicker-subtitle">Tap to mark</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Session Stats -->
+    <div class="session-stats">
+      <div class="stat-item">
+        <div class="stat-number">12</div>
+        <div class="stat-label">Clicks</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">8</div>
+        <div class="stat-label">Successes</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">67%</div>
+        <div class="stat-label">Rate</div>
+      </div>
+    </div>
+
+    <!-- Sound Options -->
+    <div class="sound-options">
+      <div class="sound-option active">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        Sound On
+      </div>
+      <div class="sound-option">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 15.198V8.802h3.198L8 4v16l-4.802-4.802H0zM11.5 12c0-1.405-.675-2.649-1.715-3.432l1.41-1.41C12.69 8.35 13.5 10.082 13.5 12s-.81 3.65-2.305 4.842l-1.41-1.41C10.825 14.649 11.5 13.405 11.5 12z"/></svg>
+        Vibrate
+      </div>
+    </div>
+
+    <div class="home-indicator"></div>
+  </div>
+</body>
+</html>
