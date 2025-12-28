@@ -8,6 +8,7 @@ import {
   SheetContent,
   SheetTrigger,
   SheetTitle,
+  SheetDescription,
 } from "@/components/ui/sheet";
 
 const navLinks = [
@@ -69,6 +70,9 @@ export function Header() {
           </SheetTrigger>
           <SheetContent side="right" className="w-[280px] sm:w-[320px]">
             <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+            <SheetDescription className="sr-only">
+              Main navigation links and actions for Dog Training Tracker
+            </SheetDescription>
             <nav className="flex flex-col gap-4 pt-8">
               {navLinks.map((link) => (
                 <a
