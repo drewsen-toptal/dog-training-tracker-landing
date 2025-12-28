@@ -78,7 +78,7 @@ export function Features() {
         {/* Main Features Grid */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {mainFeatures.map((feature, index) => (
-            <Card key={index} className="group relative overflow-hidden border-border/50 transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
+            <Card key={index} className="group relative overflow-hidden border-border/50 transition-all duration-300 hover:border-primary/50 hover:shadow-xl hover:-translate-y-1">
               <CardContent className="p-6 md:p-8">
                 {/* Icon */}
                 <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-transform duration-300 group-hover:scale-110" aria-hidden="true">

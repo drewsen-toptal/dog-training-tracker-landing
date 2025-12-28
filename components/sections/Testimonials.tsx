@@ -1,5 +1,5 @@
-import { Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { StarRating } from "@/components/shared/StarRating";
 
 const testimonials = [
   {
@@ -73,11 +73,7 @@ export function Testimonials() {
               <CardContent className="p-6 md:p-8">
                 {/* Star Rating and Dog Breed */}
                 <div className="mb-4 flex items-center justify-between">
-                  <div className="flex gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-5 w-5 fill-secondary text-secondary" />
-                    ))}
-                  </div>
+                  <StarRating rating={5} label="5 star review" />
                   <span className="text-2xl">{testimonial.dogBreed}</span>
                 </div>
 
@@ -118,11 +114,7 @@ export function Testimonials() {
         {/* Trust Badges */}
         <div className="mt-12 flex flex-wrap items-center justify-center gap-6">
           <div className="flex items-center gap-2">
-            <div className="flex gap-0.5">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-4 w-4 fill-secondary text-secondary" />
-              ))}
-            </div>
+            <StarRating rating={5} size="sm" label="4.9 stars App Store rating" />
             <span className="text-sm font-medium">4.9 stars on App Store</span>
           </div>
           <div className="h-4 w-px bg-border" />
