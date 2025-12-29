@@ -1,0 +1,151 @@
+{
+  "mcpServers": {
+    "mobile-mcp": {
+      "command": "npx",
+      "args": ["-y", "@mobilenext/mobile-mcp@latest"],
+      "status": "connected",
+      "description": "Mobile device control and testing MCP server"
+    },
+    "xcodebuildmcp": {
+      "command": "npx",
+      "args": ["-y", "xcodebuildmcp@latest"],
+      "status": "connected",
+      "description": "Xcode build and iOS development tools"
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/Users/drew.sen"],
+      "status": "connected",
+      "description": "File system access for reading/writing files"
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"],
+      "status": "connected",
+      "description": "Browser automation and web scraping"
+    },
+    "chrome-devtools": {
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@latest"],
+      "status": "failed",
+      "description": "Chrome DevTools integration"
+    },
+    "fetch": {
+      "command": "npx",
+      "args": ["-y", "mcp-fetch-server"],
+      "status": "connected",
+      "description": "HTTP request capabilities"
+    },
+    "puppeteer": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer"],
+      "status": "connected",
+      "description": "Browser automation with Puppeteer"
+    },
+    "vercel": {
+      "command": "npx",
+      "args": ["-y", "vercel-mcp"],
+      "env": {
+        "VERCEL_API_KEY": "mt7CammEkKvBwAV6VeWY1CrK"
+      },
+      "status": "connected",
+      "description": "Vercel deployment and management"
+    },
+    "yahoo-finance": {
+      "command": "uvx",
+      "args": ["mcp-yahoo-finance"],
+      "status": "connected",
+      "description": "Yahoo Finance data access"
+    },
+    "claude-historian": {
+      "command": "npx",
+      "args": ["claude-historian-mcp"],
+      "status": "connected",
+      "description": "Claude conversation history tracking"
+    },
+    "financial-datasets": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.financialdatasets.ai/sse",
+        "--header",
+        "X-API-KEY:da6bbdb5-285a-4320-a95f-66cc01c7658f"
+      ],
+      "status": "connected",
+      "description": "Financial market data and analysis"
+    },
+    "optionsflow": {
+      "command": "/Users/drew.sen/.venv/bin/python",
+      "args": ["/Users/drew.sen/mcp-optionsflow/optionsflow.py"],
+      "status": "connected",
+      "description": "Options trading flow analysis"
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "status": "connected",
+      "description": "GitHub repository management"
+    },
+    "brave-search": {
+      "command": "npx",
+      "args": ["-y", "@brave/brave-search-mcp-server"],
+      "status": "connected",
+      "description": "Brave Search API integration"
+    },
+    "pdf-reader": {
+      "command": "npx",
+      "args": ["-y", "@sylphx/pdf-reader-mcp"],
+      "status": "connected",
+      "description": "PDF file reading and extraction"
+    },
+    "firecrawl": {
+      "command": "npx",
+      "args": ["-y", "firecrawl-mcp"],
+      "status": "connected",
+      "description": "Advanced web scraping and crawling"
+    },
+    "cloudflare": {
+      "command": "npx",
+      "args": ["-y", "@cloudflare/mcp-server-cloudflare", "run", "7dbda90a22a881a487d635153a2e10b4"],
+      "status": "connected",
+      "description": "Cloudflare Workers and edge computing"
+    },
+    "authenticator-mcp": {
+      "command": "npx",
+      "args": ["-y", "@firstorderai/authenticator-mcp"],
+      "status": "failed",
+      "description": "Authentication management"
+    },
+    "authn8": {
+      "command": "npx",
+      "args": ["-y", "@authn8/mcp-server"],
+      "status": "failed",
+      "description": "Authentication services"
+    },
+    "shadcn": {
+      "command": "npx",
+      "args": ["shadcn@latest", "mcp"],
+      "status": "connected",
+      "description": "shadcn/ui component library integration"
+    },
+    "tailwindcss": {
+      "command": "npx",
+      "args": ["tailwindcss-mcp-server"],
+      "status": "connected",
+      "description": "TailwindCSS utilities and documentation"
+    },
+    "figma": {
+      "command": "npx",
+      "args": ["figma-developer-mcp", "--stdio"],
+      "status": "failed",
+      "description": "Figma design integration"
+    },
+    "ibkr": {
+      "url": "http://localhost:5002/mcp/",
+      "transport": "HTTP",
+      "status": "failed",
+      "description": "Interactive Brokers trading API"
+    }
+  }
+}

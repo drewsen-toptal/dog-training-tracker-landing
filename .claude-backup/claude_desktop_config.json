@@ -1,0 +1,192 @@
+{
+  "mcpServers": {
+    "xcodebuildmcp": {
+      "command": "node",
+      "args": [
+        "/Users/drew.sen/mcp-servers/XcodeBuildMCP/build/index.js"
+      ],
+      "autoApprovalSettings": {
+        "commands": {
+          "*": "allow"
+        },
+        "tools": {
+          "*": "allow"
+        },
+        "resources": {
+          "*": "allow"
+        },
+        "readFiles": true,
+        "writeFiles": true,
+        "listDirectory": true,
+        "readDirectory": true,
+        "createDirectory": true,
+        "deleteFile": true,
+        "moveFile": true
+      }
+    },
+    "ios-simulator-mcp": {
+      "command": "node",
+      "args": [
+        "/Users/drew.sen/mcp-servers/ios-simulator-mcp/build/index.js"
+      ],
+      "autoApprovalSettings": {
+        "commands": {
+          "*": "allow"
+        },
+        "tools": {
+          "*": "allow"
+        },
+        "resources": {
+          "*": "allow"
+        },
+        "readFiles": true,
+        "writeFiles": true,
+        "listDirectory": true,
+        "readDirectory": true,
+        "createDirectory": true,
+        "deleteFile": true,
+        "moveFile": true
+      }
+    },
+    "cupertino": {
+      "command": "/Users/drew.sen/mcp-servers/cupertino/.build/release/cupertino",
+      "args": [
+        "mcp"
+      ],
+      "autoApprovalSettings": {
+        "commands": {
+          "*": "allow"
+        },
+        "tools": {
+          "*": "allow"
+        },
+        "resources": {
+          "*": "allow"
+        },
+        "readFiles": true,
+        "writeFiles": true,
+        "listDirectory": true,
+        "readDirectory": true,
+        "createDirectory": true,
+        "deleteFile": true,
+        "moveFile": true
+      }
+    },
+    "swiftlens": {
+      "command": "/Users/drew.sen/mcp-servers/swiftlens/venv/bin/python",
+      "args": [
+        "-m",
+        "swiftlens",
+        "mcp"
+      ],
+      "autoApprovalSettings": {
+        "commands": {
+          "*": "allow"
+        },
+        "tools": {
+          "*": "allow"
+        },
+        "resources": {
+          "*": "allow"
+        },
+        "readFiles": true,
+        "writeFiles": true,
+        "listDirectory": true,
+        "readDirectory": true,
+        "createDirectory": true,
+        "deleteFile": true,
+        "moveFile": true
+      }
+    },
+    "memory": {
+      "command": "node",
+      "args": [
+        "/Users/drew.sen/.npm/_npx/badc556afac951ab/node_modules/@whenmoon-afk/memory-mcp/dist/index.js"
+      ],
+      "env": {
+        "MEMORY_DB_PATH": "/Users/drew.sen/.claude-memories/memory.db"
+      }
+    }
+  },
+  "globalAutoApprovalSettings": {
+    "commands": {
+      "*": "allow"
+    },
+    "tools": {
+      "*": "allow",
+      "Bash": "allow",
+      "Read": "allow",
+      "Write": "allow",
+      "Edit": "allow",
+      "MultiEdit": "allow",
+      "Grep": "allow",
+      "Glob": "allow",
+      "LS": "allow",
+      "WebSearch": "allow",
+      "WebFetch": "allow",
+      "NotebookEdit": "allow",
+      "TodoWrite": "allow",
+      "Task": "allow",
+      "ExitPlanMode": "allow",
+      "BashOutput": "allow",
+      "KillBash": "allow"
+    },
+    "resources": {
+      "*": "allow"
+    },
+    "bash": {
+      "*": "allow",
+      "allow_all": true
+    },
+    "fileSystem": {
+      "read": "allow",
+      "write": "allow",
+      "delete": "allow",
+      "move": "allow",
+      "list": "allow",
+      "create": "allow",
+      "all": "allow"
+    },
+    "network": {
+      "http": "allow",
+      "https": "allow",
+      "all": "allow"
+    },
+    "process": {
+      "spawn": "allow",
+      "execute": "allow",
+      "kill": "allow",
+      "all": "allow"
+    },
+    "system": {
+      "info": "allow",
+      "environment": "allow",
+      "all": "allow"
+    },
+    "readFiles": true,
+    "writeFiles": true,
+    "listDirectory": true,
+    "readDirectory": true,
+    "createDirectory": true,
+    "deleteFile": true,
+    "moveFile": true,
+    "executeCommand": true,
+    "runProcess": true,
+    "networkAccess": true,
+    "systemInformation": true,
+    "allowAllTools": true,
+    "allowAllCommands": true,
+    "allowAllOperations": true,
+    "neverPrompt": true,
+    "skipAllApprovals": true
+  },
+  "autoApproveAll": true,
+  "disableAllPrompts": true,
+  "skipConfirmations": true,
+  "alwaysAllow": true,
+  "neverAsk": true,
+  "permissions": {
+    "all": true,
+    "unrestricted": true
+  }
+}

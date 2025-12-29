@@ -1,0 +1,76 @@
+# Claude Code Restoration Checklist
+
+## Pre-Restoration
+[ ] Extract archive: tar -xzf claude-code-backup-20251228.tar.gz
+[ ] Verify checksum: md5 (should be 59132c10659a07a58be525c9c0b099a3)
+[ ] Read QUICK_START.md or SETUP_INSTRUCTIONS.md
+[ ] Ensure Node.js v18+ installed: node --version
+[ ] Ensure Python 3.8+ installed: python3 --version
+
+## Configuration Files
+[ ] Backup existing config (if any):
+    cp ~/Library/Application\ Support/Claude/claude_desktop_config.json \
+       ~/Library/Application\ Support/Claude/claude_desktop_config.json.old
+[ ] Copy Claude Desktop config:
+    cp claude_desktop_config.json ~/Library/Application\ Support/Claude/
+[ ] Copy custom MCP servers:
+    cp -r custom-mcp-servers/mcp-servers/* ~/mcp-servers/
+[ ] Copy OptionsFlow:
+    cp -r custom-mcp-servers/optionsflow ~/mcp-optionsflow/
+
+## Python Setup
+[ ] Create OptionsFlow venv:
+    cd ~/mcp-optionsflow && python3 -m venv .venv
+[ ] Activate venv:
+    source .venv/bin/activate
+[ ] Install dependencies:
+    pip install -r requirements.txt
+[ ] Deactivate venv:
+    deactivate
+
+## Credentials
+[ ] Copy credentials template:
+    cp credentials.env.example credentials.env
+[ ] Edit credentials.env with your API keys
+[ ] Set VERCEL_API_KEY
+[ ] Set FINANCIAL_DATASETS_API_KEY
+[ ] Set CLOUDFLARE_ACCOUNT_ID
+[ ] (Optional) Set GITHUB_TOKEN
+[ ] (Optional) Set BRAVE_SEARCH_API_KEY
+
+## Verification
+[ ] Restart Claude Code (required!)
+[ ] Run: claude doctor
+[ ] Run: claude mcp list
+[ ] Verify 18+ servers connected
+[ ] Check model: claude config get model (should be claude-opus-4-5)
+
+## Testing
+[ ] Test file ops: claude "create test.txt"
+[ ] Test web search: claude "search latest news"
+[ ] Test financial: claude "get AAPL price"
+[ ] Test GitHub: claude "list commits"
+
+## Troubleshooting (if needed)
+[ ] If MCP server fails: claude mcp remove <server>
+[ ] If Python errors: Recreate venv
+[ ] If model wrong: claude config set model claude-opus-4-5
+[ ] Check logs if issues persist
+
+## Optional Setup
+[ ] Fix chrome-devtools MCP
+[ ] Setup Figma API credentials
+[ ] Configure IBKR Gateway (if trading)
+[ ] Fix authenticator-mcp servers
+[ ] Review security permissions
+
+## Post-Restoration
+[ ] All MCP servers running
+[ ] Credentials configured
+[ ] Model set to Opus 4.5
+[ ] Test commands working
+[ ] Ready to resume work!
+
+---
+Estimated time: 5-15 minutes
+Created: 2025-12-28
