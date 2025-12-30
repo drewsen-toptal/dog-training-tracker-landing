@@ -476,15 +476,8 @@
     <div class="header">
         <div class="header-top">
             <div class="greeting">
-                <div class="dog-avatar">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
-                        <ellipse cx="12" cy="13" rx="7" ry="6"/>
-                        <circle cx="9" cy="11" r="1.5" fill="oklch(0.30 0.01 250)"/>
-                        <circle cx="15" cy="11" r="1.5" fill="oklch(0.30 0.01 250)"/>
-                        <ellipse cx="12" cy="14.5" rx="2" ry="1.2" fill="oklch(0.30 0.01 250)"/>
-                        <ellipse cx="6" cy="7" rx="2.5" ry="3.5" transform="rotate(-15 6 7)"/>
-                        <ellipse cx="18" cy="7" rx="2.5" ry="3.5" transform="rotate(15 18 7)"/>
-                    </svg>
+                <div class="dog-avatar" style="overflow: hidden; padding: 0;">
+                    <img id="dog-avatar-img" src="" alt="Dog" width="52" height="52" style="object-fit: cover; border-radius: 50%;">
                 </div>
                 <div class="greeting-text">
                     <h1>Hi Max!</h1>
@@ -492,9 +485,8 @@
                 </div>
             </div>
             <div class="streak-badge">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="oklch(0.65 0.16 55)">
-                        <path d="M12 2c-1 4-4 6-4 10a6 6 0 0012 0c0-4-3-6-4-10-1 2-3 3-4 3s-3-1-4-3z"/>
-                    </svg>
+                <img src="https://img.theapi.app/temp/acc157bb-aa3e-4f54-a517-85422845f332.png"
+                     alt="Streak" width="18" height="18" style="object-fit: cover; border-radius: 4px;">
                 <span>12</span>
             </div>
         </div>
@@ -523,11 +515,9 @@
         <div class="due-cards">
             <div class="due-card">
                 <div class="due-card-header">
-                    <div class="due-card-icon teal">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="oklch(0.55 0.15 165)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M8 3v10"/><path d="M12 3v10"/><path d="M16 3v10"/><path d="M19 7v6"/><path d="M5 7v6"/>
-                            <rect x="4" y="13" width="16" height="6" rx="2"/>
-                        </svg>
+                    <div class="due-card-icon teal" style="overflow: hidden; padding: 0;">
+                        <img src="https://img.theapi.app/temp/44c3434f-5066-41b9-99bf-68d4761a71c0.png"
+                             alt="Stay" width="48" height="48" style="object-fit: cover; border-radius: 14px;">
                     </div>
                     <div class="due-card-info">
                         <h3>Stay</h3>
@@ -547,12 +537,9 @@
 
             <div class="due-card">
                 <div class="due-card-header">
-                    <div class="due-card-icon amber">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="oklch(0.70 0.16 55)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M8 6v8"/><path d="M12 4v10"/><path d="M16 6c0-2-1-3-2-2s-1 3-1 5v5"/>
-                            <rect x="5" y="14" width="12" height="5" rx="2"/>
-                            <path d="M19 10l2-2M21 14h2M19 18l2 2" opacity="0.5"/>
-                        </svg>
+                    <div class="due-card-icon amber" style="overflow: hidden; padding: 0;">
+                        <img src="https://img.theapi.app/temp/72c730c4-2a94-485c-805e-a5918d47ebb3.png"
+                             alt="Come" width="48" height="48" style="object-fit: cover; border-radius: 14px;">
                     </div>
                     <div class="due-card-info">
                         <h3>Come</h3>
@@ -572,10 +559,9 @@
 
             <div class="due-card">
                 <div class="due-card-header">
-                    <div class="due-card-icon green">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="oklch(0.55 0.18 145)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 4v12"/><path d="M7 12l5 5 5-5"/><path d="M6 21h12"/>
-                        </svg>
+                    <div class="due-card-icon green" style="overflow: hidden; padding: 0;">
+                        <img src="https://img.theapi.app/temp/5a856efc-f760-4ec9-a2fc-5edff4a13c04.png"
+                             alt="Down" width="48" height="48" style="object-fit: cover; border-radius: 14px;">
                     </div>
                     <div class="due-card-info">
                         <h3>Down</h3>
@@ -601,22 +587,16 @@
 
         <div class="quick-actions">
             <div class="quick-action">
-                <div class="quick-action-icon primary">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
-                        <circle cx="12" cy="12" r="9"/>
-                        <circle cx="12" cy="12" r="4"/>
-                    </svg>
+                <div class="quick-action-icon primary" style="overflow: hidden; padding: 0;">
+                    <img src="https://img.theapi.app/temp/43570896-8af5-4b0d-9845-88bd6438043c.png"
+                         alt="Clicker" width="44" height="44" style="object-fit: cover; border-radius: 12px;">
                 </div>
                 <span class="quick-action-text">Clicker</span>
             </div>
             <div class="quick-action">
-                <div class="quick-action-icon secondary">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="oklch(0.60 0.16 55)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="3" width="18" height="18" rx="3"/>
-                        <circle cx="8" cy="8" r="1.5" fill="oklch(0.60 0.16 55)"/><circle cx="16" cy="8" r="1.5" fill="oklch(0.60 0.16 55)"/>
-                        <circle cx="8" cy="16" r="1.5" fill="oklch(0.60 0.16 55)"/><circle cx="16" cy="16" r="1.5" fill="oklch(0.60 0.16 55)"/>
-                        <circle cx="12" cy="12" r="1.5" fill="oklch(0.60 0.16 55)"/>
-                    </svg>
+                <div class="quick-action-icon secondary" style="overflow: hidden; padding: 0;">
+                    <img src="https://img.theapi.app/temp/ab783315-0243-472b-80e2-85a6085d50cd.png"
+                         alt="Random" width="44" height="44" style="object-fit: cover; border-radius: 12px;">
                 </div>
                 <span class="quick-action-text">Random</span>
             </div>
@@ -717,5 +697,19 @@
 
     <!-- Home Indicator -->
     <div class="home-indicator"></div>
+
+    <script>
+        // Random dog avatar selection for variety
+        const dogAvatars = [
+            'https://img.theapi.app/temp/ad73f328-8187-425b-973b-8fd7ea9bfea9.png', // Golden Retriever
+            'https://img.theapi.app/temp/b3765ae2-38bf-47cb-ac73-1df50316f291.png', // Beagle
+            'https://img.theapi.app/temp/134c172d-c57d-4a2d-9aef-a0d24a32fed0.png', // Border Collie
+            'https://img.theapi.app/temp/33707a06-bea3-4a2f-9a4c-d28fa9700cab.png'  // Corgi
+        ];
+
+        // Select random avatar on page load
+        const randomIndex = Math.floor(Math.random() * dogAvatars.length);
+        document.getElementById('dog-avatar-img').src = dogAvatars[randomIndex];
+    </script>
 </body>
 </html>
