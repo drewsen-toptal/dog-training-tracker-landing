@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding - Dog Profile</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background: oklch(0.985 0.002 250);
+            margin: 0;
+            padding: 0;
+            width: 390px;
+            height: 844px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .status-bar {
+            height: 54px;
+            padding: 14px 24px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .status-time { font-size: 15px; font-weight: 600; color: oklch(0.15 0.01 250); }
+
+        .home-indicator {
+            position: fixed;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 134px;
+            height: 5px;
+            background: oklch(0.15 0.01 250 / 0.3);
+            border-radius: 100px;
+            z-index: 100;
+        }
+
+        /* Progress bar */
+        .progress-container {
+            padding: 0 24px;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: oklch(0.92 0.004 250);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 50%;
+            height: 100%;
+            background: oklch(0.55 0.15 165);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 13px;
+            color: oklch(0.50 0.01 250);
+            margin-top: 8px;
+        }
+
+        /* Header */
+        .header {
+            padding: 16px 24px 24px;
+        }
+
+        .back-button {
+            width: 40px;
+            height: 40px;
+            background: oklch(0.96 0.004 250);
+            border: none;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-bottom: 24px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: oklch(0.15 0.01 250);
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            font-size: 17px;
+            color: oklch(0.50 0.01 250);
+            line-height: 1.4;
+        }
+
+        /* Photo picker */
+        .photo-section {
+            display: flex;
+            justify-content: center;
+            padding: 24px 0;
+        }
+
+        .photo-picker {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, oklch(0.55 0.15 165 / 0.12) 0%, oklch(0.75 0.14 55 / 0.12) 100%);
+            border: 3px dashed oklch(0.55 0.15 165 / 0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .photo-picker-icon {
+            width: 40px;
+            height: 40px;
+            background: oklch(0.55 0.15 165);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-picker-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: oklch(0.55 0.15 165);
+        }
+
+        /* Form */
+        .form-section {
+            padding: 0 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: oklch(0.45 0.01 250);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-input {
+            width: 100%;
+            height: 56px;
+            padding: 0 20px;
+            font-size: 17px;
+            font-family: inherit;
+            color: oklch(0.15 0.01 250);
+            background: white;
+            border: 2px solid oklch(0.92 0.004 250);
+            border-radius: 16px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: oklch(0.55 0.15 165);
+            box-shadow: 0 0 0 4px oklch(0.55 0.15 165 / 0.1);
+        }
+
+        .form-input::placeholder {
+            color: oklch(0.70 0.01 250);
+        }
+
+        .form-input.filled {
+            border-color: oklch(0.55 0.15 165);
+            background: oklch(0.55 0.15 165 / 0.04);
+        }
+
+        /* Breed selector */
+        .breed-selector {
+            width: 100%;
+            height: 56px;
+            padding: 0 20px;
+            font-size: 17px;
+            font-family: inherit;
+            color: oklch(0.15 0.01 250);
+            background: white;
+            border: 2px solid oklch(0.92 0.004 250);
+            border-radius: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .breed-selector.selected {
+            border-color: oklch(0.55 0.15 165);
+            background: oklch(0.55 0.15 165 / 0.04);
+        }
+
+        /* Age chips */
+        .age-chips {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .age-chip {
+            flex: 1;
+            min-width: calc(50% - 5px);
+            height: 52px;
+            background: white;
+            border: 2px solid oklch(0.92 0.004 250);
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 500;
+            color: oklch(0.35 0.01 250);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .age-chip.selected {
+            background: oklch(0.55 0.15 165);
+            border-color: oklch(0.55 0.15 165);
+            color: white;
+            font-weight: 600;
+        }
+
+        .age-chip:hover:not(.selected) {
+            border-color: oklch(0.55 0.15 165 / 0.5);
+        }
+
+        /* Bottom CTA */
+        .bottom-area {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 24px 44px;
+            background: linear-gradient(180deg, oklch(0.985 0.002 250 / 0) 0%, oklch(0.985 0.002 250) 30%);
+        }
+
+        .cta-button {
+            width: 100%;
+            height: 56px;
+            background: oklch(0.55 0.15 165);
+            color: white;
+            font-size: 17px;
+            font-weight: 600;
+            border: none;
+            border-radius: 28px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px oklch(0.55 0.15 165 / 0.35);
+        }
+
+        .cta-button:disabled {
+            background: oklch(0.85 0.01 250);
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div style="display: flex; align-items: center; gap: 4px;">
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="oklch(0.15 0.01 250)">
+                <path d="M1 4h1v4H1V4zm3 1h1v2H4V5zm3-2h1v6H7V3zm3 2h1v2h-1V5zm3-1h1v4h-1V4zm3-2h1v8h-1V2z"/>
+            </svg>
+            <svg width="17" height="12" viewBox="0 0 17 12" fill="oklch(0.15 0.01 250)">
+                <path d="M1 3.5a.5.5 0 01.5-.5h14a.5.5 0 01.5.5v5a.5.5 0 01-.5.5h-14a.5.5 0 01-.5-.5v-5z"/>
+                <path d="M16 5v2a1 1 0 001-1v0a1 1 0 00-1-1z"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        <p class="progress-text">Step 2 of 4</p>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <button class="back-button">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="oklch(0.35 0.01 250)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 18l-6-6 6-6"/>
+            </svg>
+        </button>
+        <h1 class="page-title">Tell us about your pup</h1>
+        <p class="page-subtitle">We'll personalize training based on breed and age</p>
+    </div>
+
+    <!-- Photo Section -->
+    <div class="photo-section">
+        <div class="photo-picker">
+            <div class="photo-picker-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+                    <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/>
+                    <circle cx="12" cy="13" r="4"/>
+                </svg>
+            </div>
+            <span class="photo-picker-text">Add Photo</span>
+        </div>
+    </div>
+
+    <!-- Form -->
+    <div class="form-section">
+        <div class="form-group">
+            <label class="form-label">Dog's Name</label>
+            <input type="text" class="form-input filled" placeholder="e.g., Max, Luna, Buddy" value="Max">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Breed</label>
+            <div class="breed-selector selected">
+                <span>Golden Retriever</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="oklch(0.55 0.15 165)" stroke-width="2.5">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Age Range</label>
+            <div class="age-chips">
+                <button class="age-chip">Puppy<br><small style="font-size: 11px; opacity: 0.7;">0-6 months</small></button>
+                <button class="age-chip selected">Young<br><small style="font-size: 11px; opacity: 0.8;">6-18 months</small></button>
+                <button class="age-chip">Adult<br><small style="font-size: 11px; opacity: 0.7;">1.5-7 years</small></button>
+                <button class="age-chip">Senior<br><small style="font-size: 11px; opacity: 0.7;">7+ years</small></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="bottom-area">
+        <button class="cta-button">Continue</button>
+    </div>
+
+    <!-- Home Indicator -->
+    <div class="home-indicator"></div>
+</body>
+</html>

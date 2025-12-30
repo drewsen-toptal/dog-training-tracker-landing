@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puppy PRO Design System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            /* Puppy PRO Brand Colors - Warm & Trustworthy */
+            --brand-primary: oklch(0.55 0.15 165);      /* Teal - Trust, Calm */
+            --brand-primary-light: oklch(0.65 0.12 165);
+            --brand-primary-dark: oklch(0.45 0.15 165);
+            --brand-secondary: oklch(0.75 0.14 55);     /* Warm Amber - Energy */
+            --brand-secondary-light: oklch(0.85 0.10 55);
+            --brand-accent: oklch(0.70 0.18 145);       /* Fresh Green - Success */
+
+            /* Semantic Colors */
+            --success: oklch(0.65 0.18 145);
+            --warning: oklch(0.80 0.15 75);
+            --error: oklch(0.60 0.22 25);
+            --info: oklch(0.60 0.12 250);
+
+            /* Neutral Palette */
+            --gray-50: oklch(0.985 0.002 250);
+            --gray-100: oklch(0.96 0.004 250);
+            --gray-200: oklch(0.92 0.004 250);
+            --gray-300: oklch(0.87 0.006 250);
+            --gray-400: oklch(0.70 0.01 250);
+            --gray-500: oklch(0.55 0.01 250);
+            --gray-600: oklch(0.45 0.01 250);
+            --gray-700: oklch(0.35 0.01 250);
+            --gray-800: oklch(0.25 0.01 250);
+            --gray-900: oklch(0.15 0.01 250);
+
+            /* Typography */
+            --font-system: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
+
+            /* Spacing (8pt grid) */
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 20px;
+            --space-6: 24px;
+            --space-8: 32px;
+            --space-10: 40px;
+            --space-12: 48px;
+
+            /* Border Radius */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-2xl: 24px;
+            --radius-full: 9999px;
+
+            /* Shadows */
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 2px 8px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-xl: 0 16px 48px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.06);
+        }
+
+        body {
+            font-family: var(--font-system);
+            -webkit-font-smoothing: antialiased;
+            background: var(--gray-100);
+            padding: 40px;
+        }
+
+        .section {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 24px;
+        }
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 16px;
+        }
+
+        .color-swatch {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .color-preview {
+            height: 80px;
+        }
+
+        .color-info {
+            padding: 12px;
+            background: white;
+        }
+
+        .color-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        .color-value {
+            font-size: 11px;
+            color: var(--gray-500);
+            font-family: 'SF Mono', monospace;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<h1 style="font-size: 40px; font-weight: 800; color: var(--gray-900); margin-bottom: 8px;">Puppy PRO</h1>
+<p style="font-size: 17px; color: var(--gray-500); margin-bottom: 40px;">Design System v1.0 - Best-in-Market iOS Dog Training App</p>
+
+<!-- Color Palette -->
+<div class="section">
+    <h2 class="section-title">Color Palette</h2>
+
+    <h3 style="font-size: 15px; font-weight: 600; color: var(--gray-600); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px;">Brand Colors</h3>
+    <div class="color-grid" style="margin-bottom: 32px;">
+        <div class="color-swatch">
+            <div class="color-preview" style="background: oklch(0.55 0.15 165);"></div>
+            <div class="color-info">
+                <div class="color-name">Primary</div>
+                <div class="color-value">oklch(0.55 0.15 165)</div>
+            </div>
+        </div>
+        <div class="color-swatch">
+            <div class="color-preview" style="background: oklch(0.65 0.12 165);"></div>
+            <div class="color-info">
+                <div class="color-name">Primary Light</div>
+                <div class="color-value">oklch(0.65 0.12 165)</div>
+            </div>
+        </div>
+        <div class="color-swatch">
+            <div class="color-preview" style="background: oklch(0.75 0.14 55);"></div>
+            <div class="color-info">
+                <div class="color-name">Secondary</div>
+                <div class="color-value">oklch(0.75 0.14 55)</div>
+            </div>
+        </div>
+        <div class="color-swatch">
+            <div class="color-preview" style="background: oklch(0.70 0.18 145);"></div>
+            <div class="color-info">
+                <div class="color-name">Accent</div>
+                <div class="color-value">oklch(0.70 0.18 145)</div>
+            </div>
+        </div>
+    </div>
+
+    <h3 style="font-size: 15px; font-weight: 600; color: var(--gray-600); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px;">Semantic Colors</h3>
+    <div class="color-grid" style="margin-bottom: 32px;">
+        <div class="color-swatch">
+            <div class="color-preview" style="background: oklch(0.65 0.18 145);"></div>
+            <div class="color-info">
+                <div class="color-name">Success</div>
+                <div class="color-value">oklch(0.65 0.18 145)</div>
+            </div>
+        </div>
+        <div class="color-swatch">
+            <div class="color-preview" style="background: oklch(0.80 0.15 75);"></div>
+            <div class="color-info">
+                <div class="color-name">Warning</div>
+                <div class="color-value">oklch(0.80 0.15 75)</div>
+            </div>
+        </div>
+        <div class="color-swatch">
+            <div class="color-preview" style="background: oklch(0.60 0.22 25);"></div>
+            <div class="color-info">
+                <div class="color-name">Error</div>
+                <div class="color-value">oklch(0.60 0.22 25)</div>
+            </div>
+        </div>
+        <div class="color-swatch">
+            <div class="color-preview" style="background: oklch(0.60 0.12 250);"></div>
+            <div class="color-info">
+                <div class="color-name">Info</div>
+                <div class="color-value">oklch(0.60 0.12 250)</div>
+            </div>
+        </div>
+    </div>
+
+    <h3 style="font-size: 15px; font-weight: 600; color: var(--gray-600); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px;">Neutral Scale</h3>
+    <div style="display: flex; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm);">
+        <div style="flex: 1; height: 60px; background: oklch(0.985 0.002 250);"></div>
+        <div style="flex: 1; height: 60px; background: oklch(0.96 0.004 250);"></div>
+        <div style="flex: 1; height: 60px; background: oklch(0.92 0.004 250);"></div>
+        <div style="flex: 1; height: 60px; background: oklch(0.87 0.006 250);"></div>
+        <div style="flex: 1; height: 60px; background: oklch(0.70 0.01 250);"></div>
+        <div style="flex: 1; height: 60px; background: oklch(0.55 0.01 250);"></div>
+        <div style="flex: 1; height: 60px; background: oklch(0.45 0.01 250);"></div>
+        <div style="flex: 1; height: 60px; background: oklch(0.35 0.01 250);"></div>
+        <div style="flex: 1; height: 60px; background: oklch(0.25 0.01 250);"></div>
+        <div style="flex: 1; height: 60px; background: oklch(0.15 0.01 250);"></div>
+    </div>
+    <div style="display: flex; margin-top: 8px;">
+        <div style="flex: 1; text-align: center; font-size: 11px; color: var(--gray-500);">50</div>
+        <div style="flex: 1; text-align: center; font-size: 11px; color: var(--gray-500);">100</div>
+        <div style="flex: 1; text-align: center; font-size: 11px; color: var(--gray-500);">200</div>
+        <div style="flex: 1; text-align: center; font-size: 11px; color: var(--gray-500);">300</div>
+        <div style="flex: 1; text-align: center; font-size: 11px; color: var(--gray-500);">400</div>
+        <div style="flex: 1; text-align: center; font-size: 11px; color: var(--gray-500);">500</div>
+        <div style="flex: 1; text-align: center; font-size: 11px; color: var(--gray-500);">600</div>
+        <div style="flex: 1; text-align: center; font-size: 11px; color: var(--gray-500);">700</div>
+        <div style="flex: 1; text-align: center; font-size: 11px; color: var(--gray-500);">800</div>
+        <div style="flex: 1; text-align: center; font-size: 11px; color: var(--gray-500);">900</div>
+    </div>
+</div>
+
+<!-- Typography -->
+<div class="section">
+    <h2 class="section-title">Typography Scale</h2>
+    <div style="display: flex; flex-direction: column; gap: 24px;">
+        <div style="display: flex; align-items: baseline; gap: 24px;">
+            <span style="width: 120px; font-size: 13px; color: var(--gray-500);">Large Title / 34px</span>
+            <span style="font-size: 34px; font-weight: 700; color: var(--gray-900);">Train Your Pup</span>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 24px;">
+            <span style="width: 120px; font-size: 13px; color: var(--gray-500);">Title 1 / 28px</span>
+            <span style="font-size: 28px; font-weight: 700; color: var(--gray-900);">Today's Training</span>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 24px;">
+            <span style="width: 120px; font-size: 13px; color: var(--gray-500);">Title 2 / 22px</span>
+            <span style="font-size: 22px; font-weight: 700; color: var(--gray-900);">Commands</span>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 24px;">
+            <span style="width: 120px; font-size: 13px; color: var(--gray-500);">Title 3 / 20px</span>
+            <span style="font-size: 20px; font-weight: 600; color: var(--gray-900);">Session Complete</span>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 24px;">
+            <span style="width: 120px; font-size: 13px; color: var(--gray-500);">Headline / 17px</span>
+            <span style="font-size: 17px; font-weight: 600; color: var(--gray-900);">Sit Command</span>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 24px;">
+            <span style="width: 120px; font-size: 13px; color: var(--gray-500);">Body / 17px</span>
+            <span style="font-size: 17px; font-weight: 400; color: var(--gray-900);">Train your dog with positive reinforcement techniques.</span>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 24px;">
+            <span style="width: 120px; font-size: 13px; color: var(--gray-500);">Subhead / 15px</span>
+            <span style="font-size: 15px; font-weight: 400; color: var(--gray-600);">8 months old - Golden Retriever</span>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 24px;">
+            <span style="width: 120px; font-size: 13px; color: var(--gray-500);">Footnote / 13px</span>
+            <span style="font-size: 13px; font-weight: 400; color: var(--gray-500);">Last trained 2 hours ago</span>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 24px;">
+            <span style="width: 120px; font-size: 13px; color: var(--gray-500);">Caption / 12px</span>
+            <span style="font-size: 12px; font-weight: 500; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px;">DUE TODAY</span>
+        </div>
+    </div>
+</div>
+
+<!-- Buttons -->
+<div class="section">
+    <h2 class="section-title">Buttons</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center;">
+        <!-- Primary Button -->
+        <button style="height: 50px; padding: 0 32px; background: oklch(0.55 0.15 165); color: white; font-size: 17px; font-weight: 600; border: none; border-radius: 25px; cursor: pointer; box-shadow: 0 4px 14px oklch(0.55 0.15 165 / 0.35);">
+            Start Training
+        </button>
+
+        <!-- Secondary Button -->
+        <button style="height: 50px; padding: 0 32px; background: oklch(0.55 0.15 165 / 0.1); color: oklch(0.55 0.15 165); font-size: 17px; font-weight: 600; border: none; border-radius: 25px; cursor: pointer;">
+            View Progress
+        </button>
+
+        <!-- Outline Button -->
+        <button style="height: 50px; padding: 0 32px; background: transparent; color: oklch(0.55 0.15 165); font-size: 17px; font-weight: 600; border: 2px solid oklch(0.55 0.15 165); border-radius: 25px; cursor: pointer;">
+            Skip for Now
+        </button>
+
+        <!-- Ghost Button -->
+        <button style="height: 50px; padding: 0 32px; background: transparent; color: oklch(0.55 0.01 250); font-size: 17px; font-weight: 600; border: none; cursor: pointer;">
+            Cancel
+        </button>
+
+        <!-- Icon Button -->
+        <button style="width: 50px; height: 50px; background: oklch(0.96 0.004 250); color: oklch(0.45 0.01 250); font-size: 24px; border: none; border-radius: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M5 12h14"/>
+            </svg>
+        </button>
+
+        <!-- Success Button -->
+        <button style="height: 50px; padding: 0 32px; background: oklch(0.65 0.18 145); color: white; font-size: 17px; font-weight: 600; border: none; border-radius: 25px; cursor: pointer; box-shadow: 0 4px 14px oklch(0.65 0.18 145 / 0.35);">
+            Mark as Success
+        </button>
+    </div>
+</div>
+
+<!-- Cards -->
+<div class="section">
+    <h2 class="section-title">Cards</h2>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+        <!-- Command Card -->
+        <div style="background: white; border-radius: 20px; padding: 20px; box-shadow: var(--shadow-md); border: 1px solid oklch(0.92 0.004 250);">
+            <div style="width: 56px; height: 56px; border-radius: 16px; background: oklch(0.55 0.15 165 / 0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="oklch(0.55 0.15 165)" stroke-width="2.5">
+                    <path d="M12 2v20M2 12h20"/>
+                </svg>
+            </div>
+            <h3 style="font-size: 17px; font-weight: 600; color: oklch(0.15 0.01 250); margin-bottom: 4px;">Sit</h3>
+            <p style="font-size: 13px; color: oklch(0.55 0.01 250); margin-bottom: 16px;">Basic obedience command</p>
+            <div style="height: 6px; background: oklch(0.92 0.004 250); border-radius: 3px; overflow: hidden;">
+                <div style="width: 75%; height: 100%; background: oklch(0.55 0.15 165); border-radius: 3px;"></div>
+            </div>
+            <p style="font-size: 12px; color: oklch(0.55 0.01 250); margin-top: 8px;">75% mastered</p>
+        </div>
+
+        <!-- Stat Card -->
+        <div style="background: linear-gradient(135deg, oklch(0.55 0.15 165) 0%, oklch(0.50 0.14 175) 100%); border-radius: 20px; padding: 20px; color: white;">
+            <div style="font-size: 13px; font-weight: 500; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Day Streak</div>
+            <div style="font-size: 48px; font-weight: 700; line-height: 1; margin-bottom: 8px;">12</div>
+            <div style="font-size: 15px; opacity: 0.9;">Keep it going!</div>
+        </div>
+
+        <!-- Achievement Card -->
+        <div style="background: white; border-radius: 20px; padding: 20px; box-shadow: var(--shadow-md); border: 1px solid oklch(0.92 0.004 250); display: flex; align-items: center; gap: 16px;">
+            <div style="width: 56px; height: 56px; border-radius: 16px; background: linear-gradient(135deg, oklch(0.75 0.14 55) 0%, oklch(0.70 0.16 45) 100%); display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                🏆
+            </div>
+            <div style="flex: 1;">
+                <h3 style="font-size: 17px; font-weight: 600; color: oklch(0.15 0.01 250); margin-bottom: 4px;">Week Warrior</h3>
+                <p style="font-size: 13px; color: oklch(0.55 0.01 250);">Trained 7 days in a row</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tab Bar -->
+<div class="section">
+    <h2 class="section-title">Tab Bar</h2>
+    <div style="width: 390px; margin: 0 auto;">
+        <div style="background: white; border-radius: 20px 20px 0 0; padding: 8px 0; padding-bottom: calc(8px + 34px); display: flex; justify-content: space-around; box-shadow: 0 -4px 20px rgba(0,0,0,0.08);">
+            <!-- Home - Active -->
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 16px; color: oklch(0.55 0.15 165);">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="oklch(0.55 0.15 165)" stroke="oklch(0.55 0.15 165)" stroke-width="1">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                </svg>
+                <span style="font-size: 10px; font-weight: 600;">Home</span>
+            </div>
+            <!-- Train -->
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 16px; color: oklch(0.55 0.01 250);">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                </svg>
+                <span style="font-size: 10px; font-weight: 500;">Train</span>
+            </div>
+            <!-- Commands -->
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 16px; color: oklch(0.55 0.01 250);">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7" rx="1"/>
+                    <rect x="14" y="3" width="7" height="7" rx="1"/>
+                    <rect x="3" y="14" width="7" height="7" rx="1"/>
+                    <rect x="14" y="14" width="7" height="7" rx="1"/>
+                </svg>
+                <span style="font-size: 10px; font-weight: 500;">Commands</span>
+            </div>
+            <!-- Progress -->
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 16px; color: oklch(0.55 0.01 250);">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 20V10M12 20V4M6 20v-6"/>
+                </svg>
+                <span style="font-size: 10px; font-weight: 500;">Progress</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Spacing & Grid -->
+<div class="section">
+    <h2 class="section-title">Spacing System (8pt Grid)</h2>
+    <div style="display: flex; gap: 16px; align-items: end; flex-wrap: wrap;">
+        <div style="text-align: center;">
+            <div style="width: 4px; height: 4px; background: oklch(0.55 0.15 165); border-radius: 2px;"></div>
+            <span style="font-size: 11px; color: var(--gray-500); margin-top: 8px; display: block;">4px</span>
+        </div>
+        <div style="text-align: center;">
+            <div style="width: 8px; height: 8px; background: oklch(0.55 0.15 165); border-radius: 2px;"></div>
+            <span style="font-size: 11px; color: var(--gray-500); margin-top: 8px; display: block;">8px</span>
+        </div>
+        <div style="text-align: center;">
+            <div style="width: 12px; height: 12px; background: oklch(0.55 0.15 165); border-radius: 2px;"></div>
+            <span style="font-size: 11px; color: var(--gray-500); margin-top: 8px; display: block;">12px</span>
+        </div>
+        <div style="text-align: center;">
+            <div style="width: 16px; height: 16px; background: oklch(0.55 0.15 165); border-radius: 2px;"></div>
+            <span style="font-size: 11px; color: var(--gray-500); margin-top: 8px; display: block;">16px</span>
+        </div>
+        <div style="text-align: center;">
+            <div style="width: 20px; height: 20px; background: oklch(0.55 0.15 165); border-radius: 2px;"></div>
+            <span style="font-size: 11px; color: var(--gray-500); margin-top: 8px; display: block;">20px</span>
+        </div>
+        <div style="text-align: center;">
+            <div style="width: 24px; height: 24px; background: oklch(0.55 0.15 165); border-radius: 2px;"></div>
+            <span style="font-size: 11px; color: var(--gray-500); margin-top: 8px; display: block;">24px</span>
+        </div>
+        <div style="text-align: center;">
+            <div style="width: 32px; height: 32px; background: oklch(0.55 0.15 165); border-radius: 2px;"></div>
+            <span style="font-size: 11px; color: var(--gray-500); margin-top: 8px; display: block;">32px</span>
+        </div>
+        <div style="text-align: center;">
+            <div style="width: 40px; height: 40px; background: oklch(0.55 0.15 165); border-radius: 2px;"></div>
+            <span style="font-size: 11px; color: var(--gray-500); margin-top: 8px; display: block;">40px</span>
+        </div>
+        <div style="text-align: center;">
+            <div style="width: 48px; height: 48px; background: oklch(0.55 0.15 165); border-radius: 2px;"></div>
+            <span style="font-size: 11px; color: var(--gray-500); margin-top: 8px; display: block;">48px</span>
+        </div>
+    </div>
+</div>
+
+<!-- Border Radius -->
+<div class="section">
+    <h2 class="section-title">Border Radius</h2>
+    <div style="display: flex; gap: 24px; align-items: end;">
+        <div style="text-align: center;">
+            <div style="width: 60px; height: 60px; background: oklch(0.55 0.15 165); border-radius: 8px;"></div>
+            <span style="font-size: 11px; color: var(--gray-500); margin-top: 8px; display: block;">8px</span>
+        </div>
+        <div style="text-align: center;">
+            <div style="width: 60px; height: 60px; background: oklch(0.55 0.15 165); border-radius: 12px;"></div>
+            <span style="font-size: 11px; color: var(--gray-500); margin-top: 8px; display: block;">12px</span>
+        </div>
+        <div style="text-align: center;">
+            <div style="width: 60px; height: 60px; background: oklch(0.55 0.15 165); border-radius: 16px;"></div>
+            <span style="font-size: 11px; color: var(--gray-500); margin-top: 8px; display: block;">16px</span>
+        </div>
+        <div style="text-align: center;">
+            <div style="width: 60px; height: 60px; background: oklch(0.55 0.15 165); border-radius: 20px;"></div>
+            <span style="font-size: 11px; color: var(--gray-500); margin-top: 8px; display: block;">20px</span>
+        </div>
+        <div style="text-align: center;">
+            <div style="width: 60px; height: 60px; background: oklch(0.55 0.15 165); border-radius: 24px;"></div>
+            <span style="font-size: 11px; color: var(--gray-500); margin-top: 8px; display: block;">24px</span>
+        </div>
+        <div style="text-align: center;">
+            <div style="width: 120px; height: 44px; background: oklch(0.55 0.15 165); border-radius: 9999px;"></div>
+            <span style="font-size: 11px; color: var(--gray-500); margin-top: 8px; display: block;">Full (capsule)</span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

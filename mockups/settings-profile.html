@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings & Profile</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background: oklch(0.96 0.004 250);
+            margin: 0;
+            padding: 0;
+            width: 390px;
+            height: 844px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .status-bar {
+            height: 54px;
+            padding: 14px 24px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            background: white;
+        }
+
+        .status-time { font-size: 15px; font-weight: 600; color: oklch(0.15 0.01 250); }
+
+        .home-indicator {
+            position: fixed;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 134px;
+            height: 5px;
+            background: oklch(0.15 0.01 250 / 0.3);
+            border-radius: 100px;
+            z-index: 100;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 0 20px 24px;
+        }
+
+        .header h1 {
+            font-size: 34px;
+            font-weight: 700;
+            color: oklch(0.15 0.01 250);
+        }
+
+        /* Content */
+        .content {
+            padding: 20px;
+            overflow-y: auto;
+            height: calc(100% - 54px - 70px);
+            padding-bottom: 40px;
+        }
+
+        /* Dog profile card */
+        .profile-card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 12px oklch(0.15 0.01 250 / 0.06);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, oklch(0.55 0.15 165) 0%, oklch(0.50 0.14 175) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: 0 4px 16px oklch(0.55 0.15 165 / 0.3);
+            position: relative;
+        }
+
+        .edit-avatar-btn {
+            position: absolute;
+            bottom: -4px;
+            right: -4px;
+            width: 28px;
+            height: 28px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px oklch(0.15 0.01 250 / 0.15);
+        }
+
+        .profile-info h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: oklch(0.15 0.01 250);
+            margin-bottom: 4px;
+        }
+
+        .profile-info p {
+            font-size: 15px;
+            color: oklch(0.50 0.01 250);
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+        }
+
+        .profile-stat {
+            text-align: center;
+            padding: 14px;
+            background: oklch(0.96 0.004 250);
+            border-radius: 14px;
+        }
+
+        .profile-stat-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: oklch(0.55 0.15 165);
+        }
+
+        .profile-stat-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: oklch(0.50 0.01 250);
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        /* Settings section */
+        .settings-section {
+            margin-bottom: 24px;
+        }
+
+        .section-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: oklch(0.50 0.01 250);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            padding-left: 4px;
+        }
+
+        .settings-group {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px oklch(0.15 0.01 250 / 0.05);
+        }
+
+        .settings-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid oklch(0.94 0.004 250);
+        }
+
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+
+        .settings-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 14px;
+            font-size: 18px;
+        }
+
+        .settings-icon.teal { background: oklch(0.55 0.15 165 / 0.12); }
+        .settings-icon.amber { background: oklch(0.75 0.14 55 / 0.15); }
+        .settings-icon.green { background: oklch(0.70 0.18 145 / 0.12); }
+        .settings-icon.purple { background: oklch(0.60 0.15 300 / 0.12); }
+        .settings-icon.red { background: oklch(0.60 0.20 25 / 0.12); }
+        .settings-icon.gray { background: oklch(0.90 0.004 250); }
+
+        .settings-content {
+            flex: 1;
+        }
+
+        .settings-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: oklch(0.15 0.01 250);
+        }
+
+        .settings-subtitle {
+            font-size: 13px;
+            color: oklch(0.55 0.01 250);
+            margin-top: 2px;
+        }
+
+        .settings-value {
+            font-size: 15px;
+            color: oklch(0.55 0.01 250);
+            margin-right: 8px;
+        }
+
+        .settings-chevron {
+            color: oklch(0.75 0.01 250);
+        }
+
+        /* Toggle switch */
+        .toggle-switch {
+            width: 51px;
+            height: 31px;
+            background: oklch(0.55 0.15 165);
+            border-radius: 16px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .toggle-switch.off {
+            background: oklch(0.88 0.004 250);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 27px;
+            height: 27px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 22px;
+            box-shadow: 0 2px 4px oklch(0.15 0.01 250 / 0.2);
+            transition: left 0.2s;
+        }
+
+        .toggle-switch.off::after {
+            left: 2px;
+        }
+
+        /* Version info */
+        .version-info {
+            text-align: center;
+            padding: 20px;
+            color: oklch(0.60 0.01 250);
+            font-size: 13px;
+        }
+
+        .version-info span {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        /* Pro badge */
+        .pro-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, oklch(0.75 0.14 55) 0%, oklch(0.70 0.16 45) 100%);
+            border-radius: 8px;
+            margin-left: auto;
+        }
+
+        .pro-badge span {
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div style="display: flex; align-items: center; gap: 4px;">
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="oklch(0.15 0.01 250)">
+                <path d="M1 4h1v4H1V4zm3 1h1v2H4V5zm3-2h1v6H7V3zm3 2h1v2h-1V5zm3-1h1v4h-1V4zm3-2h1v8h-1V2z"/>
+            </svg>
+            <svg width="17" height="12" viewBox="0 0 17 12" fill="oklch(0.15 0.01 250)">
+                <path d="M1 3.5a.5.5 0 01.5-.5h14a.5.5 0 01.5.5v5a.5.5 0 01-.5.5h-14a.5.5 0 01-.5-.5v-5z"/>
+                <path d="M16 5v2a1 1 0 001-1v0a1 1 0 00-1-1z"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>Settings</h1>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <!-- Dog Profile Card -->
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-avatar" style="padding: 0; overflow: hidden;">
+                    <img src="https://img.theapi.app/temp/3ab9c526-698d-456b-9f55-500cd567eea5.png"
+                         alt="Max" width="80" height="80" style="object-fit: cover;">
+                    <div class="edit-avatar-btn">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="oklch(0.55 0.15 165)" stroke-width="2.5">
+                            <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/>
+                            <circle cx="12" cy="13" r="4"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <h2>Max</h2>
+                    <p>Golden Retriever • 8 months</p>
+                </div>
+            </div>
+            <div class="profile-stats">
+                <div class="profile-stat">
+                    <div class="profile-stat-value">12</div>
+                    <p class="profile-stat-label">Day Streak</p>
+                </div>
+                <div class="profile-stat">
+                    <div class="profile-stat-value">48</div>
+                    <p class="profile-stat-label">Sessions</p>
+                </div>
+                <div class="profile-stat">
+                    <div class="profile-stat-value">6</div>
+                    <p class="profile-stat-label">Commands</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Training Settings -->
+        <div class="settings-section">
+            <p class="section-label">Training</p>
+            <div class="settings-group">
+                <div class="settings-item">
+                    <div class="settings-icon teal">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.55 0.15 165)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                        </svg>
+                    </div>
+                    <div class="settings-content">
+                        <div class="settings-title">Training Reminders</div>
+                        <div class="settings-subtitle">Get notified when reviews are due</div>
+                    </div>
+                    <div class="toggle-switch"></div>
+                </div>
+                <div class="settings-item">
+                    <div class="settings-icon amber">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.70 0.16 55)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                    </div>
+                    <div class="settings-content">
+                        <div class="settings-title">Reminder Time</div>
+                    </div>
+                    <span class="settings-value">9:00 AM</span>
+                    <svg class="settings-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                </div>
+                <div class="settings-item">
+                    <div class="settings-icon green">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.55 0.18 145)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="9"/>
+                            <circle cx="12" cy="12" r="4"/>
+                        </svg>
+                    </div>
+                    <div class="settings-content">
+                        <div class="settings-title">Daily Goal</div>
+                    </div>
+                    <span class="settings-value">3 sessions</span>
+                    <svg class="settings-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clicker Settings -->
+        <div class="settings-section">
+            <p class="section-label">Clicker</p>
+            <div class="settings-group">
+                <div class="settings-item">
+                    <div class="settings-icon purple">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.60 0.15 300)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                        </svg>
+                    </div>
+                    <div class="settings-content">
+                        <div class="settings-title">Clicker Sound</div>
+                    </div>
+                    <span class="settings-value">Classic</span>
+                    <svg class="settings-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                </div>
+                <div class="settings-item">
+                    <div class="settings-icon purple">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.60 0.15 300)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                            <line x1="12" y1="18" x2="12.01" y2="18"/>
+                        </svg>
+                    </div>
+                    <div class="settings-content">
+                        <div class="settings-title">Haptic Feedback</div>
+                    </div>
+                    <div class="toggle-switch"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data & Privacy -->
+        <div class="settings-section">
+            <p class="section-label">Data & Privacy</p>
+            <div class="settings-group">
+                <div class="settings-item">
+                    <div class="settings-icon gray">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.50 0.01 250)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                    </div>
+                    <div class="settings-content">
+                        <div class="settings-title">Export Training Data</div>
+                    </div>
+                    <svg class="settings-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                </div>
+                <div class="settings-item">
+                    <div class="settings-icon gray">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.50 0.01 250)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="23 4 23 10 17 10"/>
+                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                        </svg>
+                    </div>
+                    <div class="settings-content">
+                        <div class="settings-title">Restore Purchase</div>
+                    </div>
+                    <svg class="settings-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                </div>
+                <div class="settings-item">
+                    <div class="settings-icon red">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.55 0.20 25)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"/>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                    </div>
+                    <div class="settings-content">
+                        <div class="settings-title" style="color: oklch(0.55 0.20 25);">Reset All Progress</div>
+                    </div>
+                    <svg class="settings-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support -->
+        <div class="settings-section">
+            <p class="section-label">Support</p>
+            <div class="settings-group">
+                <div class="settings-item">
+                    <div class="settings-icon gray">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.50 0.01 250)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                        </svg>
+                    </div>
+                    <div class="settings-content">
+                        <div class="settings-title">Help & FAQ</div>
+                    </div>
+                    <svg class="settings-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                </div>
+                <div class="settings-item">
+                    <div class="settings-icon gray">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.50 0.01 250)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                    </div>
+                    <div class="settings-content">
+                        <div class="settings-title">Contact Us</div>
+                    </div>
+                    <svg class="settings-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                </div>
+                <div class="settings-item">
+                    <div class="settings-icon gray">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.50 0.01 250)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                    </div>
+                    <div class="settings-content">
+                        <div class="settings-title">Rate Puppy PRO</div>
+                    </div>
+                    <svg class="settings-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Version Info -->
+        <div class="version-info">
+            <span>Puppy PRO v1.0.0</span>
+            <span>Made with <svg width="12" height="12" viewBox="0 0 24 24" fill="oklch(0.60 0.22 25)" style="display: inline; vertical-align: -1px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> for dog lovers</span>
+        </div>
+    </div>
+
+    <!-- Home Indicator -->
+    <div class="home-indicator"></div>
+</body>
+</html>

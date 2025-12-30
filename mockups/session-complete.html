@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Complete</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background: linear-gradient(180deg, oklch(0.55 0.15 165) 0%, oklch(0.45 0.14 175) 100%);
+            margin: 0;
+            padding: 0;
+            width: 390px;
+            height: 844px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .status-bar {
+            height: 54px;
+            padding: 14px 24px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .status-time { font-size: 15px; font-weight: 600; color: white; }
+
+        .home-indicator {
+            position: fixed;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 134px;
+            height: 5px;
+            background: white;
+            opacity: 0.3;
+            border-radius: 100px;
+            z-index: 100;
+        }
+
+        /* Confetti particles (decorative) */
+        .confetti {
+            position: absolute;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .confetti-particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            animation: fall 3s ease-out infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(400px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Success content */
+        .success-content {
+            padding: 40px 24px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .success-badge {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 24px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 40px oklch(0.15 0.01 250 / 0.2);
+            animation: bounce 0.6s ease-out;
+        }
+
+        @keyframes bounce {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .success-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .success-subtitle {
+            font-size: 17px;
+            color: white;
+            opacity: 0.85;
+        }
+
+        /* Stats card */
+        .stats-card {
+            margin: 32px 24px;
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 8px 40px oklch(0.15 0.01 250 / 0.15);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: oklch(0.55 0.15 165);
+            line-height: 1;
+        }
+
+        .stat-value.success { color: oklch(0.65 0.18 145); }
+        .stat-value.time { color: oklch(0.15 0.01 250); }
+
+        .stat-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: oklch(0.50 0.01 250);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-top: 6px;
+        }
+
+        .divider {
+            height: 1px;
+            background: oklch(0.94 0.004 250);
+            margin-bottom: 20px;
+        }
+
+        /* Command progress */
+        .command-progress {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .command-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .command-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .command-icon.success { background: oklch(0.65 0.18 145 / 0.12); }
+        .command-icon.partial { background: oklch(0.75 0.14 55 / 0.15); }
+
+        .command-info {
+            flex: 1;
+        }
+
+        .command-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: oklch(0.15 0.01 250);
+        }
+
+        .command-result {
+            font-size: 12px;
+            color: oklch(0.50 0.01 250);
+            margin-top: 2px;
+        }
+
+        .command-badge {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .command-badge.up {
+            background: oklch(0.65 0.18 145 / 0.12);
+            color: oklch(0.55 0.18 145);
+        }
+
+        .command-badge.new {
+            background: oklch(0.55 0.15 165 / 0.12);
+            color: oklch(0.55 0.15 165);
+        }
+
+        /* Spaced repetition info */
+        .sr-info {
+            margin: 24px;
+            padding: 18px 20px;
+            background: white;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 4px 20px oklch(0.15 0.01 250 / 0.1);
+        }
+
+        .sr-icon {
+            width: 44px;
+            height: 44px;
+            background: oklch(0.55 0.15 165 / 0.12);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .sr-text {
+            flex: 1;
+        }
+
+        .sr-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: oklch(0.15 0.01 250);
+        }
+
+        .sr-desc {
+            font-size: 12px;
+            color: oklch(0.50 0.01 250);
+            margin-top: 2px;
+        }
+
+        /* Streak update */
+        .streak-update {
+            margin: 0 24px;
+            padding: 18px 20px;
+            background: linear-gradient(135deg, oklch(0.75 0.14 55 / 0.15) 0%, oklch(0.75 0.14 55 / 0.08) 100%);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .streak-icon {
+            font-size: 32px;
+        }
+
+        .streak-text {
+            flex: 1;
+        }
+
+        .streak-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: oklch(0.15 0.01 250);
+        }
+
+        .streak-desc {
+            font-size: 13px;
+            color: oklch(0.50 0.01 250);
+            margin-top: 2px;
+        }
+
+        /* Bottom buttons */
+        .bottom-area {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 24px 44px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .primary-btn {
+            width: 100%;
+            height: 56px;
+            background: white;
+            color: oklch(0.55 0.15 165);
+            font-size: 17px;
+            font-weight: 600;
+            border: none;
+            border-radius: 28px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px oklch(0.15 0.01 250 / 0.15);
+        }
+
+        .secondary-btn {
+            width: 100%;
+            height: 48px;
+            background: transparent;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div style="display: flex; align-items: center; gap: 4px;">
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="white">
+                <path d="M1 4h1v4H1V4zm3 1h1v2H4V5zm3-2h1v6H7V3zm3 2h1v2h-1V5zm3-1h1v4h-1V4zm3-2h1v8h-1V2z"/>
+            </svg>
+            <svg width="17" height="12" viewBox="0 0 17 12" fill="white">
+                <path d="M1 3.5a.5.5 0 01.5-.5h14a.5.5 0 01.5.5v5a.5.5 0 01-.5.5h-14a.5.5 0 01-.5-.5v-5z"/>
+                <path d="M16 5v2a1 1 0 001-1v0a1 1 0 00-1-1z"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Confetti (decorative) -->
+    <div class="confetti">
+        <div class="confetti-particle" style="left: 10%; background: oklch(0.75 0.14 55); animation-delay: 0s;"></div>
+        <div class="confetti-particle" style="left: 30%; background: oklch(0.70 0.18 145); animation-delay: 0.3s;"></div>
+        <div class="confetti-particle" style="left: 50%; background: white; animation-delay: 0.6s;"></div>
+        <div class="confetti-particle" style="left: 70%; background: oklch(0.75 0.14 55); animation-delay: 0.9s;"></div>
+        <div class="confetti-particle" style="left: 90%; background: oklch(0.70 0.18 145); animation-delay: 1.2s;"></div>
+    </div>
+
+    <!-- Success Content -->
+    <div class="success-content">
+        <div class="success-badge">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="oklch(0.65 0.18 145)" stroke-width="3">
+                <path d="M20 6L9 17l-5-5"/>
+            </svg>
+        </div>
+        <h1 class="success-title">Great Session!</h1>
+        <p class="success-subtitle">Max is making progress</p>
+    </div>
+
+    <!-- Stats Card -->
+    <div class="stats-card">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-value success">87%</div>
+                <p class="stat-label">Success Rate</p>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">24</div>
+                <p class="stat-label">Reps Total</p>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value time">5:32</div>
+                <p class="stat-label">Duration</p>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="command-progress">
+            <div class="command-item">
+                <div class="command-icon success">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="oklch(0.55 0.18 145)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M8 3v10"/><path d="M12 3v10"/><path d="M16 3v10"/>
+                        <path d="M19 7v6"/><path d="M5 7v6"/>
+                        <rect x="4" y="13" width="16" height="6" rx="2"/>
+                    </svg>
+                </div>
+                <div class="command-info">
+                    <div class="command-name">Stay</div>
+                    <div class="command-result">9/10 successful</div>
+                </div>
+                <span class="command-badge up">+8%</span>
+            </div>
+            <div class="command-item">
+                <div class="command-icon success">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="oklch(0.55 0.18 145)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M8 6v8"/><path d="M12 4v10"/>
+                        <path d="M16 6c0-2-1-3-2-2s-1 3-1 5v5"/>
+                        <rect x="5" y="14" width="12" height="5" rx="2"/>
+                        <path d="M19 10l2-2M21 14h2M19 18l2 2" opacity="0.5"/>
+                    </svg>
+                </div>
+                <div class="command-info">
+                    <div class="command-name">Come</div>
+                    <div class="command-result">7/8 successful</div>
+                </div>
+                <span class="command-badge up">+5%</span>
+            </div>
+            <div class="command-item">
+                <div class="command-icon partial">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="oklch(0.65 0.16 55)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 4v12"/><path d="M7 12l5 5 5-5"/><path d="M6 21h12"/>
+                    </svg>
+                </div>
+                <div class="command-info">
+                    <div class="command-name">Down</div>
+                    <div class="command-result">5/6 successful - new!</div>
+                </div>
+                <span class="command-badge new">Started</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Spaced Repetition Info -->
+    <div class="sr-info">
+        <div class="sr-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="oklch(0.55 0.15 165)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+        </div>
+        <div class="sr-text">
+            <div class="sr-title">Next Review: Stay</div>
+            <div class="sr-desc">Scheduled for tomorrow at optimal time</div>
+        </div>
+    </div>
+
+    <!-- Streak Update -->
+    <div class="streak-update">
+        <span class="streak-icon" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+            <img src="https://img.theapi.app/temp/abb1d3e5-e303-4792-a65c-a638746940c2.png"
+                 alt="Fire streak" width="48" height="48" style="border-radius: 12px;">
+        </span>
+        <div class="streak-text">
+            <div class="streak-title">12 Day Streak!</div>
+            <div class="streak-desc">Keep it going - train again tomorrow</div>
+        </div>
+    </div>
+
+    <!-- Bottom Buttons -->
+    <div class="bottom-area">
+        <button class="primary-btn">Done</button>
+        <button class="secondary-btn">Train Another Session</button>
+    </div>
+
+    <!-- Home Indicator -->
+    <div class="home-indicator"></div>
+</body>
+</html>

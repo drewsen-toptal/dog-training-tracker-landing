@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding - Ready</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background: oklch(0.985 0.002 250);
+            margin: 0;
+            padding: 0;
+            width: 390px;
+            height: 844px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .status-bar {
+            height: 54px;
+            padding: 14px 24px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .status-time { font-size: 15px; font-weight: 600; color: oklch(0.15 0.01 250); }
+
+        .home-indicator {
+            position: fixed;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 134px;
+            height: 5px;
+            background: oklch(0.15 0.01 250 / 0.3);
+            border-radius: 100px;
+            z-index: 100;
+        }
+
+        .progress-container {
+            padding: 0 24px;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: oklch(0.92 0.004 250);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 100%;
+            height: 100%;
+            background: oklch(0.65 0.18 145);
+            border-radius: 2px;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 13px;
+            color: oklch(0.65 0.18 145);
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        /* Success header */
+        .success-header {
+            padding: 32px 24px;
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, oklch(0.65 0.18 145) 0%, oklch(0.60 0.16 155) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 32px oklch(0.65 0.18 145 / 0.35);
+        }
+
+        .success-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: oklch(0.15 0.01 250);
+            margin-bottom: 8px;
+        }
+
+        .success-subtitle {
+            font-size: 17px;
+            color: oklch(0.50 0.01 250);
+            line-height: 1.4;
+        }
+
+        /* Plan preview card */
+        .plan-card {
+            margin: 0 24px;
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 24px oklch(0.15 0.01 250 / 0.08);
+        }
+
+        .plan-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid oklch(0.94 0.004 250);
+        }
+
+        .dog-avatar {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, oklch(0.55 0.15 165) 0%, oklch(0.50 0.14 175) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .dog-info {
+            flex: 1;
+        }
+
+        .dog-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: oklch(0.15 0.01 250);
+        }
+
+        .dog-details {
+            font-size: 14px;
+            color: oklch(0.50 0.01 250);
+            margin-top: 2px;
+        }
+
+        /* Plan stats */
+        .plan-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 16px 8px;
+            background: oklch(0.96 0.004 250);
+            border-radius: 14px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: oklch(0.55 0.15 165);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: oklch(0.50 0.01 250);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-top: 6px;
+        }
+
+        /* Starting commands */
+        .commands-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: oklch(0.50 0.01 250);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .command-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .command-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: oklch(0.96 0.004 250);
+            border-radius: 12px;
+        }
+
+        .command-icon {
+            width: 36px;
+            height: 36px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .command-info {
+            flex: 1;
+        }
+
+        .command-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: oklch(0.20 0.01 250);
+        }
+
+        .command-time {
+            font-size: 12px;
+            color: oklch(0.55 0.01 250);
+        }
+
+        .command-badge {
+            padding: 4px 10px;
+            background: oklch(0.55 0.15 165 / 0.1);
+            color: oklch(0.55 0.15 165);
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        /* Science badge */
+        .science-badge {
+            margin: 24px;
+            padding: 16px 20px;
+            background: linear-gradient(135deg, oklch(0.55 0.15 165 / 0.08) 0%, oklch(0.75 0.14 55 / 0.08) 100%);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .science-icon {
+            width: 44px;
+            height: 44px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 2px 8px oklch(0.15 0.01 250 / 0.08);
+        }
+
+        .science-text {
+            flex: 1;
+        }
+
+        .science-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: oklch(0.25 0.01 250);
+        }
+
+        .science-desc {
+            font-size: 12px;
+            color: oklch(0.50 0.01 250);
+            margin-top: 2px;
+        }
+
+        /* Bottom CTA */
+        .bottom-area {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 24px 44px;
+            background: linear-gradient(180deg, oklch(0.985 0.002 250 / 0) 0%, oklch(0.985 0.002 250) 30%);
+        }
+
+        .cta-button {
+            width: 100%;
+            height: 56px;
+            background: linear-gradient(135deg, oklch(0.55 0.15 165) 0%, oklch(0.50 0.14 175) 100%);
+            color: white;
+            font-size: 17px;
+            font-weight: 600;
+            border: none;
+            border-radius: 28px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px oklch(0.55 0.15 165 / 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div style="display: flex; align-items: center; gap: 4px;">
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="oklch(0.15 0.01 250)">
+                <path d="M1 4h1v4H1V4zm3 1h1v2H4V5zm3-2h1v6H7V3zm3 2h1v2h-1V5zm3-1h1v4h-1V4zm3-2h1v8h-1V2z"/>
+            </svg>
+            <svg width="17" height="12" viewBox="0 0 17 12" fill="oklch(0.15 0.01 250)">
+                <path d="M1 3.5a.5.5 0 01.5-.5h14a.5.5 0 01.5.5v5a.5.5 0 01-.5.5h-14a.5.5 0 01-.5-.5v-5z"/>
+                <path d="M16 5v2a1 1 0 001-1v0a1 1 0 00-1-1z"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        <p class="progress-text">All set!</p>
+    </div>
+
+    <!-- Success Header -->
+    <div class="success-header">
+        <div class="success-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 6L9 17l-5-5"/>
+            </svg>
+        </div>
+        <h1 class="success-title">Max's plan is ready!</h1>
+        <p class="success-subtitle">Personalized for a young Golden Retriever</p>
+    </div>
+
+    <!-- Plan Card -->
+    <div class="plan-card">
+        <div class="plan-header">
+            <div class="dog-avatar" style="padding: 0; overflow: hidden;">
+                <img src="https://img.theapi.app/temp/3ab9c526-698d-456b-9f55-500cd567eea5.png"
+                     alt="Max" width="56" height="56" style="object-fit: cover;">
+            </div>
+            <div class="dog-info">
+                <div class="dog-name">Max</div>
+                <div class="dog-details">Golden Retriever • 6-18 months</div>
+            </div>
+        </div>
+
+        <div class="plan-stats">
+            <div class="stat-item">
+                <div class="stat-value">3</div>
+                <div class="stat-label">Goals</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">12</div>
+                <div class="stat-label">Commands</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">5</div>
+                <div class="stat-label">Min/day</div>
+            </div>
+        </div>
+
+        <p class="commands-label">Starting with</p>
+        <div class="command-list">
+            <div class="command-item">
+                <div class="command-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.55 0.15 165)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3v9"/><path d="M8 8l4 4 4-4"/>
+                        <circle cx="12" cy="17" r="3"/>
+                    </svg>
+                </div>
+                <div class="command-info">
+                    <div class="command-name">Sit</div>
+                    <div class="command-time">Foundation command</div>
+                </div>
+                <span class="command-badge">Easy</span>
+            </div>
+            <div class="command-item">
+                <div class="command-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.55 0.15 165)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M8 3v10"/><path d="M12 3v10"/><path d="M16 3v10"/>
+                        <path d="M19 7v6"/><path d="M5 7v6"/>
+                        <rect x="4" y="13" width="16" height="6" rx="2"/>
+                    </svg>
+                </div>
+                <div class="command-info">
+                    <div class="command-name">Stay</div>
+                    <div class="command-time">Builds patience</div>
+                </div>
+                <span class="command-badge">Easy</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Science Badge -->
+    <div class="science-badge">
+        <div class="science-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="oklch(0.55 0.15 165)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+        </div>
+        <div class="science-text">
+            <div class="science-title">Powered by Spaced Repetition</div>
+            <div class="science-desc">We'll remind you at the optimal time for Max to remember</div>
+        </div>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="bottom-area">
+        <button class="cta-button">
+            Start Training Max
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Home Indicator -->
+    <div class="home-indicator"></div>
+</body>
+</html>

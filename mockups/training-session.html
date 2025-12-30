@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Session</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background: oklch(0.15 0.01 250);
+            margin: 0;
+            padding: 0;
+            width: 390px;
+            height: 844px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .status-bar {
+            height: 54px;
+            padding: 14px 24px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .status-time { font-size: 15px; font-weight: 600; color: white; }
+
+        .home-indicator {
+            position: fixed;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 134px;
+            height: 5px;
+            background: white;
+            opacity: 0.3;
+            border-radius: 100px;
+            z-index: 100;
+        }
+
+        /* Header */
+        .header {
+            padding: 0 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .close-btn {
+            width: 36px;
+            height: 36px;
+            background: white;
+            opacity: 0.15;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .session-info {
+            text-align: center;
+        }
+
+        .session-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .session-command {
+            font-size: 22px;
+            font-weight: 700;
+            color: white;
+            margin-top: 4px;
+        }
+
+        .timer-badge {
+            padding: 8px 14px;
+            background: oklch(1 0 0 / 0.15);
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+        }
+
+        /* Main training area */
+        .training-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Command display */
+        .command-display {
+            background: linear-gradient(180deg, oklch(0.20 0.01 250) 0%, oklch(0.15 0.01 250) 100%);
+            border-radius: 28px;
+            padding: 32px;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .command-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 200px;
+            background: oklch(0.55 0.15 165);
+            opacity: 0.08;
+            border-radius: 50%;
+            filter: blur(60px);
+        }
+
+        .command-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, oklch(0.55 0.15 165) 0%, oklch(0.50 0.14 175) 100%);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: 0 8px 32px oklch(0.55 0.15 165 / 0.4);
+            position: relative;
+            z-index: 1;
+        }
+
+        .command-name {
+            font-size: 36px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .command-hint {
+            font-size: 16px;
+            color: white;
+            opacity: 0.6;
+            line-height: 1.5;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Rep counter */
+        .rep-counter {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .rep-item {
+            text-align: center;
+        }
+
+        .rep-value {
+            font-size: 40px;
+            font-weight: 700;
+            color: white;
+            line-height: 1;
+        }
+
+        .rep-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+            opacity: 0.5;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 6px;
+        }
+
+        .rep-divider {
+            width: 1px;
+            height: 48px;
+            background: white;
+            opacity: 0.15;
+        }
+
+        /* Clicker button */
+        .clicker-container {
+            position: relative;
+            margin-bottom: 32px;
+        }
+
+        .clicker-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;
+            height: 180px;
+            border: 2px solid oklch(0.55 0.15 165 / 0.3);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.2; }
+        }
+
+        .clicker-btn {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, oklch(0.55 0.15 165) 0%, oklch(0.48 0.14 175) 100%);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 8px 40px oklch(0.55 0.15 165 / 0.5), 0 0 0 6px oklch(0.55 0.15 165 / 0.2);
+            transition: transform 0.1s, box-shadow 0.1s;
+            position: relative;
+            z-index: 2;
+        }
+
+        .clicker-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 4px 20px oklch(0.55 0.15 165 / 0.5), 0 0 0 4px oklch(0.55 0.15 165 / 0.3);
+        }
+
+        .clicker-icon {
+            width: 48px;
+            height: 48px;
+        }
+
+        .clicker-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Response buttons */
+        .response-buttons {
+            display: flex;
+            gap: 16px;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .response-btn {
+            flex: 1;
+            height: 64px;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: transform 0.15s;
+        }
+
+        .response-btn:active {
+            transform: scale(0.97);
+        }
+
+        .response-btn.success {
+            background: oklch(0.65 0.18 145);
+            color: white;
+            box-shadow: 0 4px 20px oklch(0.65 0.18 145 / 0.4);
+        }
+
+        .response-btn.fail {
+            background: oklch(0.25 0.01 250);
+            color: white;
+            opacity: 0.9;
+        }
+
+        /* Progress dots */
+        .progress-dots {
+            position: fixed;
+            bottom: 110px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+            opacity: 0.3;
+        }
+
+        .progress-dot.completed {
+            background: oklch(0.65 0.18 145);
+            opacity: 1;
+        }
+
+        .progress-dot.current {
+            background: oklch(0.55 0.15 165);
+            opacity: 1;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        /* Skip button */
+        .skip-btn {
+            position: fixed;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: transparent;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            opacity: 0.5;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div style="display: flex; align-items: center; gap: 4px;">
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="white">
+                <path d="M1 4h1v4H1V4zm3 1h1v2H4V5zm3-2h1v6H7V3zm3 2h1v2h-1V5zm3-1h1v4h-1V4zm3-2h1v8h-1V2z"/>
+            </svg>
+            <svg width="17" height="12" viewBox="0 0 17 12" fill="white">
+                <path d="M1 3.5a.5.5 0 01.5-.5h14a.5.5 0 01.5.5v5a.5.5 0 01-.5.5h-14a.5.5 0 01-.5-.5v-5z"/>
+                <path d="M16 5v2a1 1 0 001-1v0a1 1 0 00-1-1z"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <button class="close-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+                <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+        </button>
+        <div class="session-info">
+            <p class="session-label">Training Session</p>
+            <h1 class="session-command">Stay</h1>
+        </div>
+        <div class="timer-badge" style="background: white; color: oklch(0.15 0.01 250); opacity: 1;">
+            <span style="font-variant-numeric: tabular-nums;">2:34</span>
+        </div>
+    </div>
+
+    <!-- Training Area -->
+    <div class="training-area">
+        <!-- Command Display -->
+        <div class="command-display">
+            <div class="command-icon" style="background: none; width: auto; height: auto; box-shadow: none;">
+                <img src="https://img.theapi.app/temp/51406e68-ca3b-4619-a261-66ecda35dff1.png"
+                     alt="Stay command" width="100" height="100"
+                     style="border-radius: 24px; box-shadow: 0 8px 32px oklch(0.55 0.15 165 / 0.3);">
+            </div>
+            <h2 class="command-name">STAY</h2>
+            <p class="command-hint">Hold hand up, palm facing dog.<br>Say "Stay" firmly, then step back.</p>
+        </div>
+
+        <!-- Rep Counter -->
+        <div class="rep-counter">
+            <div class="rep-item">
+                <div class="rep-value" style="color: oklch(0.65 0.18 145);">7</div>
+                <p class="rep-label">Success</p>
+            </div>
+            <div class="rep-divider"></div>
+            <div class="rep-item">
+                <div class="rep-value" style="color: oklch(0.60 0.22 25);">2</div>
+                <p class="rep-label">Needs Work</p>
+            </div>
+            <div class="rep-divider"></div>
+            <div class="rep-item">
+                <div class="rep-value">10</div>
+                <p class="rep-label">Target</p>
+            </div>
+        </div>
+
+        <!-- Clicker -->
+        <div class="clicker-container">
+            <div class="clicker-ring"></div>
+            <button class="clicker-btn">
+                <svg class="clicker-icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                </svg>
+                <span class="clicker-text">Click</span>
+            </button>
+        </div>
+
+        <!-- Response Buttons -->
+        <div class="response-buttons">
+            <button class="response-btn fail">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+                Needs Work
+            </button>
+            <button class="response-btn success">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M20 6L9 17l-5-5"/>
+                </svg>
+                Success!
+            </button>
+        </div>
+    </div>
+
+    <!-- Progress Dots -->
+    <div class="progress-dots">
+        <div class="progress-dot completed"></div>
+        <div class="progress-dot completed"></div>
+        <div class="progress-dot current"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+    </div>
+
+    <!-- Skip Button -->
+    <button class="skip-btn">Skip this command</button>
+
+    <!-- Home Indicator -->
+    <div class="home-indicator"></div>
+</body>
+</html>
