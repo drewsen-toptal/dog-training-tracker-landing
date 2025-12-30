@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "cupertino": {
+      "type": "stdio",
+      "command": "/Users/drew.sen/.local/bin/cupertino",
+      "args": ["serve"]
+    }
+  }
+}
