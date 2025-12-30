@@ -1,0 +1,1386 @@
+{
+  "commands": [
+    {
+      "id": "sit",
+      "name": "Sit",
+      "category": "basics",
+      "difficulty": "beginner",
+      "estimatedDays": 3,
+      "description": "The foundation command. Your dog learns to plant their bottom on the ground and wait for the next cue.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Hold a treat close to your dog's nose so they can smell it.",
+          "duration": "5 seconds",
+          "tip": "Use a high-value treat they really love"
+        },
+        {
+          "order": 2,
+          "instruction": "Slowly move your hand up and back over their head. Their nose will follow the treat, causing their bottom to lower.",
+          "duration": "3-5 seconds",
+          "tip": "Move slowly - if they jump, you're going too fast"
+        },
+        {
+          "order": 3,
+          "instruction": "The moment their bottom touches the ground, click (or say 'Yes!') and give the treat immediately.",
+          "tip": "Timing is crucial - mark the exact moment they sit"
+        },
+        {
+          "order": 4,
+          "instruction": "Add the word 'Sit' just before luring. Say it once, clearly.",
+          "tip": "Only add the verbal cue after they understand the motion"
+        },
+        {
+          "order": 5,
+          "instruction": "Practice 5-10 reps per session, 2-3 sessions daily. Gradually fade the lure by reducing hand movement.",
+          "duration": "3-5 minutes per session"
+        }
+      ],
+      "tips": [
+        "Keep sessions short - 5 minutes max",
+        "End on a success, even if you have to make it easier",
+        "Practice in different locations once reliable at home"
+      ],
+      "commonMistakes": [
+        "Repeating the command multiple times - say it once",
+        "Pushing their bottom down (this creates resistance)",
+        "Training when the dog is tired or overstimulated"
+      ],
+      "prerequisites": null
+    },
+    {
+      "id": "stay",
+      "name": "Stay",
+      "category": "basics",
+      "difficulty": "beginner",
+      "estimatedDays": 7,
+      "description": "Your dog learns to remain in position until released, even with distractions.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Ask your dog to sit. Show your palm (stop signal) and say 'Stay.'",
+          "tip": "Keep your body calm and still"
+        },
+        {
+          "order": 2,
+          "instruction": "Wait 1 second, then click/treat while they're still sitting. Release with 'Okay!'",
+          "duration": "Start with just 1 second"
+        },
+        {
+          "order": 3,
+          "instruction": "Gradually increase duration: 2 seconds, 5 seconds, 10 seconds, 30 seconds.",
+          "tip": "If they break, you went too fast - go back to an easier duration"
+        },
+        {
+          "order": 4,
+          "instruction": "Add distance: take one step back, return, and reward. Gradually increase steps.",
+          "tip": "Build duration before adding distance"
+        },
+        {
+          "order": 5,
+          "instruction": "Add distractions: drop a toy nearby, have someone walk past, practice outdoors.",
+          "tip": "Add one distraction at a time, reduce duration when adding new challenges"
+        }
+      ],
+      "tips": [
+        "Always return to your dog to reward - don't call them to you",
+        "Use a clear release word consistently",
+        "The 3 D's: Duration, Distance, Distraction - add one at a time"
+      ],
+      "commonMistakes": [
+        "Increasing difficulty too quickly",
+        "Forgetting to use a release word",
+        "Calling the dog out of the stay (teaches them to break)"
+      ],
+      "prerequisites": ["sit"]
+    },
+    {
+      "id": "down",
+      "name": "Down",
+      "category": "basics",
+      "difficulty": "beginner",
+      "estimatedDays": 5,
+      "description": "Your dog learns to lie down with elbows and belly on the ground.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Start with your dog in a sit. Hold a treat at their nose.",
+          "tip": "Make sure they're calm before starting"
+        },
+        {
+          "order": 2,
+          "instruction": "Slowly lower the treat straight down to the floor between their front paws.",
+          "tip": "Go slow - their nose should follow like a magnet"
+        },
+        {
+          "order": 3,
+          "instruction": "Once the treat is on the floor, slowly drag it away from them. They should slide into a down.",
+          "tip": "If they stand up, you moved too fast"
+        },
+        {
+          "order": 4,
+          "instruction": "The moment elbows touch the ground, click and treat.",
+          "tip": "Mark the exact moment of success"
+        },
+        {
+          "order": 5,
+          "instruction": "Add the verbal cue 'Down' just before the hand motion once they understand it.",
+          "duration": "After 20+ successful lured reps"
+        }
+      ],
+      "tips": [
+        "Some dogs find this easier on a soft surface",
+        "Try luring from a stand if sit-to-down isn't working",
+        "Capture natural downs - reward when they lie down on their own"
+      ],
+      "commonMistakes": [
+        "Moving the lure too quickly",
+        "Pushing the dog down physically",
+        "Getting frustrated - stay patient and positive"
+      ],
+      "prerequisites": ["sit"]
+    },
+    {
+      "id": "come",
+      "name": "Come (Recall)",
+      "category": "basics",
+      "difficulty": "intermediate",
+      "estimatedDays": 14,
+      "description": "The most important safety command. Your dog learns to come to you immediately when called.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Start indoors with minimal distractions. Say your dog's name + 'Come!' in an excited voice.",
+          "tip": "Sound happy and exciting - never angry"
+        },
+        {
+          "order": 2,
+          "instruction": "When they look at you, run backwards encouraging them to chase you.",
+          "tip": "Make yourself the most interesting thing in the room"
+        },
+        {
+          "order": 3,
+          "instruction": "When they reach you, throw a party! Multiple treats, praise, petting.",
+          "tip": "Coming to you should be the best thing ever"
+        },
+        {
+          "order": 4,
+          "instruction": "Practice in gradually more distracting environments: backyard, quiet park, busy park.",
+          "tip": "Use a long line (15-30 feet) for safety outdoors"
+        },
+        {
+          "order": 5,
+          "instruction": "Never call your dog for something unpleasant (bath, nail trim, leaving the park).",
+          "tip": "Go get them instead for non-fun activities"
+        }
+      ],
+      "tips": [
+        "Never chase your dog - always move away from them",
+        "Never punish a dog for coming to you, even if it took a while",
+        "Practice randomly throughout the day, not just training sessions"
+      ],
+      "commonMistakes": [
+        "Using 'Come' for things the dog doesn't like",
+        "Repeating the command over and over",
+        "Calling when you can't follow through (dog is too distracted)"
+      ],
+      "prerequisites": null
+    },
+    {
+      "id": "heel",
+      "name": "Heel",
+      "category": "basics",
+      "difficulty": "intermediate",
+      "estimatedDays": 14,
+      "description": "Your dog walks beside you in a precise position, focused and attentive.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Decide which side (traditionally left). Hold treats in that hand at your hip.",
+          "tip": "Consistency is key - always use the same side"
+        },
+        {
+          "order": 2,
+          "instruction": "Lure your dog to your side. Say 'Heel' and take one step forward.",
+          "tip": "Start with just one step"
+        },
+        {
+          "order": 3,
+          "instruction": "If they stay at your side, click and treat at hip level. If they forge ahead or lag, stop.",
+          "tip": "Treat at your hip so they learn the position"
+        },
+        {
+          "order": 4,
+          "instruction": "Gradually increase steps: 2, 3, 5, 10, 20 before treating.",
+          "tip": "Vary the number of steps to keep them guessing"
+        },
+        {
+          "order": 5,
+          "instruction": "Add turns, changes in pace, and distractions as they improve.",
+          "tip": "Make it a game - be unpredictable"
+        }
+      ],
+      "tips": [
+        "Heel is for focused attention - use 'Walk Nice' for casual walks",
+        "Keep sessions short - heel position is mentally tiring",
+        "Use high-value treats and lots of engagement"
+      ],
+      "commonMistakes": [
+        "Expecting too much duration too soon",
+        "Treating too low (teaches head-down position)",
+        "Not being interesting enough - compete with the environment"
+      ],
+      "prerequisites": ["sit"]
+    },
+    {
+      "id": "leave-it",
+      "name": "Leave It",
+      "category": "basics",
+      "difficulty": "intermediate",
+      "estimatedDays": 7,
+      "description": "Your dog learns to turn away from something tempting when asked.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Hold a treat in your closed fist. Let your dog sniff and paw at it. Wait.",
+          "tip": "Don't say anything yet - let them figure it out"
+        },
+        {
+          "order": 2,
+          "instruction": "The moment they back off or look away, click and give a DIFFERENT treat from your other hand.",
+          "tip": "Always reward from the opposite hand"
+        },
+        {
+          "order": 3,
+          "instruction": "Add the cue: say 'Leave it' before presenting your closed fist.",
+          "tip": "Say it once, calmly"
+        },
+        {
+          "order": 4,
+          "instruction": "Progress to treats on the floor covered by your hand, then uncovered.",
+          "tip": "Be ready to cover it quickly if they go for it"
+        },
+        {
+          "order": 5,
+          "instruction": "Practice with various items: toys, food on walks, squirrels (from a distance).",
+          "tip": "Always reward with something equally good or better"
+        }
+      ],
+      "tips": [
+        "Never let them get the forbidden item - it becomes a game",
+        "Use increasingly tempting items as they improve",
+        "Practice in real-life situations once reliable"
+      ],
+      "commonMistakes": [
+        "Letting them eventually get the 'leave it' item",
+        "Not making the reward worthwhile",
+        "Using it for items you'll eventually give them"
+      ],
+      "prerequisites": null
+    },
+    {
+      "id": "drop-it",
+      "name": "Drop It",
+      "category": "basics",
+      "difficulty": "intermediate",
+      "estimatedDays": 7,
+      "description": "Your dog releases whatever is in their mouth immediately.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Start with a toy your dog likes but isn't obsessed with. Let them take it.",
+          "tip": "Choose a lower-value toy to start"
+        },
+        {
+          "order": 2,
+          "instruction": "Show them a high-value treat near their nose. The moment they release the toy, say 'Drop it' and give the treat.",
+          "tip": "Say the cue AS they drop, not before"
+        },
+        {
+          "order": 3,
+          "instruction": "Immediately give the toy back after they eat the treat.",
+          "tip": "This teaches that dropping doesn't mean losing"
+        },
+        {
+          "order": 4,
+          "instruction": "Practice with increasingly valuable items: better toys, chews, etc.",
+          "tip": "Always trade for something equally good or better"
+        },
+        {
+          "order": 5,
+          "instruction": "Start saying 'Drop it' before showing the treat. Reward when they comply.",
+          "tip": "Fade the treat lure gradually"
+        }
+      ],
+      "tips": [
+        "Always trade up - never just take things away",
+        "Practice with random household items (safe ones)",
+        "Never chase or grab - this makes guarding worse"
+      ],
+      "commonMistakes": [
+        "Taking the item and not giving something in return",
+        "Chasing the dog to get the item",
+        "Only practicing with low-value items"
+      ],
+      "prerequisites": null
+    },
+    {
+      "id": "wait",
+      "name": "Wait",
+      "category": "basics",
+      "difficulty": "beginner",
+      "estimatedDays": 5,
+      "description": "A temporary pause - different from Stay. Used at doors, before meals, getting out of the car.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "At a doorway, ask for a sit. Say 'Wait' and reach for the door handle.",
+          "tip": "Don't open the door yet"
+        },
+        {
+          "order": 2,
+          "instruction": "If they stay sitting, crack the door slightly. If they move, close it and reset.",
+          "tip": "The door closing is the consequence - stay calm"
+        },
+        {
+          "order": 3,
+          "instruction": "Gradually open the door wider. Release with 'Okay!' when they can wait with door fully open.",
+          "tip": "Be patient - this can take many reps"
+        },
+        {
+          "order": 4,
+          "instruction": "Practice at meal times: 'Wait' before putting the bowl down.",
+          "tip": "Start with just a second, build up"
+        },
+        {
+          "order": 5,
+          "instruction": "Use 'Wait' before: exiting cars, crossing streets, entering/exiting crates.",
+          "tip": "Consistency in daily life makes it reliable"
+        }
+      ],
+      "tips": [
+        "Wait is temporary - Stay is longer duration",
+        "The reward is often the thing they're waiting for (going through door, eating)",
+        "Use this for safety at every threshold"
+      ],
+      "commonMistakes": [
+        "Letting them rush through if they break",
+        "Not using a release cue",
+        "Being inconsistent - sometimes letting them rush"
+      ],
+      "prerequisites": ["sit"]
+    },
+    {
+      "id": "watch-me",
+      "name": "Watch Me",
+      "category": "basics",
+      "difficulty": "beginner",
+      "estimatedDays": 3,
+      "description": "Your dog learns to make and hold eye contact with you on cue.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Hold a treat near your dog's nose, then move it to the bridge of your nose between your eyes.",
+          "tip": "They'll naturally look at the treat, which means looking at your eyes"
+        },
+        {
+          "order": 2,
+          "instruction": "The moment they make eye contact, even briefly, click and treat.",
+          "tip": "Start with a split second of contact"
+        },
+        {
+          "order": 3,
+          "instruction": "Add the cue 'Watch me' or 'Look' before the hand motion.",
+          "tip": "Say it once in a friendly tone"
+        },
+        {
+          "order": 4,
+          "instruction": "Gradually increase duration: 1 second, 2 seconds, 5 seconds of eye contact.",
+          "tip": "If they look away, just try again - no punishment"
+        },
+        {
+          "order": 5,
+          "instruction": "Practice in distracting environments. Use this to redirect attention from triggers.",
+          "tip": "This is a powerful tool for reactive dogs"
+        }
+      ],
+      "tips": [
+        "Make eye contact pleasant - smile and use a happy voice",
+        "Great for photo ops too!",
+        "Use before giving other commands to get focus"
+      ],
+      "commonMistakes": [
+        "Staring intensely (can be threatening to some dogs)",
+        "Moving too fast to longer durations",
+        "Only practicing at home"
+      ],
+      "prerequisites": null
+    },
+    {
+      "id": "place",
+      "name": "Place",
+      "category": "basics",
+      "difficulty": "intermediate",
+      "estimatedDays": 10,
+      "description": "Your dog goes to a designated spot (bed, mat, crate) and stays there until released.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Choose a distinct 'place' - a dog bed, mat, or raised platform. Stand near it with treats.",
+          "tip": "A raised surface (even a low platform) helps dogs understand boundaries"
+        },
+        {
+          "order": 2,
+          "instruction": "Lure your dog onto the place with a treat. The moment all four paws are on, click and treat.",
+          "tip": "Click exactly when the last paw lands"
+        },
+        {
+          "order": 3,
+          "instruction": "Add 'Down' once they're on the place. Reward for lying down on it.",
+          "tip": "Lying down helps them settle"
+        },
+        {
+          "order": 4,
+          "instruction": "Build duration: start with 5 seconds, work up to minutes. Release with 'Okay!'",
+          "tip": "Toss a treat away when releasing to get them moving"
+        },
+        {
+          "order": 5,
+          "instruction": "Increase distance from the place. Practice sending them from across the room.",
+          "tip": "Point at the place when giving the command"
+        }
+      ],
+      "tips": [
+        "Make the place super comfortable",
+        "Give long-lasting chews on the place to build positive associations",
+        "Use during meals, guests visiting, or when you need focus time"
+      ],
+      "commonMistakes": [
+        "Using place as punishment ('Go to your place!')",
+        "Not having a clear boundary for the dog to understand",
+        "Expecting long durations before building up"
+      ],
+      "prerequisites": ["down", "stay"]
+    },
+    {
+      "id": "no-jump",
+      "name": "No Jump",
+      "category": "manners",
+      "difficulty": "intermediate",
+      "estimatedDays": 14,
+      "description": "Your dog greets people politely with four paws on the floor.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "When your dog jumps, immediately turn your back and cross your arms. Say nothing.",
+          "tip": "All attention stops - no talking, no eye contact, no pushing"
+        },
+        {
+          "order": 2,
+          "instruction": "The moment all four paws hit the floor, turn back and calmly praise/treat.",
+          "tip": "Keep your energy calm so they stay calm"
+        },
+        {
+          "order": 3,
+          "instruction": "Ask for a sit before greetings. Only pet/greet when sitting.",
+          "tip": "Sitting is incompatible with jumping"
+        },
+        {
+          "order": 4,
+          "instruction": "Recruit helpers to practice. Everyone must follow the same rules.",
+          "tip": "Inconsistency from any person sets training back"
+        },
+        {
+          "order": 5,
+          "instruction": "For excited dogs, give them something to do: fetch a toy, go to place, etc.",
+          "tip": "Redirect the energy instead of just suppressing it"
+        }
+      ],
+      "tips": [
+        "Prevent practice of jumping - management is key",
+        "Exercise before guests arrive to take the edge off",
+        "Everyone in the house must be consistent"
+      ],
+      "commonMistakes": [
+        "Pushing the dog off (this is attention!)",
+        "Yelling 'No!' or 'Off!' (also attention)",
+        "Allowing jumping sometimes ('but he's so happy!')"
+      ],
+      "prerequisites": ["sit"]
+    },
+    {
+      "id": "quiet",
+      "name": "Quiet",
+      "category": "manners",
+      "difficulty": "intermediate",
+      "estimatedDays": 14,
+      "description": "Your dog learns to stop barking on cue.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "First, teach 'Speak' (barking on command). This gives you control over the behavior.",
+          "tip": "It seems counterintuitive, but teaching 'speak' helps teach 'quiet'"
+        },
+        {
+          "order": 2,
+          "instruction": "Ask for 'Speak.' After 1-2 barks, hold a treat at their nose. They'll stop barking to sniff.",
+          "tip": "The treat interrupts the barking"
+        },
+        {
+          "order": 3,
+          "instruction": "The moment they stop barking, say 'Quiet' and give the treat.",
+          "tip": "Mark the quiet, not the stopping"
+        },
+        {
+          "order": 4,
+          "instruction": "Gradually increase the duration of quiet before treating: 1 second, 3 seconds, 5 seconds.",
+          "tip": "Build slowly"
+        },
+        {
+          "order": 5,
+          "instruction": "Practice with real triggers (doorbell, strangers) starting at low intensity.",
+          "tip": "Start with quiet recordings of triggers"
+        }
+      ],
+      "tips": [
+        "Address the root cause of barking (boredom, fear, alerting)",
+        "Interrupt the bark cycle early - don't wait until they're frenzied",
+        "Reward calm behavior throughout the day, not just training"
+      ],
+      "commonMistakes": [
+        "Yelling 'Quiet!' (sounds like you're barking with them)",
+        "Waiting until barking is intense to intervene",
+        "Not addressing underlying causes"
+      ],
+      "prerequisites": null
+    },
+    {
+      "id": "off",
+      "name": "Off",
+      "category": "manners",
+      "difficulty": "beginner",
+      "estimatedDays": 5,
+      "description": "Your dog removes themselves from furniture, people, or counters when asked.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "When your dog is on furniture, show a treat and lure them to the floor.",
+          "tip": "Toss the treat on the floor to get them moving"
+        },
+        {
+          "order": 2,
+          "instruction": "Say 'Off' as they're getting down. Click and treat when all paws hit the floor.",
+          "tip": "Pair the word with the action"
+        },
+        {
+          "order": 3,
+          "instruction": "With counter surfing, set up training scenarios. Put boring item on counter, reward for not investigating.",
+          "tip": "Management is key - don't leave tempting items out"
+        },
+        {
+          "order": 4,
+          "instruction": "For persistent counter surfers, use an 'incompatible behavior' - teach 'Go to Place' during kitchen time.",
+          "tip": "Reward heavily for being on their bed in the kitchen"
+        },
+        {
+          "order": 5,
+          "instruction": "Be consistent - if something is off-limits, it's always off-limits.",
+          "tip": "Mixed signals confuse dogs"
+        }
+      ],
+      "tips": [
+        "Different from 'Down' which means lie down",
+        "Management prevents practice of unwanted behavior",
+        "Provide appropriate alternatives (dog bed, dog-friendly furniture)"
+      ],
+      "commonMistakes": [
+        "Using 'Down' when you mean 'Off'",
+        "Allowing access sometimes",
+        "Leaving tempting items on counters and expecting willpower"
+      ],
+      "prerequisites": null
+    },
+    {
+      "id": "go-to-bed",
+      "name": "Go To Bed",
+      "category": "manners",
+      "difficulty": "intermediate",
+      "estimatedDays": 7,
+      "description": "Your dog goes to their designated sleeping spot and settles there.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Stand near your dog's bed. Toss a treat onto it. When they go to get it, click.",
+          "tip": "Make the bed rewarding from the start"
+        },
+        {
+          "order": 2,
+          "instruction": "Add the cue 'Go to bed' just before tossing the treat.",
+          "tip": "Say it once, clearly"
+        },
+        {
+          "order": 3,
+          "instruction": "Gradually stand further from the bed when giving the command.",
+          "tip": "Work up to sending them from across the room"
+        },
+        {
+          "order": 4,
+          "instruction": "Once on the bed, ask for 'Down' and reward. Then add duration with stay.",
+          "tip": "Layer commands for a complete behavior chain"
+        },
+        {
+          "order": 5,
+          "instruction": "Give special chews or treats ONLY on the bed. It becomes their happy place.",
+          "tip": "Positive associations build reliability"
+        }
+      ],
+      "tips": [
+        "Make the bed the most comfortable spot in the house",
+        "Location matters - put it somewhere they can see you",
+        "Use at bedtime and during household activities"
+      ],
+      "commonMistakes": [
+        "Using the bed as timeout (creates negative association)",
+        "Uncomfortable or too-small bed",
+        "Not releasing them - they need to know they can leave eventually"
+      ],
+      "prerequisites": ["down", "place"]
+    },
+    {
+      "id": "settle",
+      "name": "Settle",
+      "category": "manners",
+      "difficulty": "intermediate",
+      "estimatedDays": 14,
+      "description": "Your dog learns to calm down and relax, even in stimulating environments.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Capture calmness: whenever your dog lies down and relaxes on their own, quietly say 'Settle' and drop a treat between their paws.",
+          "tip": "Don't make a big deal of it - stay calm yourself"
+        },
+        {
+          "order": 2,
+          "instruction": "Practice 'Relaxation Protocol' exercises (Karen Overall's protocol is excellent).",
+          "tip": "Search 'Karen Overall Relaxation Protocol' for the full program"
+        },
+        {
+          "order": 3,
+          "instruction": "Use a specific mat for settle training. This becomes a 'chill zone.'",
+          "tip": "The mat becomes a cue for relaxation"
+        },
+        {
+          "order": 4,
+          "instruction": "Practice in gradually more exciting environments: TV on, visitors, outdoor café.",
+          "tip": "Build up very slowly - don't rush environmental difficulty"
+        },
+        {
+          "order": 5,
+          "instruction": "Use calming signals: long, slow blinks, relaxed body, quiet voice.",
+          "tip": "Your energy affects your dog's energy"
+        }
+      ],
+      "tips": [
+        "Settle is a state of mind, not just a position",
+        "Exercise first if your dog is too hyper to focus",
+        "This takes time - be patient"
+      ],
+      "commonMistakes": [
+        "Expecting calm behavior from an under-exercised dog",
+        "Adding excitement with high-pitched praise",
+        "Rushing to difficult environments"
+      ],
+      "prerequisites": ["down"]
+    },
+    {
+      "id": "greet-politely",
+      "name": "Greet Politely",
+      "category": "manners",
+      "difficulty": "intermediate",
+      "estimatedDays": 14,
+      "description": "Your dog meets new people calmly without jumping, barking, or overwhelming them.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Practice sit-stays while someone approaches. Start with family members, low excitement.",
+          "tip": "Build the foundation at home first"
+        },
+        {
+          "order": 2,
+          "instruction": "The approacher stops if the dog breaks the sit. Only continues when sitting again.",
+          "tip": "The reward (greeting) depends on calm behavior"
+        },
+        {
+          "order": 3,
+          "instruction": "When sitting for the entire approach, the person can pet briefly, then step back.",
+          "tip": "Keep greetings short to prevent excitement buildup"
+        },
+        {
+          "order": 4,
+          "instruction": "Have treats ready. After calm greeting, toss treat away from the person to create space.",
+          "tip": "This resets the scenario for another practice rep"
+        },
+        {
+          "order": 5,
+          "instruction": "Practice with new people in controlled scenarios before real-world situations.",
+          "tip": "Set up practice sessions with patient friends"
+        }
+      ],
+      "tips": [
+        "Exercise before social situations",
+        "Use a front-clip harness for better control if needed",
+        "Some dogs do better with structured activities than free greetings"
+      ],
+      "commonMistakes": [
+        "Allowing the person to pet an excited dog ('they don't mind!')",
+        "Tightening the leash (increases frustration)",
+        "Not having a plan before greetings happen"
+      ],
+      "prerequisites": ["sit", "stay"]
+    },
+    {
+      "id": "walk-nice",
+      "name": "Walk Nice (Loose Leash)",
+      "category": "manners",
+      "difficulty": "intermediate",
+      "estimatedDays": 21,
+      "description": "Your dog walks calmly beside you without pulling on the leash.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Start indoors. Walk with treats in your hand at your side. Reward frequently for being at your side.",
+          "tip": "Practice without a leash first to focus on positioning"
+        },
+        {
+          "order": 2,
+          "instruction": "Add the leash. If tension occurs, stop walking. Only move forward when leash is loose.",
+          "tip": "You are a tree - pulling gets nothing"
+        },
+        {
+          "order": 3,
+          "instruction": "When leash tightens, say nothing - just stop. When they look back or create slack, mark and move forward.",
+          "tip": "Forward motion is the reward"
+        },
+        {
+          "order": 4,
+          "instruction": "Vary your pace and direction. Reward check-ins (when they look at you voluntarily).",
+          "tip": "Be interesting! Unpredictability keeps them engaged"
+        },
+        {
+          "order": 5,
+          "instruction": "Practice in gradually more distracting environments. Start in your yard, then quiet streets, then busier areas.",
+          "tip": "Increase difficulty slowly - walks should be successful"
+        }
+      ],
+      "tips": [
+        "Use a front-clip harness or head halter for management while training",
+        "Let them sniff as a reward for good walking",
+        "Differentiate 'Heel' (formal) from casual loose leash walking"
+      ],
+      "commonMistakes": [
+        "Moving forward while the dog is pulling (reinforces pulling)",
+        "Jerking or pulling back on the leash",
+        "Expecting too much too fast - this takes weeks/months"
+      ],
+      "prerequisites": null
+    },
+    {
+      "id": "door-manners",
+      "name": "Door Manners",
+      "category": "manners",
+      "difficulty": "beginner",
+      "estimatedDays": 7,
+      "description": "Your dog waits calmly at doors and doesn't rush through without permission.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "At any door (front door, backyard, car), ask for a sit before reaching for the handle.",
+          "tip": "Sit is the 'magic word' for doors"
+        },
+        {
+          "order": 2,
+          "instruction": "Reach for the handle. If they stand up, reset and wait for sit again.",
+          "tip": "Don't say anything - just reset"
+        },
+        {
+          "order": 3,
+          "instruction": "Open the door slightly. If they stay sitting, open more. If they move, close it.",
+          "tip": "The door closing is the consequence - stay calm"
+        },
+        {
+          "order": 4,
+          "instruction": "When door is fully open and they're still sitting, release with 'Okay!' or 'Free!'",
+          "tip": "They need permission to go through"
+        },
+        {
+          "order": 5,
+          "instruction": "Practice at every door, every time. Consistency is everything.",
+          "tip": "This is safety training - worth the effort"
+        }
+      ],
+      "tips": [
+        "This prevents door dashing - potentially life-saving",
+        "Practice at car doors too",
+        "All family members must require this"
+      ],
+      "commonMistakes": [
+        "Letting them rush through sometimes",
+        "Not having everyone in the household on board",
+        "Forgetting to use a release cue"
+      ],
+      "prerequisites": ["sit", "wait"]
+    },
+    {
+      "id": "shake",
+      "name": "Shake/Paw",
+      "category": "tricks",
+      "difficulty": "beginner",
+      "estimatedDays": 3,
+      "description": "Your dog places their paw in your hand on cue.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Have your dog sit. Hold a treat in your closed fist at their chest level.",
+          "tip": "Position your hand low to encourage paw movement"
+        },
+        {
+          "order": 2,
+          "instruction": "Wait. Most dogs will eventually paw at your hand. Click immediately when they touch your hand with their paw.",
+          "tip": "Be patient - wait them out"
+        },
+        {
+          "order": 3,
+          "instruction": "Open your hand to deliver the treat. Reset and repeat.",
+          "tip": "The paw touch opens the treat hand"
+        },
+        {
+          "order": 4,
+          "instruction": "Present your open palm. Say 'Shake' or 'Paw' when they touch it.",
+          "tip": "Add the cue once they understand the game"
+        },
+        {
+          "order": 5,
+          "instruction": "Gently hold their paw briefly before treating. Build up to a proper handshake.",
+          "tip": "Keep it fun and low-pressure"
+        }
+      ],
+      "tips": [
+        "Great starter trick to build training confidence",
+        "Some dogs offer paws naturally - capture it!",
+        "Alternate hands to prevent single-side bias"
+      ],
+      "commonMistakes": [
+        "Grabbing their paw instead of waiting for them to offer",
+        "Not clicking at the exact moment of paw touch",
+        "Moving on before the basic lift is reliable"
+      ],
+      "prerequisites": ["sit"]
+    },
+    {
+      "id": "high-five",
+      "name": "High Five",
+      "category": "tricks",
+      "difficulty": "beginner",
+      "estimatedDays": 3,
+      "description": "Your dog raises their paw high to slap your hand.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Once 'Shake' is solid, hold your hand higher - at your dog's shoulder level or above.",
+          "tip": "This is just a higher shake"
+        },
+        {
+          "order": 2,
+          "instruction": "When they reach up to touch your hand, click and treat.",
+          "tip": "Reward the upward motion"
+        },
+        {
+          "order": 3,
+          "instruction": "Gradually raise your hand position until it's at a 'high five' angle.",
+          "tip": "Palm facing the dog"
+        },
+        {
+          "order": 4,
+          "instruction": "Add the cue 'High Five' and use an animated voice.",
+          "tip": "Make it fun and exciting"
+        },
+        {
+          "order": 5,
+          "instruction": "Practice standing up, kneeling, from different positions.",
+          "tip": "Dogs often don't generalize - practice in different contexts"
+        }
+      ],
+      "tips": [
+        "Perfect for photos and showing off",
+        "Can combine with 'Shake' for a routine",
+        "Some dogs prefer this to shake"
+      ],
+      "commonMistakes": [
+        "Raising hand too high too fast",
+        "Expecting it before shake is solid",
+        "Not rewarding effort toward the higher position"
+      ],
+      "prerequisites": ["shake"]
+    },
+    {
+      "id": "spin-left",
+      "name": "Spin (Left)",
+      "category": "tricks",
+      "difficulty": "beginner",
+      "estimatedDays": 3,
+      "description": "Your dog turns in a circle to their left.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Hold a treat at your dog's nose. Slowly lure them in a circle to their left.",
+          "tip": "Keep the treat close to their nose throughout"
+        },
+        {
+          "order": 2,
+          "instruction": "Complete the full circle and click/treat when they end up facing you.",
+          "tip": "Go slow enough that they follow without confusion"
+        },
+        {
+          "order": 3,
+          "instruction": "Add the cue 'Spin' (or 'Spin Left') just before starting the lure.",
+          "tip": "Be consistent with your cue choice"
+        },
+        {
+          "order": 4,
+          "instruction": "Gradually reduce the lure. Make a smaller circle motion with your hand.",
+          "tip": "The hand signal becomes a small twirl of your finger"
+        },
+        {
+          "order": 5,
+          "instruction": "Try chaining multiple spins: 2, then 3 before treating.",
+          "tip": "Fun for dancing routines!"
+        }
+      ],
+      "tips": [
+        "Practice on a non-slip surface",
+        "Some dogs get dizzy - don't overdo it",
+        "Teach both directions separately"
+      ],
+      "commonMistakes": [
+        "Luring too fast (dog can't follow)",
+        "Raising the lure (causes jumping)",
+        "Not completing the full circle before clicking"
+      ],
+      "prerequisites": null
+    },
+    {
+      "id": "spin-right",
+      "name": "Spin (Right)",
+      "category": "tricks",
+      "difficulty": "beginner",
+      "estimatedDays": 3,
+      "description": "Your dog turns in a circle to their right.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Hold a treat at your dog's nose. Slowly lure them in a circle to their right.",
+          "tip": "Mirror image of Spin Left"
+        },
+        {
+          "order": 2,
+          "instruction": "Complete the full circle and click/treat when they end up facing you.",
+          "tip": "Go the same speed as Spin Left"
+        },
+        {
+          "order": 3,
+          "instruction": "Add a different cue: 'Twist' or 'Spin Right' to distinguish from left.",
+          "tip": "Using a different word helps dogs distinguish"
+        },
+        {
+          "order": 4,
+          "instruction": "Use the opposite hand to help distinguish. Left hand for left spin, right hand for right.",
+          "tip": "Hand signals become important"
+        },
+        {
+          "order": 5,
+          "instruction": "Alternate between left and right spins for a fun sequence.",
+          "tip": "Dogs love the variety"
+        }
+      ],
+      "tips": [
+        "Wait until left spin is solid before teaching right",
+        "Some dogs have a preferred direction",
+        "Great for music routines"
+      ],
+      "commonMistakes": [
+        "Teaching both directions at the same time",
+        "Using the same cue word for both",
+        "Not giving clear hand signals"
+      ],
+      "prerequisites": ["spin-left"]
+    },
+    {
+      "id": "roll-over",
+      "name": "Roll Over",
+      "category": "tricks",
+      "difficulty": "intermediate",
+      "estimatedDays": 7,
+      "description": "Your dog rolls 360 degrees from lying down, over their back, and back up.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Start with your dog in a 'Down.' Have them on a comfortable, soft surface.",
+          "tip": "Hard floors make this uncomfortable"
+        },
+        {
+          "order": 2,
+          "instruction": "Hold a treat at their nose, then lure toward their shoulder. They should shift their weight to their hip.",
+          "tip": "Move slowly - this is the setup position"
+        },
+        {
+          "order": 3,
+          "instruction": "Continue the lure motion over their shoulder and along their spine. They should roll onto their back.",
+          "tip": "Go at their pace - clicking progress along the way"
+        },
+        {
+          "order": 4,
+          "instruction": "Complete the lure so they roll all the way over and end up back in Down. Big reward!",
+          "tip": "Celebrate this win!"
+        },
+        {
+          "order": 5,
+          "instruction": "Add the cue 'Roll Over' and gradually reduce the lure to a hand signal.",
+          "tip": "A rolling hand motion works well"
+        }
+      ],
+      "tips": [
+        "Some dogs roll more easily in one direction",
+        "Reward partial attempts at first",
+        "Don't force the motion physically"
+      ],
+      "commonMistakes": [
+        "Practicing on hard floors (painful)",
+        "Moving the lure too fast",
+        "Expecting it in one session"
+      ],
+      "prerequisites": ["down"]
+    },
+    {
+      "id": "play-dead",
+      "name": "Play Dead",
+      "category": "tricks",
+      "difficulty": "intermediate",
+      "estimatedDays": 7,
+      "description": "Your dog lies on their side and holds completely still, playing dead.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Start with your dog in a Down. Lure them onto their hip (same as Roll Over start).",
+          "tip": "The hip position is key"
+        },
+        {
+          "order": 2,
+          "instruction": "Once they're on their hip, wait. Reward for stillness rather than continuing the roll.",
+          "tip": "We want them to stop here"
+        },
+        {
+          "order": 3,
+          "instruction": "Add a dramatic cue like 'Bang!' with a finger gun gesture.",
+          "tip": "This is part of the fun!"
+        },
+        {
+          "order": 4,
+          "instruction": "Build duration of the 'dead' position: 1 second, 3 seconds, 5 seconds.",
+          "tip": "Reward for staying still"
+        },
+        {
+          "order": 5,
+          "instruction": "Release with 'Okay!' or 'You're alive!' Practice from a stand for dramatic effect.",
+          "tip": "The performance aspect is what makes it fun"
+        }
+      ],
+      "tips": [
+        "Keep your energy playful, not serious",
+        "Some dogs prefer full side-lie, others hip position",
+        "Great photo opportunity trick"
+      ],
+      "commonMistakes": [
+        "Rewarding before they're fully still",
+        "Not differentiating from Roll Over",
+        "Taking it too seriously (should be fun!)"
+      ],
+      "prerequisites": ["down"]
+    },
+    {
+      "id": "speak",
+      "name": "Speak",
+      "category": "tricks",
+      "difficulty": "intermediate",
+      "estimatedDays": 7,
+      "description": "Your dog barks on command.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Find what makes your dog bark: doorbell, knocking, a toy held out of reach, excited play.",
+          "tip": "Every dog has a bark trigger"
+        },
+        {
+          "order": 2,
+          "instruction": "When they bark, say 'Speak!' and immediately reward. Pair the word with the natural bark.",
+          "tip": "Capture the natural behavior"
+        },
+        {
+          "order": 3,
+          "instruction": "Present the trigger, say 'Speak,' wait for bark, reward.",
+          "tip": "Start creating the command association"
+        },
+        {
+          "order": 4,
+          "instruction": "Gradually fade the trigger. Say 'Speak' without the external trigger.",
+          "tip": "This may take time"
+        },
+        {
+          "order": 5,
+          "instruction": "Reward only when they bark on cue, not random barking.",
+          "tip": "Be very clear about when barking is rewarded"
+        }
+      ],
+      "tips": [
+        "This helps teach 'Quiet' (gives you an on/off switch)",
+        "Only reward a single bark, not a barking frenzy",
+        "Practice rarely so it stays special"
+      ],
+      "commonMistakes": [
+        "Rewarding extended barking",
+        "Practicing so much they bark constantly",
+        "Using in situations where quiet is preferred"
+      ],
+      "prerequisites": null
+    },
+    {
+      "id": "bow",
+      "name": "Bow",
+      "category": "tricks",
+      "difficulty": "beginner",
+      "estimatedDays": 3,
+      "description": "Your dog stretches into a 'play bow' position with front end down, rear end up.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Start with your dog standing. Hold a treat at their nose.",
+          "tip": "They must be standing, not sitting"
+        },
+        {
+          "order": 2,
+          "instruction": "Lure the treat down between their front legs toward their chest. Their front end should lower.",
+          "tip": "Don't go too far back or they'll lie down"
+        },
+        {
+          "order": 3,
+          "instruction": "Click and treat when their elbows hit the ground but rear end stays up.",
+          "tip": "Timing is crucial - click before they lie all the way down"
+        },
+        {
+          "order": 4,
+          "instruction": "You can gently support under their belly to prevent lying down if needed.",
+          "tip": "Light touch, not holding"
+        },
+        {
+          "order": 5,
+          "instruction": "Add the cue 'Bow' or 'Take a Bow.' Great for ending a training session!",
+          "tip": "Make it theatrical"
+        }
+      ],
+      "tips": [
+        "Capture natural play bows when they happen",
+        "Perfect for the end of a trick routine",
+        "Dogs often do this naturally when stretching"
+      ],
+      "commonMistakes": [
+        "Luring too far down (becomes a down)",
+        "Starting from a sit instead of stand",
+        "Not clicking quickly enough"
+      ],
+      "prerequisites": null
+    },
+    {
+      "id": "wave",
+      "name": "Wave",
+      "category": "tricks",
+      "difficulty": "beginner",
+      "estimatedDays": 5,
+      "description": "Your dog raises a paw and moves it back and forth like waving hello or goodbye.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Once Shake or High Five is solid, hold your hand out but don't let them touch it.",
+          "tip": "We want the reach without contact"
+        },
+        {
+          "order": 2,
+          "instruction": "Click and treat when they lift their paw toward your hand but before they touch.",
+          "tip": "The movement is the goal, not the touch"
+        },
+        {
+          "order": 3,
+          "instruction": "Add the cue 'Wave' and use a waving hand gesture yourself.",
+          "tip": "Your wave becomes the visual cue"
+        },
+        {
+          "order": 4,
+          "instruction": "To get the 'waving' motion, delay the click slightly - they'll often paw repeatedly at the air.",
+          "tip": "The frustration creates the wave motion"
+        },
+        {
+          "order": 5,
+          "instruction": "Practice at a distance - great for greeting guests or for photos.",
+          "tip": "Build distance slowly"
+        }
+      ],
+      "tips": [
+        "Works best once High Five is solid",
+        "Natural for dogs who paw a lot",
+        "Great for greeting and goodbye"
+      ],
+      "commonMistakes": [
+        "Clicking when they touch your hand (that's shake)",
+        "Teaching before shake is reliable",
+        "Not being patient for the waving motion"
+      ],
+      "prerequisites": ["high-five"]
+    },
+    {
+      "id": "touch",
+      "name": "Touch (Target)",
+      "category": "tricks",
+      "difficulty": "beginner",
+      "estimatedDays": 3,
+      "description": "Your dog touches their nose to your palm or a target stick.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Hold your flat palm a few inches from your dog's nose. Most dogs will investigate.",
+          "tip": "Don't move toward them - let them come to you"
+        },
+        {
+          "order": 2,
+          "instruction": "The moment their nose touches your palm, click and treat from your other hand.",
+          "tip": "Mark the exact moment of touch"
+        },
+        {
+          "order": 3,
+          "instruction": "Move your palm to different positions - left, right, higher, lower. Reward each touch.",
+          "tip": "Make it a game"
+        },
+        {
+          "order": 4,
+          "instruction": "Add the cue 'Touch' before presenting your palm.",
+          "tip": "One clear word"
+        },
+        {
+          "order": 5,
+          "instruction": "Transfer to a target stick or other objects (post-it note, lid, etc.).",
+          "tip": "The same skill transfers to any object"
+        }
+      ],
+      "tips": [
+        "Foundation skill for many tricks and behaviors",
+        "Use for heel position, recalls, getting on scales, etc.",
+        "Great for nervous dogs - builds confidence"
+      ],
+      "commonMistakes": [
+        "Pushing your palm into their face",
+        "Not having a treat ready in the other hand",
+        "Moving the target too fast once they understand"
+      ],
+      "prerequisites": null
+    },
+    {
+      "id": "crawl",
+      "name": "Crawl",
+      "category": "tricks",
+      "difficulty": "intermediate",
+      "estimatedDays": 7,
+      "description": "Your dog moves forward while staying in a down position.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Start with your dog in a Down. Kneel next to them with your arm over their back (to prevent standing).",
+          "tip": "Your arm is a gentle barrier, not pressing down"
+        },
+        {
+          "order": 2,
+          "instruction": "Lure with a treat just in front of their nose, moving it slowly forward along the ground.",
+          "tip": "Keep the treat on the ground"
+        },
+        {
+          "order": 3,
+          "instruction": "Click and treat any forward movement while staying low. Even an inch counts!",
+          "tip": "Reward small progress"
+        },
+        {
+          "order": 4,
+          "instruction": "Gradually increase the distance before rewarding. First one inch, then three, then six.",
+          "tip": "Build up slowly"
+        },
+        {
+          "order": 5,
+          "instruction": "Remove your arm barrier once they understand the motion. Add the cue 'Crawl.'",
+          "tip": "Phase out the physical prompt"
+        }
+      ],
+      "tips": [
+        "Use a soft surface - carpet or grass",
+        "Can practice under a low obstacle to encourage staying low",
+        "Great core workout for your dog"
+      ],
+      "commonMistakes": [
+        "Luring too fast (they stand up)",
+        "Pressing down on them (creates resistance)",
+        "Expecting too much distance too soon"
+      ],
+      "prerequisites": ["down"]
+    },
+    {
+      "id": "back-up",
+      "name": "Back Up",
+      "category": "tricks",
+      "difficulty": "intermediate",
+      "estimatedDays": 7,
+      "description": "Your dog walks backward away from you on cue.",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "In a narrow hallway or between furniture, walk toward your standing dog.",
+          "tip": "The narrow space limits their options"
+        },
+        {
+          "order": 2,
+          "instruction": "As they back up to make room for you, click and toss a treat behind them.",
+          "tip": "Reward the movement with a thrown treat"
+        },
+        {
+          "order": 3,
+          "instruction": "Add the cue 'Back' or 'Back Up' just before walking toward them.",
+          "tip": "Pair the word with the action"
+        },
+        {
+          "order": 4,
+          "instruction": "Practice in more open areas. Take a step toward them only if needed.",
+          "tip": "Fade your movement forward"
+        },
+        {
+          "order": 5,
+          "instruction": "Build distance: one step back, then two, then five.",
+          "tip": "Always throw the treat behind them"
+        }
+      ],
+      "tips": [
+        "Useful for creating space in doorways or tight spaces",
+        "Some dogs find this challenging - be patient",
+        "Rear-end awareness exercises help"
+      ],
+      "commonMistakes": [
+        "Not using spatial pressure (narrow space) initially",
+        "Rewarding at your feet (brings them forward again)",
+        "Moving too quickly toward them"
+      ],
+      "prerequisites": null
+    }
+  ]
+}
