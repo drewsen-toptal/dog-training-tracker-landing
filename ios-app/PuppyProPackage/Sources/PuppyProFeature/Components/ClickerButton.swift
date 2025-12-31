@@ -40,7 +40,9 @@ struct ClickerButton: View {
 
                 onTap()
 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                // Use Task-based approach instead of GCD
+                Task { @MainActor in
+                    try? await Task.sleep(for: .milliseconds(100))
                     withAnimation(.spring(response: 0.2)) {
                         isPressed = false
                     }
@@ -56,9 +58,7 @@ struct ClickerButton: View {
                         )
 
                     VStack(spacing: 8) {
-                        Image(systemName: "hand.tap.fill")
-                            .font(.system(size: size * 0.25, weight: .medium))
-                            .foregroundStyle(.white)
+                        PiAPIIcon(name: PiAPIIcons.clicker, size: size * 0.35)
 
                         Text("CLICK")
                             .font(.system(size: size * 0.1, weight: .bold))
@@ -70,6 +70,8 @@ struct ClickerButton: View {
                 .scaleEffect(isPressed ? 0.95 : 1.0)
             }
             .buttonStyle(.plain)
+            .accessibilityLabel("Clicker")
+            .accessibilityHint("Double-tap to record a click for training")
 
             // Glow ring
             Circle()

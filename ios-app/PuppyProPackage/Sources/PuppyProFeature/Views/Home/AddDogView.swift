@@ -69,8 +69,7 @@ struct AddDogView: View {
                                         .font(AppFonts.body())
                                         .foregroundStyle(AppColors.textPrimary)
                                     Spacer()
-                                    Image(systemName: "calendar")
-                                        .foregroundStyle(AppColors.primary)
+                                    PiAPIIcon(name: PiAPIIcons.calendar, size: 22)
                                 }
                                 .padding(AppSpacing.md)
                                 .background(.white)
@@ -95,7 +94,7 @@ struct AddDogView: View {
                     // Save button
                     PrimaryButton(
                         title: "Add \(name.isEmpty ? "Dog" : name)",
-                        icon: "plus.circle.fill",
+                        iconName: PiAPIIcons.plus,
                         isDisabled: !isValid
                     ) {
                         saveDog()
@@ -119,14 +118,44 @@ struct AddDogView: View {
 
     @ViewBuilder
     private var photoSection: some View {
+        // Capture values before closure to satisfy Swift concurrency
+        let displayName = name.isEmpty ? "?" : name
+        let currentPhotoData = photoData
+        let initial = String(displayName.prefix(1)).uppercased()
+
         PhotosPicker(selection: $selectedPhoto, matching: .images) {
             VStack(spacing: AppSpacing.sm) {
-                DogAvatar(
-                    name: name.isEmpty ? "?" : name,
-                    imageData: photoData,
-                    size: 120,
-                    showEditButton: true
-                )
+                // Inline avatar to avoid MainActor isolation issues with DogAvatar
+                ZStack(alignment: .bottomTrailing) {
+                    Group {
+                        if let data = currentPhotoData, let uiImage = UIImage(data: data) {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                        } else {
+                            ZStack {
+                                AppColors.primaryGradient
+                                Text(initial)
+                                    .font(.system(size: 48, weight: .bold))
+                                    .foregroundStyle(.white)
+                            }
+                        }
+                    }
+                    .frame(width: 120, height: 120)
+                    .clipShape(Circle())
+                    .shadow(color: AppColors.primary.opacity(0.3), radius: 12, y: 6)
+
+                    // Edit button overlay
+                    ZStack {
+                        Circle()
+                            .fill(.white)
+                            .frame(width: 36, height: 36)
+                            .shadow(color: .black.opacity(0.15), radius: 4, y: 2)
+
+                        PiAPIIcon(name: PiAPIIcons.camera, size: 20)
+                    }
+                    .offset(x: 6, y: 6)
+                }
 
                 Text("Add Photo")
                     .font(AppFonts.subheadline())

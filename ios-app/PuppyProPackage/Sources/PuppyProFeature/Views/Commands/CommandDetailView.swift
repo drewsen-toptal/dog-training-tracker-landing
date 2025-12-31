@@ -1,5 +1,48 @@
 import SwiftUI
 import SwiftData
+import WebKit
+
+// MARK: - YouTube Player
+
+struct YouTubePlayerView: UIViewRepresentable {
+    let videoId: String
+
+    func makeUIView(context: Context) -> WKWebView {
+        let configuration = WKWebViewConfiguration()
+        configuration.allowsInlineMediaPlayback = true
+        configuration.mediaTypesRequiringUserActionForPlayback = []
+
+        let webView = WKWebView(frame: .zero, configuration: configuration)
+        webView.scrollView.isScrollEnabled = false
+        webView.isOpaque = false
+        webView.backgroundColor = .clear
+        return webView
+    }
+
+    func updateUIView(_ webView: WKWebView, context: Context) {
+        let embedHTML = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+            <style>
+                * { margin: 0; padding: 0; }
+                html, body { width: 100%; height: 100%; background: #1a1a1c; }
+                iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; border-radius: 12px; }
+            </style>
+        </head>
+        <body>
+            <iframe
+                src="https://www.youtube.com/embed/\(videoId)?playsinline=1&rel=0&modestbranding=1"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </body>
+        </html>
+        """
+        webView.loadHTMLString(embedHTML, baseURL: nil)
+    }
+}
 
 struct CommandDetailView: View {
     @Environment(\.dismiss) private var dismiss
@@ -11,6 +54,11 @@ struct CommandDetailView: View {
 
     private var currentDog: Dog? {
         dogs.first
+    }
+
+    private var commandProgress: CommandProgress? {
+        guard let dog = currentDog else { return nil }
+        return dog.commandProgress?.first { $0.commandId == command.id }
     }
 
     var body: some View {
@@ -44,14 +92,6 @@ struct CommandDetailView: View {
             bottomButton
         }
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button("Edit") {
-                    // Edit action
-                }
-                .foregroundStyle(AppColors.primary)
-            }
-        }
         .sheet(isPresented: $showingTraining) {
             if let dog = currentDog {
                 TrainingSessionView(dog: dog)
@@ -63,20 +103,9 @@ struct CommandDetailView: View {
     private var commandHero: some View {
         HStack(spacing: AppSpacing.lg) {
             // Command icon
-            AsyncImage(url: URL(string: command.iconUrl ?? "")) { phase in
-                switch phase {
-                case .success(let image):
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                default:
-                    ZStack {
-                        AppColors.primaryGradient
-                        Image(systemName: command.category.iconName)
-                            .font(.system(size: 36))
-                            .foregroundStyle(.white)
-                    }
-                }
+            ZStack {
+                AppColors.primaryGradient
+                PiAPIIcon(name: command.piAPIIconName, size: 48)
             }
             .frame(width: 72, height: 72)
             .clipShape(.rect(cornerRadius: AppRadius.lg))
@@ -120,6 +149,12 @@ struct CommandDetailView: View {
 
     @ViewBuilder
     private var progressCard: some View {
+        let progress = commandProgress
+        let successRate = progress?.successRate ?? 0
+        let practiceCount = progress?.practiceCount ?? 0
+        let successRateText = progress != nil && practiceCount > 0 ? "\(progress!.successRatePercentage)%" : "0%"
+        let lastTrainedText = progress?.daysSinceLastPracticeDescription ?? "Never"
+
         VStack(spacing: AppSpacing.md) {
             HStack {
                 Text("Mastery Progress")
@@ -128,9 +163,9 @@ struct CommandDetailView: View {
 
                 Spacer()
 
-                Text("68%")
+                Text(successRateText)
                     .font(.title2.weight(.bold))
-                    .foregroundStyle(AppColors.primary)
+                    .foregroundStyle(successRate > 0 ? AppColors.primary : AppColors.textTertiary)
             }
 
             // Progress bar
@@ -141,19 +176,19 @@ struct CommandDetailView: View {
                         .frame(height: 10)
 
                     RoundedRectangle(cornerRadius: 5)
-                        .fill(AppColors.primaryGradient)
-                        .frame(width: geometry.size.width * 0.68, height: 10)
+                        .fill(successRate > 0 ? AnyShapeStyle(AppColors.primaryGradient) : AnyShapeStyle(AppColors.textTertiary))
+                        .frame(width: geometry.size.width * successRate, height: 10)
                 }
             }
             .frame(height: 10)
 
             // Stats
             HStack {
-                statColumn(value: "24", label: "Sessions")
+                statColumn(value: "\(practiceCount)", label: "Sessions")
                 Spacer()
-                statColumn(value: "87%", label: "Success Rate")
+                statColumn(value: successRateText, label: "Success Rate")
                 Spacer()
-                statColumn(value: "2d", label: "Last Trained")
+                statColumn(value: lastTrainedText, label: "Last Trained")
             }
         }
         .padding(AppSpacing.lg)
@@ -178,56 +213,58 @@ struct CommandDetailView: View {
 
     @ViewBuilder
     private var videoSection: some View {
-        VStack(spacing: 0) {
-            ZStack {
-                // Dark background
-                LinearGradient(
-                    colors: [Color(red: 0.2, green: 0.2, blue: 0.22), Color(red: 0.15, green: 0.15, blue: 0.17)],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
+        if let videoId = command.youtubeVideoId {
+            VStack(alignment: .leading, spacing: AppSpacing.sm) {
+                Text("Training Video")
+                    .font(AppFonts.headline())
+                    .foregroundStyle(AppColors.textPrimary)
 
-                VStack(spacing: AppSpacing.sm) {
-                    // Play button
-                    ZStack {
-                        Circle()
-                            .fill(.white)
-                            .frame(width: 64, height: 64)
-                            .shadow(color: .black.opacity(0.3), radius: 12, y: 4)
-
-                        Image(systemName: "play.fill")
-                            .font(.title2)
-                            .foregroundStyle(AppColors.primary)
-                            .offset(x: 2)
-                    }
-
-                    Text("Watch Training Video")
-                        .font(AppFonts.subheadline())
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.white.opacity(0.8))
-                }
-
-                // Duration badge
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        Text("1:24")
-                            .font(AppFonts.caption())
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, AppSpacing.sm)
-                            .padding(.vertical, AppSpacing.xxs)
-                            .background(Color.black.opacity(0.8))
-                            .clipShape(.rect(cornerRadius: AppRadius.xs))
-                            .padding(AppSpacing.sm)
-                    }
-                }
+                YouTubePlayerView(videoId: videoId)
+                    .frame(height: 200)
+                    .clipShape(.rect(cornerRadius: AppRadius.lg))
             }
-            .frame(height: 200)
+            .padding(AppSpacing.lg)
+            .background(.white)
+            .clipShape(.rect(cornerRadius: AppRadius.lg))
+            .shadow(color: .black.opacity(0.04), radius: 8, y: 2)
+        } else {
+            VStack(spacing: 0) {
+                ZStack {
+                    LinearGradient(
+                        colors: [Color(red: 0.2, green: 0.2, blue: 0.22), Color(red: 0.15, green: 0.15, blue: 0.17)],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+
+                    VStack(spacing: AppSpacing.md) {
+                        ZStack {
+                            Circle()
+                                .fill(.white.opacity(0.15))
+                                .frame(width: 64, height: 64)
+
+                            Image(systemName: "video.fill")
+                                .font(.system(size: 24))
+                                .foregroundStyle(.white.opacity(0.6))
+                        }
+
+                        VStack(spacing: AppSpacing.xxs) {
+                            Text("Training Video")
+                                .font(AppFonts.headline())
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.white)
+
+                            Text("Coming Soon")
+                                .font(AppFonts.caption())
+                                .fontWeight(.medium)
+                                .foregroundStyle(.white.opacity(0.5))
+                        }
+                    }
+                }
+                .frame(height: 160)
+            }
+            .clipShape(.rect(cornerRadius: AppRadius.lg))
+            .shadow(color: .black.opacity(0.04), radius: 8, y: 2)
         }
-        .clipShape(.rect(cornerRadius: AppRadius.lg))
-        .shadow(color: .black.opacity(0.04), radius: 8, y: 2)
     }
 
     @ViewBuilder
@@ -265,8 +302,7 @@ struct CommandDetailView: View {
     private var tipsCard: some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
             HStack(spacing: AppSpacing.sm) {
-                Image(systemName: "lightbulb.fill")
-                    .foregroundStyle(AppColors.warning)
+                PiAPIIcon(name: PiAPIIcons.lightbulb, size: 22)
 
                 Text("Pro Tips")
                     .font(AppFonts.headline())
@@ -293,7 +329,7 @@ struct CommandDetailView: View {
 
     @ViewBuilder
     private var bottomButton: some View {
-        VStack {
+        VStack(spacing: 0) {
             LinearGradient(
                 colors: [AppColors.background.opacity(0), AppColors.background],
                 startPoint: .top,
@@ -301,15 +337,17 @@ struct CommandDetailView: View {
             )
             .frame(height: 40)
 
-            PrimaryButton(
-                title: "Start Training \(command.name)",
-                icon: "play.fill",
-                isDisabled: currentDog == nil
-            ) {
-                showingTraining = true
+            VStack {
+                PrimaryButton(
+                    title: "Start Training \(command.name)",
+                    iconName: PiAPIIcons.play,
+                    isDisabled: currentDog == nil
+                ) {
+                    showingTraining = true
+                }
+                .padding(.horizontal, AppSpacing.xl)
             }
-            .padding(.horizontal, AppSpacing.xl)
-            .padding(.bottom, AppSpacing.xxxl)
+            .padding(.bottom, 100) // Account for tab bar height
             .background(AppColors.background)
         }
     }

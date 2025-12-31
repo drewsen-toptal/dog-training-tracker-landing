@@ -2,7 +2,7 @@ import SwiftUI
 
 struct PrimaryButton: View {
     let title: String
-    var icon: String?
+    var iconName: String?
     var isLoading: Bool = false
     var isDisabled: Bool = false
     let action: () -> Void
@@ -14,9 +14,8 @@ struct PrimaryButton: View {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle(tint: .white))
                 } else {
-                    if let icon {
-                        Image(systemName: icon)
-                            .font(.body.weight(.semibold))
+                    if let iconName {
+                        PiAPIIcon(name: iconName, size: 24, clipToCircle: true)
                     }
                     Text(title)
                         .font(AppFonts.headline())
@@ -38,20 +37,21 @@ struct PrimaryButton: View {
             )
         }
         .disabled(isDisabled || isLoading)
+        .accessibilityLabel(isLoading ? "Loading" : title)
+        .accessibilityAddTraits(isDisabled ? .isButton : [.isButton])
     }
 }
 
 struct SecondaryButton: View {
     let title: String
-    var icon: String?
+    var iconName: String?
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
             HStack(spacing: AppSpacing.sm) {
-                if let icon {
-                    Image(systemName: icon)
-                        .font(.body.weight(.semibold))
+                if let iconName {
+                    PiAPIIcon(name: iconName, size: 24, clipToCircle: true)
                 }
                 Text(title)
                     .font(AppFonts.headline())
@@ -71,15 +71,14 @@ struct SecondaryButton: View {
 
 struct SuccessButton: View {
     let title: String
-    var icon: String?
+    var iconName: String?
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
             HStack(spacing: AppSpacing.sm) {
-                if let icon {
-                    Image(systemName: icon)
-                        .font(.body.weight(.semibold))
+                if let iconName {
+                    PiAPIIcon(name: iconName, size: 26, clipToCircle: true)
                 }
                 Text(title)
                     .font(AppFonts.headline())
@@ -91,20 +90,21 @@ struct SuccessButton: View {
             .clipShape(.rect(cornerRadius: AppRadius.lg))
             .shadow(color: AppColors.success.opacity(0.4), radius: 12, y: 4)
         }
+        .accessibilityLabel(title)
+        .accessibilityHint("Records a successful training attempt")
     }
 }
 
 struct FailButton: View {
     let title: String
-    var icon: String?
+    var iconName: String?
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
             HStack(spacing: AppSpacing.sm) {
-                if let icon {
-                    Image(systemName: icon)
-                        .font(.body.weight(.semibold))
+                if let iconName {
+                    PiAPIIcon(name: iconName, size: 26, clipToCircle: true)
                 }
                 Text(title)
                     .font(AppFonts.headline())
@@ -115,19 +115,21 @@ struct FailButton: View {
             .background(Color(red: 0.25, green: 0.25, blue: 0.27))
             .clipShape(.rect(cornerRadius: AppRadius.lg))
         }
+        .accessibilityLabel(title)
+        .accessibilityHint("Records an attempt that needs more practice")
     }
 }
 
 #Preview {
     VStack(spacing: 16) {
-        PrimaryButton(title: "Start Training", icon: "play.fill") {}
+        PrimaryButton(title: "Start Training", iconName: PiAPIIcons.play) {}
         PrimaryButton(title: "Loading...", isLoading: true) {}
         PrimaryButton(title: "Disabled", isDisabled: true) {}
-        SecondaryButton(title: "Cancel", icon: "xmark") {}
+        SecondaryButton(title: "Cancel", iconName: PiAPIIcons.close) {}
 
         HStack(spacing: 16) {
-            FailButton(title: "Needs Work", icon: "xmark") {}
-            SuccessButton(title: "Success!", icon: "checkmark") {}
+            FailButton(title: "Needs Work", iconName: PiAPIIcons.close) {}
+            SuccessButton(title: "Success!", iconName: PiAPIIcons.checkmark) {}
         }
     }
     .padding()

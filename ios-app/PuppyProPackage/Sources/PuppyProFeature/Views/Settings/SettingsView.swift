@@ -1,335 +1,147 @@
 import SwiftUI
 import SwiftData
+import StoreKit
 
 struct SettingsView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.requestReview) private var requestReview
     @Query private var dogs: [Dog]
     @Query private var sessions: [TrainingSession]
-
-    @State private var trainingRemindersEnabled = true
-    @State private var hapticEnabled = true
-    @State private var showingEditDog = false
 
     private var currentDog: Dog? {
         dogs.first
     }
 
-    private var currentStreak: Int {
-        var streak = 0
-        let calendar = Calendar.current
-        var checkDate = calendar.startOfDay(for: Date())
-
-        while true {
-            let hasSessionOnDate = sessions.contains { session in
-                calendar.isDate(session.startTime, inSameDayAs: checkDate)
-            }
-
-            if hasSessionOnDate {
-                streak += 1
-                guard let previousDay = calendar.date(byAdding: .day, value: -1, to: checkDate) else { break }
-                checkDate = previousDay
-            } else if streak == 0 {
-                guard let yesterday = calendar.date(byAdding: .day, value: -1, to: checkDate) else { break }
-                checkDate = yesterday
-            } else {
-                break
-            }
-        }
-
-        return streak
-    }
-
     var body: some View {
         ScrollView {
             VStack(spacing: AppSpacing.lg) {
-                // Dog profile card
-                if let dog = currentDog {
-                    profileCard(dog)
-                }
+                // Profile Card
+                profileCard
 
-                // Training settings
-                settingsSection(title: "Training") {
-                    toggleRow(
-                        icon: "bell.fill",
-                        iconColor: AppColors.primary,
-                        title: "Training Reminders",
-                        subtitle: "Get notified when reviews are due",
-                        isOn: $trainingRemindersEnabled
-                    )
-
-                    navigationRow(
-                        icon: "clock.fill",
-                        iconColor: AppColors.warning,
-                        title: "Reminder Time",
-                        value: "9:00 AM"
-                    )
-
-                    navigationRow(
-                        icon: "target",
-                        iconColor: AppColors.success,
-                        title: "Daily Goal",
-                        value: "3 sessions"
-                    )
-                }
-
-                // Clicker settings
-                settingsSection(title: "Clicker") {
-                    navigationRow(
-                        icon: "speaker.wave.2.fill",
-                        iconColor: Color.purple,
-                        title: "Clicker Sound",
-                        value: "Classic"
-                    )
-
-                    toggleRow(
-                        icon: "waveform",
-                        iconColor: Color.purple,
-                        title: "Haptic Feedback",
-                        subtitle: nil,
-                        isOn: $hapticEnabled
-                    )
-                }
-
-                // Data & Privacy
-                settingsSection(title: "Data & Privacy") {
-                    navigationRow(
-                        icon: "arrow.down.doc.fill",
-                        iconColor: AppColors.textSecondary,
-                        title: "Export Training Data",
-                        value: nil
-                    )
-
-                    navigationRow(
-                        icon: "arrow.clockwise",
-                        iconColor: AppColors.textSecondary,
-                        title: "Restore Purchase",
-                        value: nil
-                    )
-
-                    navigationRow(
-                        icon: "trash.fill",
-                        iconColor: AppColors.error,
-                        title: "Reset All Progress",
-                        value: nil,
-                        titleColor: AppColors.error
-                    )
-                }
-
-                // Support
-                settingsSection(title: "Support") {
-                    navigationRow(
-                        icon: "questionmark.circle.fill",
-                        iconColor: AppColors.textSecondary,
-                        title: "Help & FAQ",
-                        value: nil
-                    )
-
-                    navigationRow(
-                        icon: "envelope.fill",
-                        iconColor: AppColors.textSecondary,
-                        title: "Contact Us",
-                        value: nil
-                    )
-
-                    navigationRow(
-                        icon: "star.fill",
-                        iconColor: AppColors.textSecondary,
-                        title: "Rate Puppy PRO",
-                        value: nil
-                    )
-                }
-
-                // Version info
-                versionInfo
+                // Settings Sections
+                settingsSections
             }
-            .padding(.horizontal, AppSpacing.lg)
-            .padding(.bottom, 100)
+            .padding(AppSpacing.lg)
         }
         .background(AppColors.background)
         .navigationTitle("Settings")
     }
 
     @ViewBuilder
-    private func profileCard(_ dog: Dog) -> some View {
-        VStack(spacing: AppSpacing.lg) {
-            // Profile header
-            HStack(spacing: AppSpacing.lg) {
+    private var profileCard: some View {
+        VStack(spacing: AppSpacing.md) {
+            if let dog = currentDog {
                 DogAvatar(
                     name: dog.name,
+                    breed: dog.breed,
                     imageData: dog.photoData,
-                    size: 80,
-                    showEditButton: true
-                ) {
-                    showingEditDog = true
+                    size: 80
+                )
+
+                Text(dog.name)
+                    .font(.system(size: 20, weight: .bold))
+                    .foregroundStyle(AppColors.textPrimary)
+
+                if let breed = dog.breed {
+                    Text(breed)
+                        .font(.system(size: 14))
+                        .foregroundStyle(AppColors.textSecondary)
                 }
 
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(dog.name)
-                        .font(.title2.weight(.bold))
-                        .foregroundStyle(AppColors.textPrimary)
-
-                    if let breed = dog.breed {
-                        Text("\(breed) • \(dog.ageDescription)")
-                            .font(AppFonts.subheadline())
-                            .foregroundStyle(AppColors.textSecondary)
-                    }
-                }
-
-                Spacer()
+                Text("\(sessions.count) training sessions")
+                    .font(.system(size: 13))
+                    .foregroundStyle(AppColors.textTertiary)
+            } else {
+                Text("No dog added yet")
+                    .font(.system(size: 16))
+                    .foregroundStyle(AppColors.textSecondary)
             }
-
-            // Profile stats
-            HStack(spacing: AppSpacing.sm) {
-                profileStat(value: "\(currentStreak)", label: "Day Streak")
-                profileStat(value: "\(sessions.count)", label: "Sessions")
-                profileStat(value: "\(dog.masteredCommandsCount)", label: "Commands")
-            }
-        }
-        .padding(AppSpacing.xl)
-        .background(.white)
-        .clipShape(.rect(cornerRadius: AppRadius.lg))
-        .shadow(color: .black.opacity(0.04), radius: 8, y: 2)
-    }
-
-    @ViewBuilder
-    private func profileStat(value: String, label: String) -> some View {
-        VStack(spacing: AppSpacing.xxs) {
-            Text(value)
-                .font(.title2.weight(.bold))
-                .foregroundStyle(AppColors.primary)
-
-            Text(label.uppercased())
-                .font(.caption2)
-                .fontWeight(.semibold)
-                .foregroundStyle(AppColors.textSecondary)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, AppSpacing.sm)
-        .background(AppColors.background)
-        .clipShape(.rect(cornerRadius: AppRadius.md))
+        .padding(AppSpacing.xl)
+        .background(.white)
+        .clipShape(RoundedRectangle(cornerRadius: AppRadius.lg))
+        .shadow(color: .black.opacity(0.05), radius: 8, y: 2)
     }
 
     @ViewBuilder
-    private func settingsSection(title: String, @ViewBuilder content: () -> some View) -> some View {
-        VStack(alignment: .leading, spacing: AppSpacing.sm) {
-            Text(title.uppercased())
-                .font(.caption)
-                .fontWeight(.semibold)
-                .foregroundStyle(AppColors.textSecondary)
-                .tracking(0.5)
-                .padding(.leading, AppSpacing.xxs)
-
-            VStack(spacing: 0) {
-                content()
+    private var settingsSections: some View {
+        VStack(spacing: AppSpacing.md) {
+            NavigationLink {
+                NotificationsView()
+            } label: {
+                SettingsRow(
+                    iconName: PiAPIIcons.bell,
+                    title: "Notifications",
+                    subtitle: "Reminders & alerts"
+                )
             }
-            .background(.white)
-            .clipShape(.rect(cornerRadius: AppRadius.lg))
-            .shadow(color: .black.opacity(0.03), radius: 6, y: 2)
+            .buttonStyle(.plain)
+            .accessibilityLabel("Notifications Settings")
+            .accessibilityHint("Double-tap to configure reminders and alerts")
+
+            NavigationLink {
+                TrainingGoalsView()
+            } label: {
+                SettingsRow(
+                    iconName: PiAPIIcons.target,
+                    title: "Training Goals",
+                    subtitle: "Daily session targets"
+                )
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Training Goals")
+            .accessibilityHint("Double-tap to set your daily session targets")
+
+            Button {
+                requestReview()
+            } label: {
+                SettingsRow(
+                    iconName: PiAPIIcons.star,
+                    title: "Rate App",
+                    subtitle: "Share your feedback"
+                )
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Rate App")
+            .accessibilityHint("Double-tap to rate PuppyPro on the App Store")
         }
+        .padding(AppSpacing.md)
+        .background(.white)
+        .clipShape(RoundedRectangle(cornerRadius: AppRadius.lg))
+        .shadow(color: .black.opacity(0.05), radius: 8, y: 2)
     }
+}
 
-    @ViewBuilder
-    private func toggleRow(
-        icon: String,
-        iconColor: Color,
-        title: String,
-        subtitle: String?,
-        isOn: Binding<Bool>
-    ) -> some View {
-        HStack(spacing: AppSpacing.sm) {
-            ZStack {
-                iconColor.opacity(0.12)
-                Image(systemName: icon)
-                    .font(.body)
-                    .foregroundStyle(iconColor)
-            }
-            .frame(width: 36, height: 36)
-            .clipShape(.rect(cornerRadius: AppRadius.sm))
+// MARK: - Settings Row
+
+struct SettingsRow: View {
+    let iconName: String
+    let title: String
+    let subtitle: String
+
+    var body: some View {
+        HStack(spacing: AppSpacing.md) {
+            // PiAPI 3D icons already have a white background baked in
+            PiAPIIcon(name: iconName, size: 40)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
-                    .font(AppFonts.body())
+                    .font(.system(size: 16, weight: .semibold))
                     .foregroundStyle(AppColors.textPrimary)
 
-                if let subtitle {
-                    Text(subtitle)
-                        .font(AppFonts.caption())
-                        .foregroundStyle(AppColors.textSecondary)
-                }
+                Text(subtitle)
+                    .font(.system(size: 13))
+                    .foregroundStyle(AppColors.textSecondary)
             }
 
             Spacer()
 
-            Toggle("", isOn: isOn)
-                .labelsHidden()
-                .tint(AppColors.primary)
-        }
-        .padding(AppSpacing.md)
-    }
-
-    @ViewBuilder
-    private func navigationRow(
-        icon: String,
-        iconColor: Color,
-        title: String,
-        value: String?,
-        titleColor: Color = AppColors.textPrimary
-    ) -> some View {
-        Button {
-            // Navigation action
-        } label: {
-            HStack(spacing: AppSpacing.sm) {
-                ZStack {
-                    iconColor.opacity(0.12)
-                    Image(systemName: icon)
-                        .font(.body)
-                        .foregroundStyle(iconColor)
-                }
-                .frame(width: 36, height: 36)
-                .clipShape(.rect(cornerRadius: AppRadius.sm))
-
-                Text(title)
-                    .font(AppFonts.body())
-                    .foregroundStyle(titleColor)
-
-                Spacer()
-
-                if let value {
-                    Text(value)
-                        .font(AppFonts.subheadline())
-                        .foregroundStyle(AppColors.textSecondary)
-                }
-
-                Image(systemName: "chevron.right")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(AppColors.textTertiary)
-            }
-            .padding(AppSpacing.md)
-        }
-        .buttonStyle(.plain)
-    }
-
-    @ViewBuilder
-    private var versionInfo: some View {
-        VStack(spacing: AppSpacing.xxs) {
-            Text("Puppy PRO v1.0.0")
-                .font(AppFonts.caption())
+            Image(systemName: "chevron.right")
+                .font(.system(size: 14, weight: .semibold))
                 .foregroundStyle(AppColors.textTertiary)
-
-            HStack(spacing: 4) {
-                Text("Made with")
-                    .font(AppFonts.caption())
-                    .foregroundStyle(AppColors.textTertiary)
-
-                Image(systemName: "heart.fill")
-                    .font(.caption)
-                    .foregroundStyle(AppColors.error)
-
-                Text("for dog lovers")
-                    .font(AppFonts.caption())
-                    .foregroundStyle(AppColors.textTertiary)
-            }
         }
-        .padding(.vertical, AppSpacing.lg)
+        .padding(.vertical, AppSpacing.sm)
     }
 }
 
@@ -337,5 +149,4 @@ struct SettingsView: View {
     NavigationStack {
         SettingsView()
     }
-    .modelContainer(for: [Dog.self, TrainingSession.self], inMemory: true)
 }

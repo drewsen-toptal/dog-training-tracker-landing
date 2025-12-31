@@ -13,9 +13,16 @@ struct ProgressDashboardView: View {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
 
-        return (0..<7).reversed().map { daysAgo in
-            guard let date = calendar.date(byAdding: .day, value: -daysAgo, to: today) else {
-                return DayActivity(day: "?", percentage: 0)
+        // Get start of week (Monday)
+        let weekday = calendar.component(.weekday, from: today)
+        let daysFromMonday = (weekday + 5) % 7 // Convert to Monday = 0
+        guard let startOfWeek = calendar.date(byAdding: .day, value: -daysFromMonday, to: today) else {
+            return []
+        }
+
+        return (0..<7).compactMap { dayOffset -> DayActivity? in
+            guard let date = calendar.date(byAdding: .day, value: dayOffset, to: startOfWeek) else {
+                return nil
             }
 
             let dayFormatter = DateFormatter()
@@ -41,9 +48,12 @@ struct ProgressDashboardView: View {
     }
 
     private var currentStreak: Int {
+        guard !sessions.isEmpty else { return 0 }
+
         var streak = 0
         let calendar = Calendar.current
         var checkDate = calendar.startOfDay(for: Date())
+        var checkedYesterday = false
 
         while true {
             let hasSessionOnDate = sessions.contains { session in
@@ -54,7 +64,8 @@ struct ProgressDashboardView: View {
                 streak += 1
                 guard let previousDay = calendar.date(byAdding: .day, value: -1, to: checkDate) else { break }
                 checkDate = previousDay
-            } else if streak == 0 {
+            } else if streak == 0 && !checkedYesterday {
+                checkedYesterday = true
                 guard let yesterday = calendar.date(byAdding: .day, value: -1, to: checkDate) else { break }
                 checkDate = yesterday
             } else {
@@ -66,96 +77,134 @@ struct ProgressDashboardView: View {
     }
 
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: AppSpacing.lg) {
-                    // Dog profile header
-                    if let dog = currentDog {
-                        dogHeader(dog)
-                    }
+        ScrollView {
+            VStack(spacing: 0) {
+                // Dog profile header or empty state
+                if let dog = currentDog {
+                    dogHeader(dog)
 
                     // Stats cards
-                    statsCards
+                    HStack(spacing: 16) {
+                        StatCard(
+                            title: "Success Rate",
+                            value: "\(successRate)%",
+                            iconName: PiAPIIcons.checkmark,
+                            valueColor: AppColors.success
+                        )
+
+                        StatCard(
+                            title: "Day Streak",
+                            value: "\(currentStreak)",
+                            iconName: PiAPIIcons.fireStreak,
+                            valueColor: AppColors.warning
+                        )
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 24)
 
                     // Weekly activity chart
                     weeklyActivityChart
+                        .padding(.horizontal, 24)
+                        .padding(.bottom, 24)
 
-                    // Recent achievements
-                    achievementsSection
+                    // Recent achievements or empty state
+                    if sessions.isEmpty {
+                        noTrainingDataCard
+                            .padding(.horizontal, 24)
+                            .padding(.bottom, 100)
+                    } else {
+                        achievementsSection
+                            .padding(.horizontal, 24)
+                            .padding(.bottom, 100)
+                    }
+                } else {
+                    // No dog empty state
+                    EmptyStateView(
+                        iconName: PiAPIIcons.puppyMascot,
+                        title: "No Dog Added Yet",
+                        message: "Add your furry friend to start tracking their training progress."
+                    )
+                    .padding(.top, 100)
                 }
-                .padding(.horizontal, AppSpacing.lg)
-                .padding(.bottom, 100)
             }
-            .background(AppColors.background)
-            .navigationTitle("Progress")
         }
+        .background(AppColors.background)
+        .navigationBarHidden(true)
+    }
+
+    @ViewBuilder
+    private var noTrainingDataCard: some View {
+        VStack(spacing: AppSpacing.md) {
+            PiAPIIcon(name: PiAPIIcons.target, size: 56)
+
+            VStack(spacing: AppSpacing.xxs) {
+                Text("No Training Data Yet")
+                    .font(.system(size: 17, weight: .semibold))
+                    .foregroundStyle(AppColors.textPrimary)
+
+                Text("Complete some training sessions to see your achievements here.")
+                    .font(.system(size: 14))
+                    .foregroundStyle(AppColors.textSecondary)
+                    .multilineTextAlignment(.center)
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(24)
+        .background(.white)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .shadow(color: .black.opacity(0.05), radius: 3, y: 1)
     }
 
     @ViewBuilder
     private func dogHeader(_ dog: Dog) -> some View {
-        HStack(spacing: AppSpacing.md) {
+        HStack(spacing: 16) {
             DogAvatar(
                 name: dog.name,
+                breed: dog.breed,
                 imageData: dog.photoData,
                 size: 64
             )
 
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: 4) {
                 Text(dog.name)
-                    .font(.title2.weight(.bold))
+                    .font(.system(size: 24, weight: .bold))
                     .foregroundStyle(AppColors.textPrimary)
 
-                if let breed = dog.breed {
-                    Text("\(breed) • \(dog.ageDescription)")
-                        .font(AppFonts.subheadline())
-                        .foregroundStyle(AppColors.textSecondary)
-                }
+                Text("\(dog.breed ?? "Dog") • \(dog.ageDescription)")
+                    .font(.system(size: 14))
+                    .foregroundStyle(AppColors.textSecondary)
             }
 
             Spacer()
         }
-        .padding(AppSpacing.lg)
+        .padding(.horizontal, 24)
+        .padding(.top, 16)
+        .padding(.bottom, 24)
         .background(.white)
-        .clipShape(.rect(cornerRadius: AppRadius.lg))
-        .shadow(color: .black.opacity(0.04), radius: 8, y: 2)
-    }
-
-    @ViewBuilder
-    private var statsCards: some View {
-        HStack(spacing: AppSpacing.md) {
-            StatCard(
-                title: "Success Rate",
-                value: "\(successRate)%",
-                iconSystemName: "checkmark.circle.fill",
-                valueColor: AppColors.success
-            )
-
-            StatCard(
-                title: "Day Streak",
-                value: "\(currentStreak)",
-                iconSystemName: "flame.fill",
-                valueColor: AppColors.warning
-            )
+        .overlay(alignment: .bottom) {
+            Rectangle()
+                .fill(Color(red: 0.92, green: 0.92, blue: 0.92))
+                .frame(height: 1)
         }
     }
 
     @ViewBuilder
     private var weeklyActivityChart: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.md) {
+        VStack(alignment: .leading, spacing: 20) {
             Text("Weekly Activity")
-                .font(AppFonts.headline())
+                .font(.system(size: 17, weight: .semibold))
                 .foregroundStyle(AppColors.textPrimary)
 
-            HStack(alignment: .bottom, spacing: AppSpacing.xs) {
+            HStack(alignment: .bottom, spacing: 12) {
                 ForEach(weeklyData) { day in
-                    VStack(spacing: AppSpacing.xs) {
-                        // Bar
+                    VStack(spacing: 8) {
+                        // Bar container
                         ZStack(alignment: .bottom) {
-                            RoundedRectangle(cornerRadius: AppRadius.xs)
-                                .fill(AppColors.background)
+                            RoundedRectangle(cornerRadius: 6)
+                                .fill(Color(red: 0.94, green: 0.94, blue: 0.94))
                                 .frame(height: 140)
 
-                            RoundedRectangle(cornerRadius: AppRadius.xs)
+                            RoundedRectangle(cornerRadius: 6)
                                 .fill(AppColors.primary)
                                 .frame(height: max(8, 140 * day.percentage))
                         }
@@ -163,74 +212,68 @@ struct ProgressDashboardView: View {
 
                         // Day label
                         Text(day.day)
-                            .font(.caption2)
-                            .fontWeight(.medium)
+                            .font(.system(size: 11, weight: .medium))
                             .foregroundStyle(AppColors.textSecondary)
                     }
                 }
             }
         }
-        .padding(AppSpacing.lg)
+        .padding(20)
         .background(.white)
-        .clipShape(.rect(cornerRadius: AppRadius.lg))
-        .shadow(color: .black.opacity(0.03), radius: 6, y: 2)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .shadow(color: .black.opacity(0.05), radius: 3, y: 1)
     }
 
     @ViewBuilder
     private var achievementsSection: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.md) {
+        VStack(alignment: .leading, spacing: 16) {
             Text("Recent Achievements")
-                .font(AppFonts.headline())
+                .font(.system(size: 17, weight: .semibold))
                 .foregroundStyle(AppColors.textPrimary)
 
-            VStack(spacing: AppSpacing.sm) {
+            VStack(spacing: 12) {
                 achievementRow(
-                    icon: "trophy.fill",
-                    iconColor: AppColors.warning,
+                    iconName: PiAPIIcons.trophy,
                     title: "Week Warrior",
                     description: "Trained 7 days straight"
                 )
 
                 achievementRow(
-                    icon: "star.fill",
-                    iconColor: AppColors.primary,
+                    iconName: PiAPIIcons.star,
                     title: "Command Master",
                     description: "Mastered \"Sit\" command"
                 )
 
                 achievementRow(
-                    icon: "target",
-                    iconColor: AppColors.primary,
+                    iconName: PiAPIIcons.target,
                     title: "Perfect Session",
                     description: "100% success rate today"
                 )
             }
         }
-        .padding(AppSpacing.lg)
+        .padding(20)
         .background(.white)
-        .clipShape(.rect(cornerRadius: AppRadius.lg))
-        .shadow(color: .black.opacity(0.03), radius: 6, y: 2)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .shadow(color: .black.opacity(0.05), radius: 3, y: 1)
     }
 
     @ViewBuilder
-    private func achievementRow(icon: String, iconColor: Color, title: String, description: String) -> some View {
-        HStack(spacing: AppSpacing.sm) {
-            ZStack {
-                iconColor.opacity(0.12)
-                Image(systemName: icon)
-                    .font(.title3)
-                    .foregroundStyle(iconColor)
-            }
-            .frame(width: 44, height: 44)
-            .clipShape(.rect(cornerRadius: AppRadius.sm))
+    private func achievementRow(
+        iconName: String,
+        title: String,
+        description: String
+    ) -> some View {
+        HStack(spacing: 12) {
+            // PiAPI 3D icons already have a white background baked in
+            PiAPIIcon(name: iconName, size: 44)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
-                    .font(AppFonts.headline())
+                    .font(.system(size: 15, weight: .semibold))
                     .foregroundStyle(AppColors.textPrimary)
 
                 Text(description)
-                    .font(AppFonts.caption())
+                    .font(.system(size: 13))
                     .foregroundStyle(AppColors.textSecondary)
             }
 

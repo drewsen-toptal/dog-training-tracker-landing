@@ -16,7 +16,7 @@ struct TrainingSessionView: View {
     @State private var timerTask: Task<Void, Never>?
     @State private var showingSessionComplete = false
 
-    private let commands: [Command] = Array(Command.allCommands.prefix(5))
+    private let commands: [Command] = Array(Command.allCommands.shuffled().prefix(5))
 
     private var currentCommand: Command? {
         guard currentCommandIndex < commands.count else { return nil }
@@ -42,9 +42,9 @@ struct TrainingSessionView: View {
                     // Header
                     headerView
 
-                    // Main content
+                    // Main content (scrollable)
                     ScrollView {
-                        VStack(spacing: AppSpacing.xl) {
+                        VStack(spacing: AppSpacing.lg) {
                             if let command = currentCommand {
                                 // Command display
                                 commandDisplayView(command)
@@ -54,25 +54,32 @@ struct TrainingSessionView: View {
 
                                 // Clicker button
                                 clickerSection
-
-                                // Response buttons
-                                responseButtonsSection
                             }
                         }
-                        .padding(AppSpacing.lg)
+                        .padding(.horizontal, AppSpacing.lg)
+                        .padding(.top, AppSpacing.lg)
                     }
 
-                    // Progress dots
-                    progressDotsView
-                        .padding(.bottom, AppSpacing.md)
+                    // Fixed bottom section - always visible
+                    VStack(spacing: AppSpacing.lg) {
+                        // Response buttons - always visible
+                        responseButtonsSection
+                            .padding(.horizontal, AppSpacing.lg)
 
-                    // Skip button
-                    Button("Skip this command") {
-                        nextCommand()
+                        // Progress dots
+                        progressDotsView
+
+                        // Skip button
+                        Button("Skip this command") {
+                            nextCommand()
+                        }
+                        .font(AppFonts.subheadline())
+                        .foregroundStyle(.white.opacity(0.5))
+                        .accessibilityLabel("Skip Command")
+                        .accessibilityHint("Double-tap to skip to the next command")
                     }
-                    .font(AppFonts.subheadline())
-                    .foregroundStyle(.white.opacity(0.5))
-                    .padding(.bottom, AppSpacing.xxl)
+                    .padding(.top, AppSpacing.lg)
+                    .padding(.bottom, AppSpacing.xl)
                 }
             }
             .navigationBarHidden(true)
@@ -99,13 +106,15 @@ struct TrainingSessionView: View {
                 endSession()
                 dismiss()
             } label: {
-                Image(systemName: "xmark")
-                    .font(.body.weight(.semibold))
-                    .foregroundStyle(.white)
-                    .frame(width: 36, height: 36)
-                    .background(.white.opacity(0.15))
-                    .clipShape(Circle())
+                ZStack {
+                    Circle()
+                        .fill(.white.opacity(0.15))
+                        .frame(width: 36, height: 36)
+                    PiAPIIcon(name: PiAPIIcons.close, size: 18)
+                }
             }
+            .accessibilityLabel("End Session")
+            .accessibilityHint("Double-tap to end the training session and return")
 
             Spacer()
 
@@ -146,20 +155,9 @@ struct TrainingSessionView: View {
     private func commandDisplayView(_ command: Command) -> some View {
         VStack(spacing: AppSpacing.lg) {
             // Command icon
-            AsyncImage(url: URL(string: command.iconUrl ?? "")) { phase in
-                switch phase {
-                case .success(let image):
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                default:
-                    ZStack {
-                        AppColors.primaryGradient
-                        Image(systemName: command.category.iconName)
-                            .font(.system(size: 40))
-                            .foregroundStyle(.white)
-                    }
-                }
+            ZStack {
+                AppColors.primaryGradient
+                PiAPIIcon(name: command.piAPIIconName, size: 48)
             }
             .frame(width: 100, height: 100)
             .clipShape(.rect(cornerRadius: AppRadius.lg))
@@ -239,18 +237,18 @@ struct TrainingSessionView: View {
             // Just haptic feedback - don't count as success/fail
             let impact = UIImpactFeedbackGenerator(style: .heavy)
             impact.impactOccurred()
-        }, size: 160)
-        .padding(.vertical, AppSpacing.md)
+        }, size: 120, showPulseRing: false)
+        .padding(.vertical, AppSpacing.sm)
     }
 
     @ViewBuilder
     private var responseButtonsSection: some View {
         HStack(spacing: AppSpacing.md) {
-            FailButton(title: "Needs Work", icon: "xmark") {
+            FailButton(title: "Needs Work", iconName: PiAPIIcons.close) {
                 recordRep(success: false)
             }
 
-            SuccessButton(title: "Success!", icon: "checkmark") {
+            SuccessButton(title: "Success!", iconName: PiAPIIcons.checkmark) {
                 recordRep(success: true)
             }
         }
@@ -309,6 +307,9 @@ struct TrainingSessionView: View {
         }
 
         session?.recordRep(wasSuccessful: success)
+
+        // Save immediately so data persists
+        try? modelContext.save()
 
         // Check if target reached
         if totalReps >= targetReps {

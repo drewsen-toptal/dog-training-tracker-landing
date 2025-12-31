@@ -1,21 +1,23 @@
 import SwiftUI
+import SwiftData
 import AVFoundation
 
 struct ClickerView: View {
     @Environment(\.dismiss) private var dismiss
+    @Query private var dogs: [Dog]
 
-    @State private var totalClicks = 247 // Would come from UserDefaults or database
+    @AppStorage("totalClickerClicks") private var totalClicks = 0
     @State private var sessionClicks = 0
     @State private var sessionSeconds = 0
     @State private var timerTask: Task<Void, Never>?
-    @State private var soundEnabled = true
+    @AppStorage("clickerSoundEnabled") private var soundEnabled = true
+
+    private var currentDog: Dog? {
+        dogs.first
+    }
 
     var body: some View {
-        ZStack {
-            // Light background
-            AppColors.background
-                .ignoresSafeArea()
-
+        ScrollView {
             VStack(spacing: 0) {
                 // Header
                 headerView
@@ -24,11 +26,8 @@ struct ClickerView: View {
                 counterSection
 
                 // Clicker area
-                Spacer()
-
                 clickerArea
-
-                Spacer()
+                    .padding(.vertical, 40)
 
                 // Session card
                 sessionCard
@@ -37,6 +36,20 @@ struct ClickerView: View {
                 actionButtons
             }
         }
+        .scrollIndicators(.hidden)
+        .scrollBounceBehavior(.basedOnSize)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(
+            LinearGradient(
+                colors: [
+                    Color(red: 0.96, green: 0.96, blue: 0.97),
+                    Color(red: 0.92, green: 0.92, blue: 0.94)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+        )
         .navigationBarHidden(true)
         .onAppear {
             startTimer()
@@ -49,13 +62,26 @@ struct ClickerView: View {
     @ViewBuilder
     private var headerView: some View {
         HStack {
+            // Back button
+            Button {
+                dismiss()
+            } label: {
+                Image(systemName: "chevron.left")
+                    .font(.system(size: 20, weight: .semibold))
+                    .foregroundStyle(AppColors.textSecondary)
+                    .frame(width: 44, height: 44)
+                    .contentShape(Rectangle())
+            }
+            .accessibilityLabel("Go Back")
+            .accessibilityHint("Double-tap to close clicker and return to previous screen")
+
             VStack(alignment: .leading, spacing: 2) {
                 Text("Clicker")
                     .font(.system(size: 28, weight: .bold))
                     .foregroundStyle(AppColors.textPrimary)
 
-                Text("Training Max")
-                    .font(AppFonts.subheadline())
+                Text("Training \(currentDog?.name ?? "your pup")")
+                    .font(.system(size: 15))
                     .foregroundStyle(AppColors.textSecondary)
             }
 
@@ -64,26 +90,22 @@ struct ClickerView: View {
             Button {
                 // Settings
             } label: {
-                Image(systemName: "gearshape.fill")
-                    .font(.title3)
-                    .foregroundStyle(AppColors.textSecondary)
-                    .frame(width: 44, height: 44)
-                    .background(.white)
-                    .clipShape(.rect(cornerRadius: AppRadius.md))
-                    .shadow(color: .black.opacity(0.08), radius: 8, y: 2)
+                // PiAPI 3D icons already have a white background baked in
+                PiAPIIcon(name: PiAPIIcons.settings, size: 44, clipToCircle: true)
             }
+            .accessibilityLabel("Clicker Settings")
+            .accessibilityHint("Double-tap to open clicker settings")
         }
-        .padding(.horizontal, AppSpacing.lg)
-        .padding(.top, AppSpacing.sm)
+        .padding(.horizontal, 20)
+        .padding(.top, 88) // Extra padding for comfortable sheet spacing
         .padding(.bottom, AppSpacing.lg)
     }
 
     @ViewBuilder
     private var counterSection: some View {
-        VStack(spacing: AppSpacing.xs) {
+        VStack(spacing: 8) {
             Text("TOTAL CLICKS")
-                .font(.caption)
-                .fontWeight(.semibold)
+                .font(.system(size: 13, weight: .semibold))
                 .foregroundStyle(AppColors.textSecondary)
                 .tracking(1)
 
@@ -91,12 +113,13 @@ struct ClickerView: View {
                 .font(.system(size: 80, weight: .bold))
                 .foregroundStyle(AppColors.textPrimary)
                 .contentTransition(.numericText())
+                .monospacedDigit()
 
             Text("This session: \(sessionClicks) clicks")
-                .font(AppFonts.subheadline())
+                .font(.system(size: 15))
                 .foregroundStyle(AppColors.textTertiary)
         }
-        .padding(.vertical, AppSpacing.xl)
+        .padding(.vertical, 32)
     }
 
     @ViewBuilder
@@ -110,77 +133,115 @@ struct ClickerView: View {
     private var sessionCard: some View {
         HStack {
             // Timer
-            HStack(spacing: AppSpacing.sm) {
-                ZStack {
-                    AppColors.primary.opacity(0.1)
-                    Image(systemName: "clock.fill")
-                        .foregroundStyle(AppColors.primary)
-                }
-                .frame(width: 44, height: 44)
-                .clipShape(.rect(cornerRadius: AppRadius.sm))
+            HStack(spacing: 12) {
+                // PiAPI 3D icons already have a white background baked in
+                PiAPIIcon(name: PiAPIIcons.clock, size: 44)
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Session Time")
-                        .font(AppFonts.caption())
+                        .font(.system(size: 12, weight: .medium))
                         .foregroundStyle(AppColors.textSecondary)
 
                     Text(formattedTime)
-                        .font(.title2.weight(.bold))
+                        .font(.system(size: 22, weight: .bold))
                         .foregroundStyle(AppColors.textPrimary)
                         .contentTransition(.numericText())
+                        .monospacedDigit()
                 }
             }
 
             Spacer()
 
             // Sound toggle
-            HStack(spacing: AppSpacing.sm) {
+            HStack(spacing: 12) {
                 VStack(alignment: .trailing, spacing: 2) {
                     Text("Sound")
-                        .font(AppFonts.caption())
+                        .font(.system(size: 12, weight: .medium))
                         .foregroundStyle(AppColors.textSecondary)
 
                     Text(soundEnabled ? "ON" : "OFF")
-                        .font(AppFonts.subheadline())
-                        .fontWeight(.semibold)
+                        .font(.system(size: 15, weight: .semibold))
                         .foregroundStyle(AppColors.primary)
                 }
 
                 Button {
-                    soundEnabled.toggle()
-                } label: {
-                    ZStack {
-                        AppColors.primary.opacity(0.1)
-                        Image(systemName: soundEnabled ? "speaker.wave.2.fill" : "speaker.slash.fill")
-                            .foregroundStyle(AppColors.primary)
+                    withAnimation(.spring(response: 0.3)) {
+                        soundEnabled.toggle()
                     }
-                    .frame(width: 44, height: 44)
-                    .clipShape(.rect(cornerRadius: AppRadius.sm))
+
+                    let impact = UIImpactFeedbackGenerator(style: .light)
+                    impact.impactOccurred()
+                } label: {
+                    // PiAPI 3D icons already have a white background baked in
+                    PiAPIIcon(name: soundEnabled ? PiAPIIcons.soundOn : PiAPIIcons.soundOff, size: 44)
                 }
+                .accessibilityLabel("Toggle Sound")
+                .accessibilityValue(soundEnabled ? "On" : "Off")
+                .accessibilityHint("Double-tap to turn clicker sound \(soundEnabled ? "off" : "on")")
             }
         }
-        .padding(AppSpacing.lg)
+        .padding(20)
         .background(.white)
-        .clipShape(.rect(cornerRadius: AppRadius.lg))
-        .shadow(color: .black.opacity(0.08), radius: 12, y: 4)
-        .padding(.horizontal, AppSpacing.lg)
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .shadow(color: .black.opacity(0.08), radius: 20, y: 4)
+        .padding(.horizontal, 20)
     }
 
     @ViewBuilder
     private var actionButtons: some View {
-        HStack(spacing: AppSpacing.sm) {
-            SecondaryButton(title: "Reset", icon: "arrow.counterclockwise") {
-                sessionClicks = 0
-                sessionSeconds = 0
-            }
+        HStack(spacing: 12) {
+            // Reset Button
+            Button {
+                withAnimation(.spring(response: 0.3)) {
+                    sessionClicks = 0
+                    sessionSeconds = 0
+                }
 
-            PrimaryButton(title: "Save Session", icon: "checkmark") {
-                saveSession()
+                let impact = UIImpactFeedbackGenerator(style: .medium)
+                impact.impactOccurred()
+            } label: {
+                HStack(spacing: 8) {
+                    PiAPIIcon(name: PiAPIIcons.reset, size: 22)
+
+                    Text("Reset")
+                        .font(.system(size: 16, weight: .semibold))
+                }
+                .foregroundStyle(AppColors.textSecondary)
+                .frame(maxWidth: .infinity)
+                .frame(height: 56)
+                .background(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(Color(red: 0.90, green: 0.90, blue: 0.90), lineWidth: 2)
+                }
             }
+            .accessibilityLabel("Reset Session")
+            .accessibilityHint("Double-tap to reset the current session clicks and timer")
+
+            // Save Button
+            Button {
+                saveSession()
+            } label: {
+                HStack(spacing: 8) {
+                    PiAPIIcon(name: PiAPIIcons.checkmark, size: 22)
+
+                    Text("Save Session")
+                        .font(.system(size: 16, weight: .semibold))
+                }
+                .foregroundStyle(.white)
+                .frame(maxWidth: .infinity)
+                .frame(height: 56)
+                .background(AppColors.success)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .shadow(color: AppColors.success.opacity(0.35), radius: 16, y: 4)
+            }
+            .accessibilityLabel("Save Session")
+            .accessibilityHint("Double-tap to save \(sessionClicks) clicks and end the session")
         }
-        .padding(.horizontal, AppSpacing.lg)
-        .padding(.vertical, AppSpacing.lg)
-        .padding(.bottom, AppSpacing.xl)
+        .padding(.horizontal, 20)
+        .padding(.vertical, 20)
+        .padding(.bottom, 40)
     }
 
     private var formattedTime: String {
@@ -205,11 +266,7 @@ struct ClickerView: View {
             sessionClicks += 1
         }
 
-        // Haptic
-        let impact = UIImpactFeedbackGenerator(style: .medium)
-        impact.impactOccurred()
-
-        // Sound would play here if enabled
+        // Sound
         if soundEnabled {
             AudioServicesPlaySystemSound(1104) // Tick sound
         }
@@ -232,4 +289,5 @@ struct ClickerView: View {
     NavigationStack {
         ClickerView()
     }
+    .modelContainer(for: Dog.self, inMemory: true)
 }

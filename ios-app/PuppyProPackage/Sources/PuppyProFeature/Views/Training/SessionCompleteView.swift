@@ -32,9 +32,7 @@ struct SessionCompleteView: View {
                             .frame(width: 100, height: 100)
                             .shadow(color: .black.opacity(0.2), radius: 20, y: 8)
 
-                        Image(systemName: "checkmark")
-                            .font(.system(size: 48, weight: .bold))
-                            .foregroundStyle(AppColors.success)
+                        PiAPIIcon(name: PiAPIIcons.checkmark, size: 48)
                     }
                     .scaleEffect(showConfetti ? 1 : 0)
                     .animation(.spring(response: 0.6, dampingFraction: 0.5), value: showConfetti)
@@ -158,19 +156,9 @@ struct SessionCompleteView: View {
     private func commandResultRow(command: Command) -> some View {
         HStack(spacing: AppSpacing.sm) {
             // Command icon
-            AsyncImage(url: URL(string: command.iconUrl ?? "")) { phase in
-                switch phase {
-                case .success(let image):
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                default:
-                    ZStack {
-                        AppColors.success.opacity(0.12)
-                        Image(systemName: command.category.iconName)
-                            .foregroundStyle(AppColors.success)
-                    }
-                }
+            ZStack {
+                AppColors.success.opacity(0.12)
+                PiAPIIcon(name: command.piAPIIconName, size: 28)
             }
             .frame(width: 44, height: 44)
             .clipShape(.rect(cornerRadius: AppRadius.sm))
@@ -203,9 +191,7 @@ struct SessionCompleteView: View {
         HStack(spacing: AppSpacing.sm) {
             ZStack {
                 AppColors.primary.opacity(0.12)
-                Image(systemName: "bolt.fill")
-                    .font(.title3)
-                    .foregroundStyle(AppColors.primary)
+                PiAPIIcon(name: PiAPIIcons.bolt, size: 24)
             }
             .frame(width: 44, height: 44)
             .clipShape(.rect(cornerRadius: AppRadius.sm))
@@ -232,9 +218,7 @@ struct SessionCompleteView: View {
     @ViewBuilder
     private var streakCard: some View {
         HStack(spacing: AppSpacing.sm) {
-            Image(systemName: "flame.fill")
-                .font(.system(size: 32))
-                .foregroundStyle(AppColors.warning)
+            PiAPIIcon(name: PiAPIIcons.fireStreak, size: 32)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text("12 Day Streak!")

@@ -1,62 +1,73 @@
 import SwiftUI
 import SwiftData
+import os.log
+
+private let logger = Logger(subsystem: "com.drewsen.PuppyPro", category: "ContentView")
 
 public struct ContentView: View {
-    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+    @Environment(AppState.self) private var appState
     @State private var selectedTab: AppTab = .home
+    @State private var showingTrainingSheet = false
 
-    public init() {}
+    public init() {
+        logger.info("🏠 ContentView init() called")
+    }
 
     public var body: some View {
-        if hasCompletedOnboarding {
-            mainTabView
-        } else {
-            OnboardingView(hasCompletedOnboarding: $hasCompletedOnboarding)
+        Group {
+            if appState.hasCompletedOnboarding {
+                mainTabView
+            } else {
+                OnboardingView()
+            }
         }
     }
 
     @ViewBuilder
     private var mainTabView: some View {
-        TabView(selection: $selectedTab) {
-            Tab("Home", systemImage: "house.fill", value: .home) {
-                HomeView()
-            }
-
-            Tab("Commands", systemImage: "list.bullet.rectangle.fill", value: .commands) {
-                NavigationStack {
-                    CommandListView()
+        ZStack(alignment: .bottom) {
+            // Content area
+            Group {
+                switch selectedTab {
+                case .home:
+                    NavigationStack {
+                        HomeView()
+                    }
+                case .commands:
+                    NavigationStack {
+                        CommandListView()
+                    }
+                case .progress:
+                    NavigationStack {
+                        ProgressDashboardView()
+                    }
+                case .settings:
+                    NavigationStack {
+                        SettingsView()
+                    }
                 }
             }
 
-            Tab("Clicker", systemImage: "hand.tap.fill", value: .clicker) {
-                NavigationStack {
-                    ClickerView()
-                }
-            }
-
-            Tab("Progress", systemImage: "chart.bar.fill", value: .progress) {
-                ProgressDashboardView()
-            }
-
-            Tab("Settings", systemImage: "gearshape.fill", value: .settings) {
-                NavigationStack {
-                    SettingsView()
-                }
+            // Custom floating tab bar
+            CustomTabBar(selectedTab: $selectedTab) {
+                showingTrainingSheet = true
             }
         }
-        .tint(AppColors.primary)
+        .sheet(isPresented: $showingTrainingSheet) {
+            ClickerView()
+        }
     }
 }
 
 enum AppTab: String, Hashable {
     case home
     case commands
-    case clicker
     case progress
     case settings
 }
 
 #Preview {
     ContentView()
+        .environment(AppState())
         .modelContainer(for: [Dog.self, TrainingSession.self, CommandProgress.self], inMemory: true)
 }

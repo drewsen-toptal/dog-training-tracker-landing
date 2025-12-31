@@ -61,7 +61,17 @@ struct Command: Codable, Identifiable {
     let tips: [String]
     let commonMistakes: [String]
     let prerequisites: [String]?
-    let iconUrl: String?
+    let youtubeVideoId: String?
+
+    var youtubeUrl: URL? {
+        guard let videoId = youtubeVideoId else { return nil }
+        return URL(string: "https://www.youtube.com/watch?v=\(videoId)")
+    }
+
+    var youtubeEmbedUrl: URL? {
+        guard let videoId = youtubeVideoId else { return nil }
+        return URL(string: "https://www.youtube.com/embed/\(videoId)")
+    }
 
     static let allCommands: [Command] = [
         Command(
@@ -81,7 +91,7 @@ struct Command: Codable, Identifiable {
             tips: ["Practice in short 5-minute sessions", "Be patient and consistent", "Always end on a positive note"],
             commonMistakes: ["Pushing down on the dog's back", "Repeating the command multiple times", "Treating too late"],
             prerequisites: nil,
-            iconUrl: nil
+            youtubeVideoId: "1GbYflg4gJg"
         ),
         Command(
             id: "stay",
@@ -100,7 +110,7 @@ struct Command: Codable, Identifiable {
             tips: ["Always release with a consistent word like 'Okay!' or 'Free!'", "Start with short stays (2-3 seconds) and build up slowly", "Practice in low-distraction areas first before adding challenges"],
             commonMistakes: ["Increasing distance too quickly", "Not using a release word", "Punishing the dog for breaking stay"],
             prerequisites: ["sit"],
-            iconUrl: "https://img.theapi.app/temp/76a419bc-c0a8-448a-8871-5370c09d8de4.png"
+            youtubeVideoId: "gp6lU4Whm0c"
         ),
         Command(
             id: "down",
@@ -119,7 +129,7 @@ struct Command: Codable, Identifiable {
             tips: ["Use a soft surface initially", "Be patient - this can take time", "Don't push your dog down"],
             commonMistakes: ["Moving the treat too fast", "Holding the treat too high", "Not waiting for full down position"],
             prerequisites: ["sit"],
-            iconUrl: "https://img.theapi.app/temp/5a856efc-f760-4ec9-a2fc-5edff4a13c04.png"
+            youtubeVideoId: "K-NMwNc6K-U"
         ),
         Command(
             id: "come",
@@ -138,7 +148,7 @@ struct Command: Codable, Identifiable {
             tips: ["Never punish your dog when they come to you", "Use the best treats for recall training", "Practice randomly throughout the day"],
             commonMistakes: ["Calling the dog for unpleasant things", "Chasing the dog", "Using a stern voice"],
             prerequisites: nil,
-            iconUrl: "https://img.theapi.app/temp/72c730c4-2a94-485c-805e-a5918d47ebb3.png"
+            youtubeVideoId: "rKlMirm4pIo"
         ),
         Command(
             id: "heel",
@@ -157,7 +167,7 @@ struct Command: Codable, Identifiable {
             tips: ["Keep sessions short and fun", "Use high-value treats", "Practice in low-distraction areas first"],
             commonMistakes: ["Walking too fast initially", "Not rewarding frequently enough", "Pulling on the leash"],
             prerequisites: ["sit", "stay"],
-            iconUrl: nil
+            youtubeVideoId: "sFgtqgiAKoQ"
         ),
         Command(
             id: "leave_it",
@@ -176,7 +186,7 @@ struct Command: Codable, Identifiable {
             tips: ["Always reward with a different treat", "Never let them get the 'leave it' item", "Be patient"],
             commonMistakes: ["Letting them get the forbidden item", "Moving too fast in progression"],
             prerequisites: nil,
-            iconUrl: nil
+            youtubeVideoId: "pHmKqe4T2x0"
         ),
         Command(
             id: "drop_it",
@@ -195,7 +205,7 @@ struct Command: Codable, Identifiable {
             tips: ["Always trade for something of equal or higher value", "Make it a fun game"],
             commonMistakes: ["Chasing the dog", "Not returning the toy sometimes"],
             prerequisites: nil,
-            iconUrl: nil
+            youtubeVideoId: "ndTiVOCNY4M"
         ),
         Command(
             id: "wait",
@@ -214,7 +224,7 @@ struct Command: Codable, Identifiable {
             tips: ["Use before meals and at doors", "Keep it short - wait is temporary"],
             commonMistakes: ["Confusing with Stay", "Making them wait too long initially"],
             prerequisites: nil,
-            iconUrl: nil
+            youtubeVideoId: "wLryNwaIEsA"
         ),
         Command(
             id: "watch_me",
@@ -233,7 +243,7 @@ struct Command: Codable, Identifiable {
             tips: ["Start with brief moments of eye contact", "Use it before giving other commands"],
             commonMistakes: ["Holding the treat too far from your face"],
             prerequisites: nil,
-            iconUrl: nil
+            youtubeVideoId: "pAqwKD5AQKw"
         ),
         Command(
             id: "place",
@@ -252,7 +262,7 @@ struct Command: Codable, Identifiable {
             tips: ["Use the same spot initially", "Make it comfortable"],
             commonMistakes: ["Changing spots too early", "Not rewarding on the spot"],
             prerequisites: ["stay"],
-            iconUrl: nil
+            youtubeVideoId: "MIkBrjWn9ZY"
         ),
         Command(
             id: "shake",
@@ -271,7 +281,7 @@ struct Command: Codable, Identifiable {
             tips: ["Be gentle with their paw", "Keep sessions short and fun"],
             commonMistakes: ["Grabbing the paw too firmly"],
             prerequisites: ["sit"],
-            iconUrl: nil
+            youtubeVideoId: "RgKIcAPXWXk"
         ),
         Command(
             id: "spin",
@@ -290,7 +300,7 @@ struct Command: Codable, Identifiable {
             tips: ["Start slow", "Be enthusiastic with praise"],
             commonMistakes: ["Moving the treat too fast"],
             prerequisites: nil,
-            iconUrl: nil
+            youtubeVideoId: "SyVCdxb1spw"
         )
     ]
 

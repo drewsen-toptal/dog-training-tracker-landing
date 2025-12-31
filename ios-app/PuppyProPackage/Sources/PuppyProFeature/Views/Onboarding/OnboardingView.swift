@@ -1,14 +1,22 @@
 import SwiftUI
 import SwiftData
+import os.log
+
+private let logger = Logger(subsystem: "com.drewsen.PuppyPro", category: "Onboarding")
 
 struct OnboardingView: View {
     @Environment(\.modelContext) private var modelContext
-    @Binding var hasCompletedOnboarding: Bool
+    @Environment(AppState.self) private var appState
 
     @State private var currentPage = 0
     @State private var dogName = ""
     @State private var dogBreed = ""
     @State private var dogBirthDate = Date()
+    @FocusState private var focusedField: Field?
+
+    private enum Field {
+        case name, breed
+    }
 
     private let pages = [
         OnboardingPage(
@@ -65,7 +73,7 @@ struct OnboardingView: View {
                     // Next button
                     PrimaryButton(
                         title: currentPage == pages.count - 1 ? "Get Started" : "Next",
-                        icon: currentPage == pages.count - 1 ? "arrow.right" : nil
+                        iconName: currentPage == pages.count - 1 ? PiAPIIcons.arrow : nil
                     ) {
                         withAnimation {
                             if currentPage < pages.count - 1 {
@@ -101,15 +109,10 @@ struct OnboardingView: View {
                     .frame(width: 140, height: 140)
 
                 if let customImage = page.customImage {
-                    Image(customImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 100, height: 100)
+                    PiAPIIcon(name: customImage, size: 100)
                         .clipShape(Circle())
                 } else if let icon = page.icon {
-                    Image(systemName: icon)
-                        .font(.system(size: 56))
-                        .foregroundStyle(page.color)
+                    PiAPIIcon(name: icon, size: 56)
                 }
             }
 
@@ -138,10 +141,7 @@ struct OnboardingView: View {
 
             // Header
             VStack(spacing: AppSpacing.sm) {
-                Image("PuppyMascot")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 100, height: 100)
+                PiAPIIcon(name: PiAPIIcons.puppyMascot, size: 100)
                     .clipShape(Circle())
                     .shadow(color: AppColors.primary.opacity(0.3), radius: 10, y: 5)
 
@@ -164,11 +164,17 @@ struct OnboardingView: View {
                         .tracking(0.5)
 
                     TextField("What's your pup's name?", text: $dogName)
+                        .textFieldStyle(.plain)
                         .font(AppFonts.body())
                         .padding(AppSpacing.md)
-                        .background(.white)
-                        .clipShape(.rect(cornerRadius: AppRadius.md))
+                        .background(Color.white)
+                        .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
                         .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
+                        .focused($focusedField, equals: .name)
+                        .submitLabel(.next)
+                        .onSubmit { focusedField = .breed }
+                        .accessibilityLabel("Dog name")
+                        .accessibilityHint("Enter your dog's name")
                 }
 
                 VStack(alignment: .leading, spacing: AppSpacing.xs) {
@@ -179,11 +185,17 @@ struct OnboardingView: View {
                         .tracking(0.5)
 
                     TextField("e.g., Golden Retriever", text: $dogBreed)
+                        .textFieldStyle(.plain)
                         .font(AppFonts.body())
                         .padding(AppSpacing.md)
-                        .background(.white)
-                        .clipShape(.rect(cornerRadius: AppRadius.md))
+                        .background(Color.white)
+                        .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
                         .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
+                        .focused($focusedField, equals: .breed)
+                        .submitLabel(.done)
+                        .onSubmit { focusedField = nil }
+                        .accessibilityLabel("Dog breed, optional")
+                        .accessibilityHint("Enter your dog's breed")
                 }
             }
             .padding(.horizontal, AppSpacing.xl)
@@ -194,14 +206,14 @@ struct OnboardingView: View {
             VStack(spacing: AppSpacing.sm) {
                 PrimaryButton(
                     title: "Start Training!",
-                    icon: "play.fill",
+                    iconName: PiAPIIcons.play,
                     isDisabled: dogName.trimmingCharacters(in: .whitespaces).isEmpty
                 ) {
                     completeOnboarding()
                 }
 
                 Button("Skip for now") {
-                    hasCompletedOnboarding = true
+                    skipOnboarding()
                 }
                 .font(AppFonts.subheadline())
                 .foregroundStyle(AppColors.textSecondary)
@@ -213,14 +225,44 @@ struct OnboardingView: View {
     }
 
     private func completeOnboarding() {
+        logger.info("🐕 completeOnboarding() CALLED - dogName: \(self.dogName)")
+
+        // Create and save dog
         let dog = Dog(
             name: dogName.trimmingCharacters(in: .whitespaces),
             breed: dogBreed.isEmpty ? nil : dogBreed.trimmingCharacters(in: .whitespaces),
             birthDate: nil
         )
-
         modelContext.insert(dog)
-        hasCompletedOnboarding = true
+
+        do {
+            try modelContext.save()
+            logger.info("🐕 Dog saved successfully")
+        } catch {
+            logger.error("🐕 ERROR saving dog: \(error.localizedDescription)")
+        }
+
+        logger.info("🐕 Current appState.hasCompletedOnboarding = \(self.appState.hasCompletedOnboarding)")
+        logger.info("🐕 Setting appState.hasCompletedOnboarding = true WITH ANIMATION")
+
+        withAnimation(.easeInOut(duration: 0.3)) {
+            appState.hasCompletedOnboarding = true
+        }
+
+        logger.info("🐕 After set: appState.hasCompletedOnboarding = \(self.appState.hasCompletedOnboarding)")
+    }
+
+    private func skipOnboarding() {
+        // Dismiss keyboard
+        focusedField = nil
+
+        // Create a placeholder dog so app has required data
+        let dog = Dog(name: "My Pup")
+        modelContext.insert(dog)
+        try? modelContext.save()
+
+        // Set flag to complete onboarding
+        appState.hasCompletedOnboarding = true
     }
 }
 
@@ -241,6 +283,7 @@ struct OnboardingPage {
 }
 
 #Preview {
-    OnboardingView(hasCompletedOnboarding: .constant(false))
+    OnboardingView()
+        .environment(AppState())
         .modelContainer(for: Dog.self, inMemory: true)
 }

@@ -3,45 +3,27 @@ import SwiftUI
 struct StatCard: View {
     let title: String
     let value: String
-    let iconUrl: String?
-    let iconSystemName: String?
+    let iconName: String?
     var valueColor: Color = AppColors.textPrimary
 
     init(
         title: String,
         value: String,
-        iconUrl: String? = nil,
-        iconSystemName: String? = nil,
+        iconName: String? = nil,
         valueColor: Color = AppColors.textPrimary
     ) {
         self.title = title
         self.value = value
-        self.iconUrl = iconUrl
-        self.iconSystemName = iconSystemName
+        self.iconName = iconName
         self.valueColor = valueColor
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
-            // Icon
-            Group {
-                if let iconUrl, let url = URL(string: iconUrl) {
-                    AsyncImage(url: url) { phase in
-                        switch phase {
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                        default:
-                            iconPlaceholder
-                        }
-                    }
-                } else {
-                    iconPlaceholder
-                }
+            // PiAPI 3D icons already have a white background baked in
+            if let iconName {
+                PiAPIIcon(name: iconName, size: 40)
             }
-            .frame(width: 40, height: 40)
-            .clipShape(.rect(cornerRadius: AppRadius.sm))
 
             // Value
             Text(value)
@@ -59,22 +41,10 @@ struct StatCard: View {
         .clipShape(.rect(cornerRadius: AppRadius.lg))
         .shadow(color: .black.opacity(0.03), radius: 6, y: 2)
     }
-
-    @ViewBuilder
-    private var iconPlaceholder: some View {
-        ZStack {
-            AppColors.primary.opacity(0.1)
-            if let systemName = iconSystemName {
-                Image(systemName: systemName)
-                    .font(.title3)
-                    .foregroundStyle(AppColors.primary)
-            }
-        }
-    }
 }
 
 struct StatCardRow: View {
-    let stats: [(title: String, value: String, icon: String?, systemIcon: String?)]
+    let stats: [(title: String, value: String, iconName: String?)]
 
     var body: some View {
         HStack(spacing: AppSpacing.md) {
@@ -82,8 +52,7 @@ struct StatCardRow: View {
                 StatCard(
                     title: stat.title,
                     value: stat.value,
-                    iconUrl: stat.icon,
-                    iconSystemName: stat.systemIcon
+                    iconName: stat.iconName
                 )
             }
         }
@@ -96,14 +65,14 @@ struct StatCardRow: View {
             StatCard(
                 title: "Success Rate",
                 value: "87%",
-                iconSystemName: "checkmark.circle.fill",
+                iconName: PiAPIIcons.checkmark,
                 valueColor: AppColors.success
             )
 
             StatCard(
                 title: "Day Streak",
                 value: "12",
-                iconSystemName: "flame.fill",
+                iconName: PiAPIIcons.fireStreak,
                 valueColor: AppColors.warning
             )
         }

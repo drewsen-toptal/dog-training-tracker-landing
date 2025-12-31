@@ -3,135 +3,96 @@ import SwiftData
 
 struct CommandListView: View {
     @Query private var dogs: [Dog]
+    @Query private var commandProgress: [CommandProgress]
+    @Query private var sessions: [TrainingSession]
     @State private var searchText = ""
-    @State private var selectedCategory: CommandCategory?
-
-    private var currentDog: Dog? {
-        dogs.first
-    }
 
     private var filteredCommands: [Command] {
-        var commands = Command.allCommands
-
-        // Filter by category
-        if let category = selectedCategory {
-            commands = commands.filter { $0.category == category }
+        if searchText.isEmpty {
+            return Command.allCommands
         }
 
-        // Filter by search
-        if !searchText.isEmpty {
-            commands = commands.filter { command in
-                command.name.localizedStandardContains(searchText) ||
-                command.description.localizedStandardContains(searchText)
-            }
+        return Command.allCommands.filter { command in
+            command.name.localizedStandardContains(searchText) ||
+            command.description.localizedStandardContains(searchText)
         }
-
-        return commands
     }
 
-    private var commandsByCategory: [CommandCategory: [Command]] {
-        Dictionary(grouping: filteredCommands, by: { $0.category })
+    private func progressFor(command: Command) -> CommandProgress? {
+        commandProgress.first { $0.commandId == command.id }
+    }
+
+    private func sessionCountFor(command: Command) -> Int {
+        sessions.filter { session in
+            session.commandsPracticed.contains(command.id)
+        }.count
     }
 
     var body: some View {
         ScrollView {
-            VStack(spacing: AppSpacing.lg) {
-                // Category filter
-                categoryFilter
+            VStack(alignment: .leading, spacing: 0) {
+                // Header
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Commands")
+                        .font(.system(size: 32, weight: .bold))
+                        .foregroundStyle(AppColors.textPrimary)
 
-                // Commands list
-                if selectedCategory != nil {
-                    // Flat list when category selected
-                    VStack(spacing: AppSpacing.sm) {
-                        ForEach(filteredCommands) { command in
-                            NavigationLink {
-                                CommandDetailView(command: command)
-                            } label: {
-                                CommandCard(command: command, progress: nil)
-                            }
-                            .buttonStyle(.plain)
+                    Text("Track progress for each command")
+                        .font(.system(size: 15))
+                        .foregroundStyle(AppColors.textSecondary)
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 24)
+                .padding(.bottom, 16)
+
+                // Search Bar
+                searchBar
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 24)
+
+                // Commands List
+                VStack(spacing: 12) {
+                    ForEach(filteredCommands) { command in
+                        NavigationLink {
+                            CommandDetailView(command: command)
+                        } label: {
+                            CommandCard(
+                                command: command,
+                                progress: progressFor(command: command),
+                                sessionCount: sessionCountFor(command: command)
+                            )
                         }
-                    }
-                } else {
-                    // Grouped by category
-                    ForEach(CommandCategory.allCases) { category in
-                        if let commands = commandsByCategory[category], !commands.isEmpty {
-                            VStack(alignment: .leading, spacing: AppSpacing.sm) {
-                                HStack {
-                                    Image(systemName: category.iconName)
-                                        .foregroundStyle(AppColors.primary)
-
-                                    Text(category.displayName)
-                                        .font(AppFonts.headline())
-                                        .foregroundStyle(AppColors.textPrimary)
-
-                                    Spacer()
-
-                                    Text("\(commands.count)")
-                                        .font(AppFonts.subheadline())
-                                        .foregroundStyle(AppColors.textSecondary)
-                                }
-                                .padding(.horizontal, AppSpacing.xs)
-
-                                ForEach(commands) { command in
-                                    NavigationLink {
-                                        CommandDetailView(command: command)
-                                    } label: {
-                                        CommandCard(command: command, progress: nil)
-                                    }
-                                    .buttonStyle(.plain)
-                                }
-                            }
-                        }
+                        .buttonStyle(.plain)
                     }
                 }
+                .padding(.horizontal, 24)
+                .padding(.bottom, 100)
             }
-            .padding(.horizontal, AppSpacing.lg)
-            .padding(.bottom, 100)
         }
         .background(AppColors.background)
-        .navigationTitle("Commands")
-        .searchable(text: $searchText, prompt: "Search commands...")
+        .navigationBarHidden(true)
     }
 
     @ViewBuilder
-    private var categoryFilter: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: AppSpacing.sm) {
-                categoryChip(nil, title: "All")
+    private var searchBar: some View {
+        HStack(spacing: 12) {
+            Image(systemName: "magnifyingglass")
+                .font(.system(size: 18, weight: .medium))
+                .foregroundStyle(AppColors.textTertiary)
 
-                ForEach(CommandCategory.allCases) { category in
-                    categoryChip(category, title: category.displayName)
-                }
-            }
-            .padding(.horizontal, AppSpacing.xs)
+            TextField("Search commands...", text: $searchText)
+                .font(.system(size: 16))
+                .foregroundStyle(AppColors.textPrimary)
+                .accessibilityLabel("Search commands")
+                .accessibilityHint("Enter text to filter the commands list")
         }
-    }
-
-    @ViewBuilder
-    private func categoryChip(_ category: CommandCategory?, title: String) -> some View {
-        let isSelected = selectedCategory == category
-
-        Button {
-            withAnimation(.spring(response: 0.3)) {
-                selectedCategory = category
-            }
-        } label: {
-            HStack(spacing: AppSpacing.xxs) {
-                if let category {
-                    Image(systemName: category.iconName)
-                        .font(.caption)
-                }
-                Text(title)
-                    .font(AppFonts.subheadline())
-                    .fontWeight(.medium)
-            }
-            .foregroundStyle(isSelected ? .white : AppColors.textPrimary)
-            .padding(.horizontal, AppSpacing.md)
-            .padding(.vertical, AppSpacing.sm)
-            .background(isSelected ? AppColors.primary : .white)
-            .clipShape(.rect(cornerRadius: AppRadius.full))
-            .shadow(color: .black.opacity(isSelected ? 0 : 0.05), radius: 4, y: 2)
+        .padding(.horizontal, 16)
+        .frame(height: 52)
+        .background(.white)
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .overlay {
+            RoundedRectangle(cornerRadius: 14)
+                .stroke(Color(red: 0.92, green: 0.92, blue: 0.92), lineWidth: 1)
         }
     }
 }
@@ -140,5 +101,5 @@ struct CommandListView: View {
     NavigationStack {
         CommandListView()
     }
-    .modelContainer(for: Dog.self, inMemory: true)
+    .modelContainer(for: [Dog.self, CommandProgress.self, TrainingSession.self], inMemory: true)
 }
