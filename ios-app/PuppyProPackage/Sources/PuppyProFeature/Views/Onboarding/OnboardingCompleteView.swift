@@ -102,7 +102,6 @@ struct OnboardingCompleteView: View {
                     .frame(maxWidth: .infinity)
                     .frame(height: 56)
                     .background(.white)
-                    .clipShape(.rect(cornerRadius: AppRadius.xl))
                     .shadow(color: .black.opacity(0.15), radius: 12, y: 4)
                 }
                 .padding(.horizontal, AppSpacing.xl)
