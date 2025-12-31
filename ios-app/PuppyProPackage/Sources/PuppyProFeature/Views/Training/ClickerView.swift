@@ -11,45 +11,58 @@ struct ClickerView: View {
     @State private var sessionSeconds = 0
     @State private var timerTask: Task<Void, Never>?
     @AppStorage("clickerSoundEnabled") private var soundEnabled = true
+    @State private var showingSuccessAnimation = false
 
     private var currentDog: Dog? {
         dogs.first
     }
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 0) {
-                // Header
-                headerView
+        ZStack {
+            ScrollView {
+                VStack(spacing: 0) {
+                    // Header
+                    headerView
 
-                // Counter section
-                counterSection
+                    // Counter section
+                    counterSection
 
-                // Clicker area
-                clickerArea
-                    .padding(.vertical, 40)
+                    // Clicker area
+                    clickerArea
+                        .padding(.vertical, 40)
 
-                // Session card
-                sessionCard
+                    // Session card
+                    sessionCard
 
-                // Action buttons
-                actionButtons
+                    // Action buttons
+                    actionButtons
+                }
+            }
+            .scrollIndicators(.hidden)
+            .scrollBounceBehavior(.basedOnSize)
+            .contentMargins(.bottom, 80, for: .scrollContent)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(
+                LinearGradient(
+                    colors: [
+                        Color(red: 0.96, green: 0.96, blue: 0.97),
+                        Color(red: 0.92, green: 0.92, blue: 0.94)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
+            )
+
+            // Success animation overlay
+            if showingSuccessAnimation {
+                SuccessAnimationView(message: "Session Saved!") {
+                    dismiss()
+                }
+                .transition(.opacity)
             }
         }
-        .scrollIndicators(.hidden)
-        .scrollBounceBehavior(.basedOnSize)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(
-            LinearGradient(
-                colors: [
-                    Color(red: 0.96, green: 0.96, blue: 0.97),
-                    Color(red: 0.92, green: 0.92, blue: 0.94)
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
-        )
+        .animation(.easeInOut(duration: 0.3), value: showingSuccessAnimation)
         .navigationBarHidden(true)
         .onAppear {
             startTimer()
@@ -61,44 +74,76 @@ struct ClickerView: View {
 
     @ViewBuilder
     private var headerView: some View {
-        HStack {
-            // Back button
-            Button {
-                dismiss()
-            } label: {
-                Image(systemName: "chevron.left")
-                    .font(.system(size: 20, weight: .semibold))
-                    .foregroundStyle(AppColors.textSecondary)
-                    .frame(width: 44, height: 44)
-                    .contentShape(Rectangle())
+        VStack(spacing: 0) {
+            // Navigation row
+            HStack {
+                // Back button - pill style for better touch target
+                Button {
+                    dismiss()
+                } label: {
+                    HStack(spacing: 6) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 16, weight: .semibold))
+                        Text("Back")
+                            .font(.system(size: 17, weight: .medium))
+                    }
+                    .foregroundStyle(AppColors.primary)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(AppColors.primary.opacity(0.12))
+                    .clipShape(Capsule())
+                }
+                .accessibilityLabel("Go Back")
+                .accessibilityHint("Double-tap to close clicker and return to previous screen")
+
+                Spacer()
             }
-            .accessibilityLabel("Go Back")
-            .accessibilityHint("Double-tap to close clicker and return to previous screen")
+            .padding(.horizontal, 16)
+            .padding(.top, 16)
 
-            VStack(alignment: .leading, spacing: 2) {
-                Text("Clicker")
-                    .font(.system(size: 28, weight: .bold))
-                    .foregroundStyle(AppColors.textPrimary)
+            // Title section with dog avatar
+            HStack(spacing: 16) {
+                // Dog avatar
+                if let dog = currentDog {
+                    DogAvatar(
+                        name: dog.name,
+                        breed: dog.breed,
+                        imageData: dog.photoData,
+                        size: 56
+                    )
+                } else {
+                    ZStack {
+                        Circle()
+                            .fill(AppColors.primary.opacity(0.15))
+                            .frame(width: 56, height: 56)
+                        Image(systemName: "dog.fill")
+                            .font(.system(size: 24))
+                            .foregroundStyle(AppColors.primary)
+                    }
+                }
 
-                Text("Training \(currentDog?.name ?? "your pup")")
-                    .font(.system(size: 15))
-                    .foregroundStyle(AppColors.textSecondary)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Clicker Training")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundStyle(AppColors.textPrimary)
+
+                    HStack(spacing: 6) {
+                        Circle()
+                            .fill(AppColors.success)
+                            .frame(width: 8, height: 8)
+                        Text("Session active with \(currentDog?.name ?? "your pup")")
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundStyle(AppColors.textSecondary)
+                    }
+                }
+
+                Spacer()
             }
-
-            Spacer()
-
-            Button {
-                // Settings
-            } label: {
-                // PiAPI 3D icons already have a white background baked in
-                PiAPIIcon(name: PiAPIIcons.settings, size: 44, clipToCircle: true)
-            }
-            .accessibilityLabel("Clicker Settings")
-            .accessibilityHint("Double-tap to open clicker settings")
+            .padding(.horizontal, 20)
+            .padding(.top, 16)
+            .padding(.bottom, AppSpacing.md)
         }
-        .padding(.horizontal, 20)
-        .padding(.top, 88) // Extra padding for comfortable sheet spacing
-        .padding(.bottom, AppSpacing.lg)
+        .safeAreaPadding(.top)
     }
 
     @ViewBuilder
@@ -240,8 +285,9 @@ struct ClickerView: View {
             .accessibilityHint("Double-tap to save \(sessionClicks) clicks and end the session")
         }
         .padding(.horizontal, 20)
-        .padding(.vertical, 20)
-        .padding(.bottom, 40)
+        .padding(.top, 16)
+        .padding(.bottom, 24)
+        .safeAreaPadding(.bottom)
     }
 
     private var formattedTime: String {
@@ -273,7 +319,7 @@ struct ClickerView: View {
     }
 
     private func saveSession() {
-        // Would save to database
+        // Save to database
         totalClicks += sessionClicks
         sessionClicks = 0
         sessionSeconds = 0
@@ -281,7 +327,8 @@ struct ClickerView: View {
         let notification = UINotificationFeedbackGenerator()
         notification.notificationOccurred(.success)
 
-        dismiss()
+        // Show success animation with Lottie checkmark
+        showingSuccessAnimation = true
     }
 }
 

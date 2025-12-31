@@ -51,6 +51,7 @@ struct CommandDetailView: View {
     let command: Command
 
     @State private var showingTraining = false
+    @State private var animateProgress = false
 
     private var currentDog: Dog? {
         dogs.first
@@ -65,24 +66,24 @@ struct CommandDetailView: View {
         ZStack(alignment: .bottom) {
             ScrollView {
                 VStack(spacing: AppSpacing.lg) {
-                    // Command hero
-                    commandHero
+                    // Premium Command Hero with gradient
+                    premiumHero
 
-                    // Progress card
-                    progressCard
+                    // Circular Progress Ring
+                    masteryRing
 
                     // Video section
                     videoSection
 
-                    // Instructions
+                    // Instructions with premium styling
                     instructionsCard
 
                     // Tips
                     tipsCard
 
-                    // Spacer for bottom button
+                    // Spacer for bottom button (gradient 40 + button ~60 + tab bar padding 100)
                     Spacer()
-                        .frame(height: 100)
+                        .frame(height: 200)
                 }
                 .padding(.horizontal, AppSpacing.lg)
             }
@@ -94,8 +95,103 @@ struct CommandDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showingTraining) {
             if let dog = currentDog {
-                TrainingSessionView(dog: dog)
+                TrainingSessionView(dog: dog, initialCommand: command, singleCommandMode: true)
             }
+        }
+        .onAppear {
+            withAnimation(.easeOut(duration: 1.0).delay(0.3)) {
+                animateProgress = true
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var premiumHero: some View {
+        VStack(spacing: 0) {
+            // Gradient header background
+            ZStack {
+                // Gradient background
+                LinearGradient(
+                    colors: [AppColors.primary, AppColors.primaryDark],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+
+                // Decorative circles
+                Circle()
+                    .fill(.white.opacity(0.1))
+                    .frame(width: 200, height: 200)
+                    .offset(x: 100, y: -80)
+
+                Circle()
+                    .fill(.white.opacity(0.08))
+                    .frame(width: 120, height: 120)
+                    .offset(x: -120, y: 60)
+
+                // Content
+                VStack(spacing: AppSpacing.md) {
+                    // Large command icon with glow
+                    ZStack {
+                        Circle()
+                            .fill(.white.opacity(0.2))
+                            .frame(width: 100, height: 100)
+                            .blur(radius: 10)
+
+                        Circle()
+                            .fill(.white)
+                            .frame(width: 88, height: 88)
+                            .shadow(color: .black.opacity(0.15), radius: 12, y: 6)
+
+                        PiAPIIcon(name: command.piAPIIconName, size: 52)
+                    }
+
+                    // Command name
+                    Text(command.name)
+                        .font(.system(size: 32, weight: .bold))
+                        .foregroundStyle(.white)
+
+                    // Badges
+                    HStack(spacing: AppSpacing.sm) {
+                        // Difficulty badge
+                        HStack(spacing: 4) {
+                            Image(systemName: difficultyIcon)
+                                .font(.system(size: 12, weight: .bold))
+                            Text(command.difficulty.displayName)
+                                .font(.system(size: 13, weight: .semibold))
+                        }
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(.white.opacity(0.2))
+                        .clipShape(Capsule())
+
+                        // Category badge
+                        HStack(spacing: 4) {
+                            Image(systemName: "folder.fill")
+                                .font(.system(size: 12, weight: .bold))
+                            Text(command.category.displayName)
+                                .font(.system(size: 13, weight: .semibold))
+                        }
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(.white.opacity(0.2))
+                        .clipShape(Capsule())
+                    }
+                }
+                .padding(.vertical, AppSpacing.xl)
+            }
+            .frame(height: 220)
+            .clipShape(.rect(cornerRadius: AppRadius.xl))
+            .shadow(color: AppColors.primary.opacity(0.3), radius: 16, y: 8)
+        }
+    }
+
+    private var difficultyIcon: String {
+        switch command.difficulty {
+        case .beginner: return "star.fill"
+        case .intermediate: return "star.leadinghalf.filled"
+        case .advanced: return "star.circle.fill"
         }
     }
 
@@ -140,6 +236,105 @@ struct CommandDetailView: View {
             }
 
             Spacer()
+        }
+        .padding(AppSpacing.lg)
+        .background(.white)
+        .clipShape(.rect(cornerRadius: AppRadius.lg))
+        .shadow(color: .black.opacity(0.04), radius: 8, y: 2)
+    }
+
+    @ViewBuilder
+    private var masteryRing: some View {
+        let progress = commandProgress
+        let successRate = progress?.successRate ?? 0
+        let practiceCount = progress?.practiceCount ?? 0
+        let successRateText = progress != nil && practiceCount > 0 ? "\(progress!.successRatePercentage)%" : "0%"
+        let lastTrainedText = progress?.daysSinceLastPracticeDescription ?? "Never"
+        let animatedProgress = animateProgress ? successRate : 0
+
+        VStack(spacing: AppSpacing.lg) {
+            // Circular progress with animated ring
+            HStack(spacing: AppSpacing.xl) {
+                // Animated ring
+                ZStack {
+                    // Background ring
+                    Circle()
+                        .stroke(AppColors.background, lineWidth: 12)
+                        .frame(width: 100, height: 100)
+
+                    // Progress ring
+                    Circle()
+                        .trim(from: 0, to: animatedProgress)
+                        .stroke(
+                            successRate > 0 ? AnyShapeStyle(AppColors.primaryGradient) : AnyShapeStyle(AppColors.textTertiary),
+                            style: StrokeStyle(lineWidth: 12, lineCap: .round)
+                        )
+                        .frame(width: 100, height: 100)
+                        .rotationEffect(.degrees(-90))
+
+                    // Center content
+                    VStack(spacing: 2) {
+                        Text(successRateText)
+                            .font(.system(size: 22, weight: .bold))
+                            .foregroundStyle(successRate > 0 ? AppColors.primary : AppColors.textTertiary)
+
+                        Text("Mastery")
+                            .font(.system(size: 10, weight: .medium))
+                            .foregroundStyle(AppColors.textSecondary)
+                    }
+                }
+
+                // Stats column
+                VStack(alignment: .leading, spacing: AppSpacing.md) {
+                    // Sessions stat
+                    HStack(spacing: AppSpacing.sm) {
+                        ZStack {
+                            Circle()
+                                .fill(AppColors.primary.opacity(0.12))
+                                .frame(width: 36, height: 36)
+
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundStyle(AppColors.primary)
+                        }
+
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("\(practiceCount)")
+                                .font(.system(size: 18, weight: .bold))
+                                .foregroundStyle(AppColors.textPrimary)
+
+                            Text("Training Sessions")
+                                .font(.system(size: 12, weight: .medium))
+                                .foregroundStyle(AppColors.textSecondary)
+                        }
+                    }
+
+                    // Last trained stat
+                    HStack(spacing: AppSpacing.sm) {
+                        ZStack {
+                            Circle()
+                                .fill(AppColors.success.opacity(0.12))
+                                .frame(width: 36, height: 36)
+
+                            Image(systemName: "clock.fill")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundStyle(AppColors.success)
+                        }
+
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(lastTrainedText)
+                                .font(.system(size: 18, weight: .bold))
+                                .foregroundStyle(AppColors.textPrimary)
+
+                            Text("Last Trained")
+                                .font(.system(size: 12, weight: .medium))
+                                .foregroundStyle(AppColors.textSecondary)
+                        }
+                    }
+                }
+
+                Spacer()
+            }
         }
         .padding(AppSpacing.lg)
         .background(.white)

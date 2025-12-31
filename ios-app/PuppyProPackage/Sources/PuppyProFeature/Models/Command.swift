@@ -39,6 +39,54 @@ enum Difficulty: String, Codable, CaseIterable {
         case .advanced: return "Hard"
         }
     }
+
+    var color: String {
+        switch self {
+        case .beginner: return "success"
+        case .intermediate: return "warning"
+        case .advanced: return "error"
+        }
+    }
+}
+
+enum VoiceTone: String, Codable {
+    case firm
+    case excited
+    case calm
+    case gentle
+
+    var displayName: String {
+        switch self {
+        case .firm: return "Firm"
+        case .excited: return "Excited"
+        case .calm: return "Calm"
+        case .gentle: return "Gentle"
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .firm: return "speaker.wave.3.fill"
+        case .excited: return "star.fill"
+        case .calm: return "leaf.fill"
+        case .gentle: return "heart.fill"
+        }
+    }
+
+    var tip: String {
+        switch self {
+        case .firm: return "Use a clear, confident voice"
+        case .excited: return "Sound happy and enthusiastic!"
+        case .calm: return "Keep your voice low and steady"
+        case .gentle: return "Use a soft, encouraging tone"
+        }
+    }
+}
+
+struct HandSignal: Codable {
+    let name: String
+    let description: String
+    let icon: String  // SF Symbol name
 }
 
 struct TrainingStep: Codable, Identifiable {
@@ -63,6 +111,29 @@ struct Command: Codable, Identifiable {
     let prerequisites: [String]?
     let youtubeVideoId: String?
 
+    /// Required subscription tier for this command
+    var requiredTier: SubscriptionTier {
+        // Free tier: Sit, Stay, Come (3 basic commands)
+        let freeCommands = ["sit", "stay", "come"]
+        if freeCommands.contains(id) {
+            return .free
+        }
+
+        // Good Boy tier: +Down, Heel, Wait (6 total commands)
+        let goodBoyCommands = ["down", "heel", "wait"]
+        if goodBoyCommands.contains(id) {
+            return .goodBoy
+        }
+
+        // Best Friend tier: All remaining commands
+        return .bestFriend
+    }
+
+    /// Check if a subscription tier can access this command
+    func isAccessible(with tier: SubscriptionTier) -> Bool {
+        return tier.level >= requiredTier.level
+    }
+
     var youtubeUrl: URL? {
         guard let videoId = youtubeVideoId else { return nil }
         return URL(string: "https://www.youtube.com/watch?v=\(videoId)")
@@ -71,6 +142,75 @@ struct Command: Codable, Identifiable {
     var youtubeEmbedUrl: URL? {
         guard let videoId = youtubeVideoId else { return nil }
         return URL(string: "https://www.youtube.com/embed/\(videoId)")
+    }
+
+    /// Hand signal for this command
+    var handSignal: HandSignal {
+        switch id {
+        case "sit":
+            return HandSignal(name: "Palm Up", description: "Raise your palm upward", icon: "hand.raised.fill")
+        case "stay":
+            return HandSignal(name: "Stop Hand", description: "Open palm facing dog", icon: "hand.raised.fill")
+        case "down":
+            return HandSignal(name: "Palm Down", description: "Point finger down to ground", icon: "hand.point.down.fill")
+        case "come":
+            return HandSignal(name: "Arm Sweep", description: "Sweep arm toward your body", icon: "arrow.turn.down.left")
+        case "heel":
+            return HandSignal(name: "Pat Thigh", description: "Pat your left thigh", icon: "figure.walk")
+        case "leave_it":
+            return HandSignal(name: "Closed Fist", description: "Close your fist firmly", icon: "hand.raised.slash.fill")
+        case "drop_it":
+            return HandSignal(name: "Open Palm", description: "Hold open palm under mouth", icon: "hand.palm.facing.fill")
+        case "wait":
+            return HandSignal(name: "Stop Signal", description: "Flat hand like stop sign", icon: "hand.raised.fill")
+        case "watch_me":
+            return HandSignal(name: "Point to Eyes", description: "Point two fingers at your eyes", icon: "eye.fill")
+        case "place":
+            return HandSignal(name: "Point", description: "Point to the designated spot", icon: "hand.point.right.fill")
+        case "shake":
+            return HandSignal(name: "Offer Hand", description: "Extend your hand palm-up", icon: "hand.wave.fill")
+        case "spin":
+            return HandSignal(name: "Circle Finger", description: "Make circular motion with finger", icon: "arrow.trianglehead.2.clockwise.rotate.90")
+        default:
+            return HandSignal(name: "Verbal Only", description: "Use voice command", icon: "waveform")
+        }
+    }
+
+    /// Recommended voice tone for this command
+    var voiceTone: VoiceTone {
+        switch id {
+        case "sit", "down", "stay", "wait", "place":
+            return .firm
+        case "come":
+            return .excited
+        case "heel", "watch_me":
+            return .calm
+        case "leave_it", "drop_it":
+            return .firm
+        case "shake", "spin":
+            return .gentle
+        default:
+            return .calm
+        }
+    }
+
+    /// Short motivational phrase for the command
+    var motivationalPhrase: String {
+        switch id {
+        case "sit": return "Foundation of all training!"
+        case "stay": return "Patience is key"
+        case "down": return "Calm and relaxed"
+        case "come": return "The life-saving command"
+        case "heel": return "Walking together as a team"
+        case "leave_it": return "Self-control mastery"
+        case "drop_it": return "Trading up!"
+        case "wait": return "Just a moment..."
+        case "watch_me": return "Eyes on me!"
+        case "place": return "Your special spot"
+        case "shake": return "Nice to meet you!"
+        case "spin": return "Show off time!"
+        default: return "You've got this!"
+        }
     }
 
     static let allCommands: [Command] = [

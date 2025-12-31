@@ -92,14 +92,22 @@ public final class CommandProgress {
     }
 
     private func updateSpacedRepetition(wasSuccessful: Bool) {
+        // SM-2 inspired spaced repetition with reasonable caps for dog training
         if wasSuccessful {
             if interval == 1 {
-                interval = 6
+                interval = 1  // First success: review tomorrow
+            } else if interval < 3 {
+                interval = 3  // Second success: 3 days
+            } else if interval < 7 {
+                interval = 7  // Third: 1 week
             } else {
-                interval = Int(Double(interval) * easeFactor)
+                // After that, grow by easeFactor but cap at 30 days max
+                interval = min(30, Int(Double(interval) * easeFactor))
             }
-            easeFactor = max(1.3, easeFactor + 0.1)
+            // Cap easeFactor at 2.5 (standard SM-2 cap)
+            easeFactor = min(2.5, max(1.3, easeFactor + 0.1))
         } else {
+            // On failure, reset to review soon
             interval = 1
             easeFactor = max(1.3, easeFactor - 0.2)
         }

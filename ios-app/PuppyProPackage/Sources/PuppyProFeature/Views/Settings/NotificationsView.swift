@@ -17,26 +17,30 @@ struct NotificationsView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: AppSpacing.xl) {
-                // Header
-                headerSection
+            VStack(spacing: 0) {
+                // Premium animated header
+                PremiumNotificationsHeader()
+                    .padding(.bottom, AppSpacing.xl)
 
-                // Main toggle
-                notificationToggle
+                VStack(spacing: AppSpacing.lg) {
+                    // Main toggle card
+                    notificationToggleCard
 
-                // Time picker (only if enabled)
-                if notificationsEnabled {
-                    timePickerSection
+                    // Time picker (only if enabled)
+                    if notificationsEnabled {
+                        timePickerCard
+                    }
+
+                    // Info section
+                    infoCard
                 }
-
-                // Info section
-                infoSection
+                .padding(.horizontal, AppSpacing.lg)
+                .padding(.bottom, 100)
             }
-            .padding(AppSpacing.lg)
         }
         .background(AppColors.background)
         .navigationTitle("Notifications")
-        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             loadSettings()
             checkNotificationPermission()
@@ -56,31 +60,17 @@ struct NotificationsView: View {
     }
 
     @ViewBuilder
-    private var headerSection: some View {
-        VStack(spacing: AppSpacing.md) {
+    private var notificationToggleCard: some View {
+        HStack(spacing: AppSpacing.md) {
+            // Icon
             ZStack {
                 Circle()
-                    .fill(AppColors.warning.opacity(0.15))
-                    .frame(width: 100, height: 100)
+                    .fill(notificationsEnabled ? AppColors.primary.opacity(0.12) : AppColors.textTertiary.opacity(0.1))
+                    .frame(width: 48, height: 48)
 
-                PiAPIIcon(name: PiAPIIcons.bell, size: 56)
+                PiAPIIcon(name: PiAPIIcons.bell, size: 28)
             }
 
-            Text("Training Reminders")
-                .font(.system(size: 24, weight: .bold))
-                .foregroundStyle(AppColors.textPrimary)
-
-            Text("Get daily reminders to keep your training consistent")
-                .font(.system(size: 15))
-                .foregroundStyle(AppColors.textSecondary)
-                .multilineTextAlignment(.center)
-        }
-        .padding(.top, AppSpacing.lg)
-    }
-
-    @ViewBuilder
-    private var notificationToggle: some View {
-        HStack {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Daily Reminder")
                     .font(.system(size: 17, weight: .semibold))
@@ -100,17 +90,31 @@ struct NotificationsView: View {
                 }
         }
         .padding(AppSpacing.lg)
-        .background(.white)
-        .clipShape(RoundedRectangle(cornerRadius: AppRadius.lg))
-        .shadow(color: .black.opacity(0.05), radius: 10, y: 2)
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(.white)
+                .shadow(color: AppColors.primary.opacity(0.08), radius: 16, y: 4)
+        )
     }
 
     @ViewBuilder
-    private var timePickerSection: some View {
+    private var timePickerCard: some View {
         VStack(alignment: .leading, spacing: AppSpacing.md) {
-            Text("Reminder Time")
-                .font(.system(size: 17, weight: .semibold))
-                .foregroundStyle(AppColors.textPrimary)
+            HStack(spacing: AppSpacing.sm) {
+                ZStack {
+                    Circle()
+                        .fill(AppColors.warning.opacity(0.12))
+                        .frame(width: 36, height: 36)
+
+                    Image(systemName: "clock.fill")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(AppColors.warning)
+                }
+
+                Text("Reminder Time")
+                    .font(.system(size: 17, weight: .semibold))
+                    .foregroundStyle(AppColors.textPrimary)
+            }
 
             DatePicker(
                 "Select time",
@@ -124,21 +128,29 @@ struct NotificationsView: View {
             }
         }
         .padding(AppSpacing.lg)
-        .background(.white)
-        .clipShape(RoundedRectangle(cornerRadius: AppRadius.lg))
-        .shadow(color: .black.opacity(0.05), radius: 10, y: 2)
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(.white)
+                .shadow(color: AppColors.primary.opacity(0.08), radius: 16, y: 4)
+        )
     }
 
     @ViewBuilder
-    private var infoSection: some View {
+    private var infoCard: some View {
         VStack(alignment: .leading, spacing: AppSpacing.md) {
             HStack(spacing: AppSpacing.sm) {
-                Image(systemName: "lightbulb.fill")
-                    .font(.system(size: 16))
-                    .foregroundStyle(AppColors.warning)
+                ZStack {
+                    Circle()
+                        .fill(AppColors.success.opacity(0.12))
+                        .frame(width: 36, height: 36)
+
+                    Image(systemName: "lightbulb.fill")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(AppColors.success)
+                }
 
                 Text("Why Reminders Help")
-                    .font(.system(size: 15, weight: .semibold))
+                    .font(.system(size: 17, weight: .semibold))
                     .foregroundStyle(AppColors.textPrimary)
             }
 
@@ -148,8 +160,10 @@ struct NotificationsView: View {
                 .lineSpacing(4)
         }
         .padding(AppSpacing.lg)
-        .background(AppColors.warning.opacity(0.1))
-        .clipShape(RoundedRectangle(cornerRadius: AppRadius.lg))
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(AppColors.success.opacity(0.08))
+        )
     }
 
     private func loadSettings() {
@@ -233,6 +247,93 @@ struct NotificationsView: View {
         }
         if notificationsEnabled {
             scheduleNotification()
+        }
+    }
+}
+
+// MARK: - Premium Animated Header
+
+private struct PremiumNotificationsHeader: View {
+    @State private var isFloating = false
+    @State private var iconScale: CGFloat = 0.5
+    @State private var iconOffset: CGFloat = 30
+    @State private var textOpacity: Double = 0
+    @State private var textOffset: CGFloat = 20
+
+    var body: some View {
+        VStack(spacing: 20) {
+            // Animated icon with premium rings
+            ZStack {
+                // Outer pulsing ring
+                Circle()
+                    .fill(AppColors.warning.opacity(0.08))
+                    .frame(width: 160, height: 160)
+                    .scaleEffect(isFloating ? 1.05 : 0.95)
+                    .animation(
+                        .easeInOut(duration: 2.0)
+                        .repeatForever(autoreverses: true),
+                        value: isFloating
+                    )
+
+                // Middle ring
+                Circle()
+                    .fill(AppColors.warning.opacity(0.12))
+                    .frame(width: 130, height: 130)
+                    .scaleEffect(iconScale)
+
+                // Inner ring
+                Circle()
+                    .fill(AppColors.warning.opacity(0.18))
+                    .frame(width: 100, height: 100)
+                    .scaleEffect(iconScale)
+
+                // Bell icon with bounce and float
+                PiAPIIcon(name: PiAPIIcons.bell, size: 56)
+                    .scaleEffect(iconScale)
+                    .offset(y: iconOffset + (isFloating ? -6 : 0))
+            }
+            .animation(
+                .easeInOut(duration: 1.5)
+                .repeatForever(autoreverses: true),
+                value: isFloating
+            )
+
+            // Premium text
+            VStack(spacing: 8) {
+                Text("Training Reminders")
+                    .font(.system(size: 28, weight: .bold, design: .rounded))
+                    .foregroundStyle(AppColors.textPrimary)
+
+                Text("Get daily reminders to keep\nyour training consistent")
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundStyle(AppColors.textSecondary)
+                    .multilineTextAlignment(.center)
+            }
+            .opacity(textOpacity)
+            .offset(y: textOffset)
+        }
+        .padding(.top, AppSpacing.xl)
+        .onAppear {
+            startEntranceAnimation()
+        }
+    }
+
+    private func startEntranceAnimation() {
+        // Icon bounces in
+        withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
+            iconScale = 1.0
+            iconOffset = 0
+        }
+
+        // Text fades up after icon
+        withAnimation(.easeOut(duration: 0.5).delay(0.2)) {
+            textOpacity = 1.0
+            textOffset = 0
+        }
+
+        // Start floating animation
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            isFloating = true
         }
     }
 }

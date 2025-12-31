@@ -131,9 +131,21 @@ struct HomeView: View {
                             .font(.system(size: 22, weight: .bold))
                             .foregroundStyle(AppColors.textPrimary)
 
-                        Text("Ready for today's training?")
-                            .font(.system(size: 14))
-                            .foregroundStyle(AppColors.textSecondary)
+                        HStack(spacing: 4) {
+                            if todaysSessions.count >= dailyGoal {
+                                Text("Great job! Goal achieved!")
+                                    .font(.system(size: 14))
+                                    .foregroundStyle(AppColors.success)
+                                    .fontWeight(.medium)
+                                Image(systemName: "checkmark.seal.fill")
+                                    .font(.system(size: 12))
+                                    .foregroundStyle(AppColors.success)
+                            } else {
+                                Text("Ready for today's training?")
+                                    .font(.system(size: 14))
+                                    .foregroundStyle(AppColors.textSecondary)
+                            }
+                        }
                     }
                 }
 
@@ -175,40 +187,70 @@ struct HomeView: View {
     private var todaysGoalCard: some View {
         let completedSessions = todaysSessions.count
         let progress = min(Double(completedSessions) / Double(dailyGoal), 1.0)
+        let goalAchieved = completedSessions >= dailyGoal
 
-        VStack(alignment: .leading, spacing: AppSpacing.md) {
-            Text("TODAY'S GOAL")
-                .font(.system(size: 12, weight: .semibold))
-                .tracking(0.5)
-                .foregroundStyle(.white.opacity(0.85))
-
-            Text("Complete \(dailyGoal) training sessions")
-                .font(.system(size: 20, weight: .bold))
-                .foregroundStyle(.white)
-
-            HStack(spacing: 12) {
-                GeometryReader { geometry in
-                    ZStack(alignment: .leading) {
-                        Capsule()
-                            .fill(.white.opacity(0.3))
-                            .frame(height: 8)
-
-                        Capsule()
-                            .fill(.white)
-                            .frame(width: geometry.size.width * progress, height: 8)
+        HStack(spacing: AppSpacing.lg) {
+            VStack(alignment: .leading, spacing: AppSpacing.md) {
+                HStack(spacing: 6) {
+                    if goalAchieved {
+                        Image(systemName: "trophy.fill")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundStyle(Color(red: 1.0, green: 0.85, blue: 0.3))
                     }
+                    Text(goalAchieved ? "GOAL ACHIEVED" : "TODAY'S GOAL")
+                        .font(.system(size: 12, weight: .semibold))
+                        .tracking(0.5)
+                        .foregroundStyle(.white.opacity(0.85))
                 }
-                .frame(height: 8)
 
-                Text("\(completedSessions)/\(dailyGoal)")
-                    .font(.system(size: 14, weight: .semibold))
+                Text(goalAchieved ? "Amazing work today!" : "Complete \(dailyGoal) training sessions")
+                    .font(.system(size: 20, weight: .bold))
                     .foregroundStyle(.white)
+
+                HStack(spacing: 12) {
+                    GeometryReader { geometry in
+                        ZStack(alignment: .leading) {
+                            Capsule()
+                                .fill(.white.opacity(0.3))
+                                .frame(height: 8)
+
+                            Capsule()
+                                .fill(goalAchieved ? Color(red: 1.0, green: 0.85, blue: 0.3) : .white)
+                                .frame(width: geometry.size.width * progress, height: 8)
+                        }
+                    }
+                    .frame(height: 8)
+
+                    Text("\(completedSessions)/\(dailyGoal)")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(goalAchieved ? Color(red: 1.0, green: 0.85, blue: 0.3) : .white)
+                }
+            }
+
+            Spacer()
+
+            // Trophy/target icon on the right
+            if goalAchieved {
+                // Lottie trophy animation for premium celebration
+                LottieView.trophy(size: 70)
+            } else {
+                ZStack {
+                    Circle()
+                        .fill(.white.opacity(0.1))
+                        .frame(width: 56, height: 56)
+                    Image(systemName: "target")
+                        .font(.system(size: 24, weight: .medium))
+                        .foregroundStyle(.white.opacity(0.7))
+                }
             }
         }
         .padding(AppSpacing.lg)
         .background(
             LinearGradient(
-                colors: [
+                colors: goalAchieved ? [
+                    Color(red: 0.2, green: 0.6, blue: 0.3),
+                    Color(red: 0.15, green: 0.5, blue: 0.25)
+                ] : [
                     Color(red: 0.188, green: 0.557, blue: 0.545),
                     Color(red: 0.15, green: 0.45, blue: 0.5)
                 ],
@@ -218,10 +260,17 @@ struct HomeView: View {
         )
         .clipShape(RoundedRectangle(cornerRadius: AppRadius.xl))
         .overlay(alignment: .topTrailing) {
-            Circle()
-                .fill(.white.opacity(0.08))
-                .frame(width: 120, height: 120)
-                .offset(x: 40, y: -40)
+            if goalAchieved {
+                // Celebration sparkles
+                GoalAchievedSparkles()
+                    .frame(width: 100, height: 100)
+                    .offset(x: 10, y: -10)
+            } else {
+                Circle()
+                    .fill(.white.opacity(0.08))
+                    .frame(width: 120, height: 120)
+                    .offset(x: 40, y: -40)
+            }
         }
         .clipped()
     }
@@ -415,7 +464,10 @@ enum DueStatus {
         case .urgent: return "Due now"
         case .soon(let hours):
             if hours <= 0 { return "Due now" }
-            if hours >= 24 { return "Due in \(hours / 24)d" }
+            let days = hours / 24
+            if days > 365 { return "Due in 1y+" }
+            if days > 30 { return "Due in \(days / 30)mo" }
+            if hours >= 24 { return "Due in \(days)d" }
             return "Due in \(hours)h"
         }
     }
@@ -590,6 +642,46 @@ struct WeekDayCircle: View {
             Text(day.dayName.uppercased())
                 .font(.system(size: 11, weight: .semibold))
                 .foregroundStyle(AppColors.textSecondary)
+        }
+    }
+}
+
+// MARK: - Goal Achieved Sparkles
+
+struct GoalAchievedSparkles: View {
+    @State private var isAnimating = false
+
+    private let sparklePositions: [(x: CGFloat, y: CGFloat, delay: Double)] = [
+        (0.2, 0.3, 0.0),
+        (0.8, 0.2, 0.1),
+        (0.5, 0.6, 0.2),
+        (0.7, 0.8, 0.15),
+        (0.3, 0.7, 0.25),
+    ]
+
+    var body: some View {
+        GeometryReader { geometry in
+            ForEach(0..<sparklePositions.count, id: \.self) { index in
+                let pos = sparklePositions[index]
+                Image(systemName: "sparkle")
+                    .font(.system(size: CGFloat.random(in: 8...14)))
+                    .foregroundStyle(Color(red: 1.0, green: 0.85, blue: 0.3))
+                    .opacity(isAnimating ? 1 : 0)
+                    .scaleEffect(isAnimating ? 1 : 0.3)
+                    .position(
+                        x: geometry.size.width * pos.x,
+                        y: geometry.size.height * pos.y
+                    )
+                    .animation(
+                        .easeInOut(duration: 0.8)
+                            .repeatForever(autoreverses: true)
+                            .delay(pos.delay),
+                        value: isAnimating
+                    )
+            }
+        }
+        .onAppear {
+            isAnimating = true
         }
     }
 }

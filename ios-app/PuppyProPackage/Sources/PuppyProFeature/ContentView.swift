@@ -8,6 +8,7 @@ public struct ContentView: View {
     @Environment(AppState.self) private var appState
     @State private var selectedTab: AppTab = .home
     @State private var showingTrainingSheet = false
+    @State private var subscriptionManager = SubscriptionManager()
 
     public init() {
         logger.info("🏠 ContentView init() called")
@@ -21,6 +22,7 @@ public struct ContentView: View {
                 OnboardingView()
             }
         }
+        .environment(subscriptionManager)
     }
 
     @ViewBuilder
