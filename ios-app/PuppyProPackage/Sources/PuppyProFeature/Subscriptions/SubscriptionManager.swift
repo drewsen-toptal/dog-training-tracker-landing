@@ -59,6 +59,14 @@ enum PuppyProProduct: String, CaseIterable {
         }
     }
 
+    var subscriptionTier: SubscriptionTier {
+        switch self {
+        case .goodBoy: return .goodBoy
+        case .bestFriend: return .bestFriend
+        case .packLeader: return .packLeader
+        }
+    }
+
     var displayName: String {
         switch self {
         case .goodBoy: return "Good Boy"
@@ -67,17 +75,41 @@ enum PuppyProProduct: String, CaseIterable {
         }
     }
 
+    var tagline: String {
+        switch self {
+        case .goodBoy: return "Start your training journey"
+        case .bestFriend: return "Most popular choice"
+        case .packLeader: return "For the serious trainer"
+        }
+    }
+
+    var fallbackPrice: String {
+        switch self {
+        case .goodBoy: return "$2.99"
+        case .bestFriend: return "$5.99"
+        case .packLeader: return "$39.99"
+        }
+    }
+
+    var iconName: String {
+        switch self {
+        case .goodBoy: return PiAPIIcons.star
+        case .bestFriend: return PiAPIIcons.trophy
+        case .packLeader: return PiAPIIcons.fireStreak
+        }
+    }
+
     var features: [String] {
         switch self {
         case .goodBoy:
             return [
-                "5 additional training commands",
+                "6 training commands",
                 "Basic progress tracking",
                 "Training reminders"
             ]
         case .bestFriend:
             return [
-                "All training commands (50+)",
+                "All 12 training commands",
                 "Detailed analytics & insights",
                 "Personalized training plans",
                 "Export training data"

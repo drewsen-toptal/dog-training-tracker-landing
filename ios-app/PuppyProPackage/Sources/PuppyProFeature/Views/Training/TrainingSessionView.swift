@@ -107,9 +107,6 @@ struct TrainingSessionView: View {
                             if let command = currentCommand {
                                 // Command display
                                 commandDisplayView(command)
-
-                                // Clicker button
-                                clickerSection
                             }
                         }
                         .padding(.horizontal, AppSpacing.lg)

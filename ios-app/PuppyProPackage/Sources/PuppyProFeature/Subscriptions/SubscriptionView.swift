@@ -5,9 +5,11 @@ struct SubscriptionView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(SubscriptionManager.self) private var subscriptionManager
 
-    @State private var selectedProduct: Product?
+    @State private var selectedTier: PuppyProProduct = .bestFriend
     @State private var showingError = false
     @State private var isPurchasing = false
+    @State private var animateIn = false
+    @State private var localErrorMessage: String?
 
     var body: some View {
         NavigationStack {
@@ -16,14 +18,17 @@ struct SubscriptionView: View {
                     // Hero Section
                     heroSection
 
-                    // Product Cards
-                    productCardsSection
+                    // Tier Cards
+                    tierCardsSection
 
                     // Features Comparison
                     featuresSection
 
-                    // Restore Purchases
-                    restoreSection
+                    // Purchase Button
+                    purchaseButton
+
+                    // Restore & Legal
+                    footerSection
                 }
             }
             .background(AppColors.background)
@@ -43,11 +48,21 @@ struct SubscriptionView: View {
             .alert("Error", isPresented: $showingError) {
                 Button("OK", role: .cancel) { }
             } message: {
-                Text(subscriptionManager.errorMessage ?? "An error occurred")
+                Text(localErrorMessage ?? subscriptionManager.errorMessage ?? "An error occurred")
             }
             .onChange(of: subscriptionManager.errorMessage) { _, newValue in
                 if newValue != nil {
                     showingError = true
+                }
+            }
+            .onChange(of: localErrorMessage) { _, newValue in
+                if newValue != nil {
+                    showingError = true
+                }
+            }
+            .onAppear {
+                withAnimation(.spring(response: 0.6, dampingFraction: 0.8).delay(0.1)) {
+                    animateIn = true
                 }
             }
         }
@@ -58,87 +73,72 @@ struct SubscriptionView: View {
     @ViewBuilder
     private var heroSection: some View {
         VStack(spacing: AppSpacing.lg) {
-            PiAPIIcon(name: PiAPIIcons.trophy, size: 80)
+            // Animated mascot with glow
+            ZStack {
+                Circle()
+                    .fill(AppColors.primary.opacity(0.1))
+                    .frame(width: 100, height: 100)
+                    .blur(radius: 20)
+
+                PiAPIIcon(name: PiAPIIcons.puppyMascot, size: 80)
+                    .scaleEffect(animateIn ? 1 : 0.5)
+                    .opacity(animateIn ? 1 : 0)
+            }
 
             VStack(spacing: AppSpacing.xs) {
                 Text("Unlock Your Dog's")
-                    .font(.system(size: 24, weight: .bold))
+                    .font(.system(size: 22, weight: .semibold))
                     .foregroundStyle(AppColors.textPrimary)
 
                 Text("Full Potential")
                     .font(.system(size: 28, weight: .bold))
                     .foregroundStyle(AppColors.primary)
             }
+            .opacity(animateIn ? 1 : 0)
+            .offset(y: animateIn ? 0 : 20)
 
-            Text("Get access to all training commands, detailed progress tracking, and personalized training plans.")
+            Text("Choose the plan that's right for you and your pup")
                 .font(.system(size: 15))
                 .foregroundStyle(AppColors.textSecondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, AppSpacing.xl)
+                .opacity(animateIn ? 1 : 0)
         }
         .padding(.vertical, AppSpacing.xl)
         .frame(maxWidth: .infinity)
         .background(
             LinearGradient(
-                colors: [.white, AppColors.primary.opacity(0.05)],
+                colors: [.white, AppColors.primary.opacity(0.03)],
                 startPoint: .top,
                 endPoint: .bottom
             )
         )
     }
 
-    // MARK: - Product Cards
+    // MARK: - Tier Cards
 
     @ViewBuilder
-    private var productCardsSection: some View {
+    private var tierCardsSection: some View {
         VStack(spacing: AppSpacing.md) {
-            if subscriptionManager.isLoading && subscriptionManager.products.isEmpty {
-                ProgressView()
-                    .padding(AppSpacing.xl)
-            } else {
-                ForEach(subscriptionManager.products, id: \.id) { product in
-                    ProductCard(
-                        product: product,
-                        isSelected: selectedProduct?.id == product.id,
-                        isPopular: product.id == PuppyProProduct.bestFriend.rawValue,
-                        isPurchased: subscriptionManager.purchasedProductIDs.contains(product.id)
-                    ) {
-                        selectedProduct = product
+            ForEach(PuppyProProduct.allCases, id: \.rawValue) { tier in
+                TierCard(
+                    tier: tier,
+                    product: productFor(tier: tier),
+                    isSelected: selectedTier == tier,
+                    isPopular: tier == .bestFriend,
+                    isPurchased: subscriptionManager.purchasedProductIDs.contains(tier.rawValue)
+                ) {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                        selectedTier = tier
                     }
                 }
-            }
-
-            // Purchase Button
-            if let product = selectedProduct,
-               !subscriptionManager.purchasedProductIDs.contains(product.id) {
-                Button {
-                    Task {
-                        isPurchasing = true
-                        do {
-                            try await subscriptionManager.purchase(product)
-                        } catch {
-                            // Error handled by manager
-                        }
-                        isPurchasing = false
-                    }
-                } label: {
-                    HStack {
-                        if isPurchasing {
-                            ProgressView()
-                                .tint(.white)
-                        } else {
-                            Text("Continue with \(product.displayName)")
-                                .font(.system(size: 17, weight: .semibold))
-                        }
-                    }
-                    .foregroundStyle(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 16)
-                    .background(AppColors.primaryGradient)
-                    .clipShape(RoundedRectangle(cornerRadius: 14))
-                }
-                .disabled(isPurchasing)
-                .padding(.top, AppSpacing.sm)
+                .opacity(animateIn ? 1 : 0)
+                .offset(y: animateIn ? 0 : 30)
+                .animation(
+                    .spring(response: 0.6, dampingFraction: 0.8)
+                        .delay(Double(tier.tier) * 0.1),
+                    value: animateIn
+                )
             }
         }
         .padding(AppSpacing.lg)
@@ -149,16 +149,15 @@ struct SubscriptionView: View {
     @ViewBuilder
     private var featuresSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.md) {
-            Text("What You Get")
+            Text("All Plans Include")
                 .font(.system(size: 18, weight: .bold))
                 .foregroundStyle(AppColors.textPrimary)
 
             VStack(spacing: AppSpacing.sm) {
-                FeatureRow(icon: PiAPIIcons.target, text: "50+ professional training commands")
-                FeatureRow(icon: PiAPIIcons.tabProgress, text: "Detailed progress analytics")
-                FeatureRow(icon: PiAPIIcons.lightbulb, text: "Spaced repetition algorithm")
-                FeatureRow(icon: PiAPIIcons.bell, text: "Smart training reminders")
-                FeatureRow(icon: PiAPIIcons.star, text: "Achievement badges")
+                FeatureRow(icon: PiAPIIcons.clicker, text: "Professional clicker training tool")
+                FeatureRow(icon: PiAPIIcons.tabProgress, text: "Progress tracking dashboard")
+                FeatureRow(icon: PiAPIIcons.lightbulb, text: "Science-backed training methods")
+                FeatureRow(icon: PiAPIIcons.bell, text: "Training reminders")
             }
         }
         .padding(AppSpacing.lg)
@@ -169,10 +168,57 @@ struct SubscriptionView: View {
         .padding(.horizontal, AppSpacing.lg)
     }
 
-    // MARK: - Restore Section
+    // MARK: - Purchase Button
 
     @ViewBuilder
-    private var restoreSection: some View {
+    private var purchaseButton: some View {
+        let isPurchased = subscriptionManager.purchasedProductIDs.contains(selectedTier.rawValue)
+
+        if !isPurchased {
+            Button {
+                Task {
+                    await purchaseSelectedTier()
+                }
+            } label: {
+                HStack(spacing: 8) {
+                    if isPurchasing {
+                        ProgressView()
+                            .tint(.white)
+                    } else {
+                        Text("Get \(selectedTier.displayName)")
+                            .font(.system(size: 17, weight: .bold))
+
+                        Text("•")
+                            .font(.system(size: 14))
+                            .opacity(0.7)
+
+                        Text(priceFor(tier: selectedTier))
+                            .font(.system(size: 17, weight: .semibold))
+                    }
+                }
+                .foregroundStyle(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 18)
+                .background(
+                    LinearGradient(
+                        colors: [selectedTier.subscriptionTier.color, selectedTier.subscriptionTier.color.opacity(0.8)],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .shadow(color: selectedTier.subscriptionTier.color.opacity(0.3), radius: 12, y: 6)
+            }
+            .disabled(isPurchasing)
+            .padding(.horizontal, AppSpacing.lg)
+            .padding(.top, AppSpacing.lg)
+        }
+    }
+
+    // MARK: - Footer Section
+
+    @ViewBuilder
+    private var footerSection: some View {
         VStack(spacing: AppSpacing.md) {
             Button {
                 Task {
@@ -184,103 +230,148 @@ struct SubscriptionView: View {
                     .foregroundStyle(AppColors.primary)
             }
 
-            Text("One-time purchase. No subscription.")
-                .font(.system(size: 12))
-                .foregroundStyle(AppColors.textTertiary)
+            VStack(spacing: 4) {
+                Text("One-time purchase. No subscription.")
+                    .font(.system(size: 12))
+                    .foregroundStyle(AppColors.textTertiary)
+
+                Text("Lifetime access on all your devices")
+                    .font(.system(size: 12))
+                    .foregroundStyle(AppColors.textTertiary)
+            }
         }
         .padding(.vertical, AppSpacing.xl)
         .padding(.bottom, 40)
     }
+
+    // MARK: - Helpers
+
+    private func productFor(tier: PuppyProProduct) -> Product? {
+        subscriptionManager.products.first { $0.id == tier.rawValue }
+    }
+
+    private func priceFor(tier: PuppyProProduct) -> String {
+        if let product = productFor(tier: tier) {
+            return product.displayPrice
+        }
+        return tier.fallbackPrice
+    }
+
+    private func purchaseSelectedTier() async {
+        guard let product = productFor(tier: selectedTier) else {
+            // No StoreKit product available (testing in simulator)
+            localErrorMessage = "Purchases are only available when testing from Xcode or on a real device"
+            return
+        }
+
+        isPurchasing = true
+        do {
+            try await subscriptionManager.purchase(product)
+            // Auto-dismiss on successful purchase
+            if subscriptionManager.purchasedProductIDs.contains(product.id) {
+                dismiss()
+            }
+        } catch {
+            // Error handled by manager
+        }
+        isPurchasing = false
+    }
 }
 
-// MARK: - Product Card
+// MARK: - Tier Card
 
-struct ProductCard: View {
-    let product: Product
+struct TierCard: View {
+    let tier: PuppyProProduct
+    let product: Product?
     let isSelected: Bool
     let isPopular: Bool
     let isPurchased: Bool
     let onSelect: () -> Void
 
-    private var puppyProProduct: PuppyProProduct? {
-        PuppyProProduct(rawValue: product.id)
+    private var displayPrice: String {
+        product?.displayPrice ?? tier.fallbackPrice
+    }
+
+    private var tierColor: Color {
+        tier.subscriptionTier.color
     }
 
     var body: some View {
         Button(action: onSelect) {
-            VStack(alignment: .leading, spacing: AppSpacing.md) {
-                HStack {
-                    VStack(alignment: .leading, spacing: 4) {
-                        HStack(spacing: 8) {
-                            Text(product.displayName)
-                                .font(.system(size: 18, weight: .bold))
-                                .foregroundStyle(AppColors.textPrimary)
+            HStack(spacing: 14) {
+                // Icon with tier color background
+                ZStack {
+                    Circle()
+                        .fill(tierColor.opacity(0.15))
+                        .frame(width: 56, height: 56)
 
-                            if isPopular {
-                                Text("POPULAR")
-                                    .font(.system(size: 10, weight: .bold))
-                                    .foregroundStyle(.white)
-                                    .padding(.horizontal, 8)
-                                    .padding(.vertical, 4)
-                                    .background(AppColors.primary)
-                                    .clipShape(Capsule())
-                            }
-
-                            if isPurchased {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundStyle(AppColors.success)
-                            }
-                        }
-
-                        Text(product.description)
-                            .font(.system(size: 13))
-                            .foregroundStyle(AppColors.textSecondary)
-                    }
-
-                    Spacer()
-
-                    VStack(alignment: .trailing, spacing: 2) {
-                        Text(product.displayPrice)
-                            .font(.system(size: 22, weight: .bold))
-                            .foregroundStyle(isSelected ? AppColors.primary : AppColors.textPrimary)
-
-                        Text("Lifetime")
-                            .font(.system(size: 11))
-                            .foregroundStyle(AppColors.textTertiary)
-                    }
+                    PiAPIIcon(name: tier.iconName, size: 36)
                 }
 
-                // Feature list
-                if let features = puppyProProduct?.features {
-                    VStack(alignment: .leading, spacing: 6) {
-                        ForEach(features, id: \.self) { feature in
-                            HStack(spacing: 8) {
-                                Image(systemName: "checkmark")
-                                    .font(.system(size: 11, weight: .bold))
-                                    .foregroundStyle(AppColors.success)
+                // Content
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack(spacing: 8) {
+                        Text(tier.displayName)
+                            .font(.system(size: 17, weight: .bold))
+                            .foregroundStyle(AppColors.textPrimary)
 
-                                Text(feature)
-                                    .font(.system(size: 13))
-                                    .foregroundStyle(AppColors.textSecondary)
-                            }
+                        if isPopular {
+                            Text("BEST VALUE")
+                                .font(.system(size: 9, weight: .bold))
+                                .foregroundStyle(.white)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 3)
+                                .background(tierColor)
+                                .clipShape(Capsule())
+                        }
+
+                        if isPurchased {
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.system(size: 16))
+                                .foregroundStyle(AppColors.success)
                         }
                     }
+
+                    Text(tier.tagline)
+                        .font(.system(size: 13))
+                        .foregroundStyle(AppColors.textSecondary)
+                }
+
+                Spacer()
+
+                // Price
+                VStack(alignment: .trailing, spacing: 2) {
+                    Text(displayPrice)
+                        .font(.system(size: 20, weight: .bold))
+                        .foregroundStyle(isSelected ? tierColor : AppColors.textPrimary)
+
+                    Text("Lifetime")
+                        .font(.system(size: 11))
+                        .foregroundStyle(AppColors.textTertiary)
                 }
             }
-            .padding(AppSpacing.lg)
+            .padding(16)
             .background(isPurchased ? AppColors.success.opacity(0.08) : .white)
-            .clipShape(RoundedRectangle(cornerRadius: AppRadius.lg))
+            .clipShape(RoundedRectangle(cornerRadius: 16))
             .overlay {
-                RoundedRectangle(cornerRadius: AppRadius.lg)
+                RoundedRectangle(cornerRadius: 16)
                     .stroke(
-                        isSelected ? AppColors.primary : (isPopular ? AppColors.primary.opacity(0.3) : Color.clear),
+                        isSelected ? tierColor : (isPopular ? tierColor.opacity(0.3) : Color.clear),
                         lineWidth: isSelected ? 2.5 : 1.5
                     )
             }
-            .shadow(color: .black.opacity(0.05), radius: 8, y: 2)
+            .shadow(
+                color: isSelected ? tierColor.opacity(0.15) : .black.opacity(0.05),
+                radius: isSelected ? 12 : 6,
+                y: isSelected ? 4 : 2
+            )
         }
         .buttonStyle(.plain)
         .disabled(isPurchased)
+        .accessibilityLabel("\(tier.displayName) tier, \(displayPrice), \(tier.tagline)")
+        .accessibilityAddTraits(isSelected ? [.isSelected] : [])
+        .accessibilityAddTraits(isPurchased ? [] : [.isButton])
+        .accessibilityHint(isPurchased ? "Already purchased" : "Double-tap to select this tier")
     }
 }
 

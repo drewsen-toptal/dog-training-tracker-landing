@@ -5,7 +5,9 @@ struct CommandListView: View {
     @Query private var dogs: [Dog]
     @Query private var commandProgress: [CommandProgress]
     @Query private var sessions: [TrainingSession]
+    @Environment(SubscriptionManager.self) private var subscriptionManager
     @State private var searchText = ""
+    @State private var showingPaywall = false
 
     private var filteredCommands: [Command] {
         if searchText.isEmpty {
@@ -53,16 +55,35 @@ struct CommandListView: View {
                 // Commands List
                 VStack(spacing: 12) {
                     ForEach(filteredCommands) { command in
-                        NavigationLink {
-                            CommandDetailView(command: command)
-                        } label: {
-                            CommandCard(
-                                command: command,
-                                progress: progressFor(command: command),
-                                sessionCount: sessionCountFor(command: command)
-                            )
+                        let isLocked = !command.isAccessible(with: subscriptionManager.currentTier)
+
+                        if isLocked {
+                            // Locked command - show paywall on tap
+                            Button {
+                                showingPaywall = true
+                            } label: {
+                                CommandCard(
+                                    command: command,
+                                    progress: progressFor(command: command),
+                                    sessionCount: sessionCountFor(command: command),
+                                    currentTier: subscriptionManager.currentTier
+                                )
+                            }
+                            .buttonStyle(.plain)
+                        } else {
+                            // Unlocked command - navigate to detail
+                            NavigationLink {
+                                CommandDetailView(command: command)
+                            } label: {
+                                CommandCard(
+                                    command: command,
+                                    progress: progressFor(command: command),
+                                    sessionCount: sessionCountFor(command: command),
+                                    currentTier: subscriptionManager.currentTier
+                                )
+                            }
+                            .buttonStyle(.plain)
                         }
-                        .buttonStyle(.plain)
                     }
                 }
                 .padding(.horizontal, 24)
@@ -71,6 +92,9 @@ struct CommandListView: View {
         }
         .background(AppColors.background)
         .navigationBarHidden(true)
+        .sheet(isPresented: $showingPaywall) {
+            SubscriptionView()
+        }
     }
 
     @ViewBuilder
@@ -102,4 +126,5 @@ struct CommandListView: View {
         CommandListView()
     }
     .modelContainer(for: [Dog.self, CommandProgress.self, TrainingSession.self], inMemory: true)
+    .environment(SubscriptionManager())
 }

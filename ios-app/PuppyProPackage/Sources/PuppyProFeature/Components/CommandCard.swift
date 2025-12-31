@@ -4,6 +4,11 @@ struct CommandCard: View {
     let command: Command
     let progress: CommandProgress?
     var sessionCount: Int = 0
+    var currentTier: SubscriptionTier = .free
+
+    var isLocked: Bool {
+        !command.isAccessible(with: currentTier)
+    }
 
     private var progressPercentage: Int {
         guard let progress else { return 0 }
@@ -153,8 +158,25 @@ struct CommandCard: View {
             }
         }
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(command.name) command, \(command.difficulty.displayName) difficulty, \(progressText)")
-        .accessibilityHint("Double-tap to view command details and start training")
+        .accessibilityLabel("\(command.name) command, \(command.difficulty.displayName) difficulty, \(isLocked ? "Locked - requires \(command.requiredTier.displayName) tier" : progressText)")
+        .accessibilityHint(isLocked ? "Double-tap to view upgrade options" : "Double-tap to view command details and start training")
+        .opacity(isLocked ? 0.7 : 1.0)
+        .overlay(alignment: .topTrailing) {
+            if isLocked {
+                HStack(spacing: 4) {
+                    Image(systemName: "lock.fill")
+                        .font(.system(size: 10, weight: .bold))
+                    Text(command.requiredTier.displayName)
+                        .font(.system(size: 10, weight: .bold))
+                }
+                .foregroundStyle(.white)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(command.requiredTier.color)
+                .clipShape(Capsule())
+                .padding(12)
+            }
+        }
     }
 }
 
