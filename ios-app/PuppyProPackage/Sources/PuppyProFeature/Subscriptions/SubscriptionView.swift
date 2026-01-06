@@ -258,9 +258,18 @@ struct SubscriptionView: View {
     }
 
     private func purchaseSelectedTier() async {
+        // If products haven't loaded yet, try loading them
+        if subscriptionManager.products.isEmpty {
+            await subscriptionManager.loadProducts()
+        }
+
         guard let product = productFor(tier: selectedTier) else {
-            // No StoreKit product available (testing in simulator)
-            localErrorMessage = "Purchases are only available when testing from Xcode or on a real device"
+            // Products failed to load - provide helpful error
+            if subscriptionManager.products.isEmpty {
+                localErrorMessage = "Unable to connect to the App Store. Please check your internet connection and try again."
+            } else {
+                localErrorMessage = "This product is temporarily unavailable. Please try again later."
+            }
             return
         }
 

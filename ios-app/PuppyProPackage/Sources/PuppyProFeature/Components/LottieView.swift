@@ -96,6 +96,35 @@ enum LottieAnimations {
 
     /// Stars sparkle animation - celebration effect
     static let starsSparkle = "stars-sparkle"
+
+    /// Collection of celebration animations for random selection
+    static let celebrations: [String] = [
+        "celebration-coinfall",
+        "celebration-confetti-burst",
+        "celebration-confetti-explode",
+        "celebration-dancing-pup",
+        "celebration-done",
+        "celebration-finish-done",
+        "celebration-fireworks",
+        "celebration-happy-birthday",
+        "celebration-happy-pup",
+        "celebration-heart",
+        "celebration-medal",
+        "celebration-party",
+        "celebration-play-like",
+        "celebration-star-2",
+        "celebration-success-08",
+        "celebration-success-09",
+        "celebration-success-confetti",
+        "celebration-thumbs-up",
+        "celebration-trophy-2",
+        "celebration-win"
+    ]
+
+    /// Returns a random celebration animation name
+    static func randomCelebration() -> String {
+        celebrations.randomElement() ?? trophy
+    }
 }
 
 // MARK: - Preset Lottie Views
@@ -180,4 +209,60 @@ extension LottieView {
         )
         .frame(width: size, height: size)
     }
+
+    /// Random celebration animation (plays once) - displays a different animation each time
+    static func randomCelebration(size: CGFloat = 100) -> some View {
+        LottieView(
+            animationName: LottieAnimations.randomCelebration(),
+            loopMode: .playOnce,
+            animationSpeed: 1.2
+        )
+        .frame(width: size, height: size)
+    }
 }
+
+// MARK: - QA Test View for All Celebrations (DEBUG only)
+
+#if DEBUG
+/// A test view that displays all celebration animations for QA verification
+struct CelebrationAnimationsQAView: View {
+    let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 20) {
+                    ForEach(LottieAnimations.celebrations, id: \.self) { animationName in
+                        VStack(spacing: 8) {
+                            LottieView(
+                                animationName: animationName,
+                                loopMode: .loop,
+                                animationSpeed: 1.0
+                            )
+                            .frame(width: 120, height: 120)
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(12)
+
+                            Text(animationName)
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
+                                .lineLimit(2)
+                                .multilineTextAlignment(.center)
+                        }
+                    }
+                }
+                .padding()
+            }
+            .navigationTitle("QA: All Celebrations")
+            .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+}
+
+#Preview("All Celebration Animations") {
+    CelebrationAnimationsQAView()
+}
+#endif

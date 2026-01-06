@@ -142,7 +142,7 @@ private struct CenterTrainButton: View {
 }
 
 /// Extension to add Liquid Glass overlay for iOS 26+
-extension View {
+internal extension View {
     @ViewBuilder
     func liquidGlassOverlay() -> some View {
         if #available(iOS 26.0, *) {

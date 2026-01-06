@@ -16,6 +16,8 @@ let package = Package(
     dependencies: [
         // Lottie for beautiful JSON-based animations
         .package(url: "https://github.com/airbnb/lottie-ios.git", from: "4.4.0"),
+        // YouTubePlayerKit for reliable YouTube video embedding
+        .package(url: "https://github.com/SvenTiigi/YouTubePlayerKit.git", from: "1.9.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -24,6 +26,7 @@ let package = Package(
             name: "PuppyProFeature",
             dependencies: [
                 .product(name: "Lottie", package: "lottie-ios"),
+                .product(name: "YouTubePlayerKit", package: "YouTubePlayerKit"),
             ],
             resources: [
                 .process("Resources")

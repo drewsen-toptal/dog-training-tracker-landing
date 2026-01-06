@@ -10,6 +10,7 @@ struct PuppyProApp: App {
         WindowGroup {
             ContentView()
                 .environment(appState)
+                .preferredColorScheme(.light)
         }
         .modelContainer(for: [Dog.self, TrainingSession.self, CommandProgress.self, UserSettings.self])
     }

@@ -231,7 +231,7 @@ struct Command: Codable, Identifiable {
             tips: ["Practice in short 5-minute sessions", "Be patient and consistent", "Always end on a positive note"],
             commonMistakes: ["Pushing down on the dog's back", "Repeating the command multiple times", "Treating too late"],
             prerequisites: nil,
-            youtubeVideoId: "1GbYflg4gJg"
+            youtubeVideoId: "-wLejBHUMsQ"
         ),
         Command(
             id: "stay",
@@ -250,7 +250,7 @@ struct Command: Codable, Identifiable {
             tips: ["Always release with a consistent word like 'Okay!' or 'Free!'", "Start with short stays (2-3 seconds) and build up slowly", "Practice in low-distraction areas first before adding challenges"],
             commonMistakes: ["Increasing distance too quickly", "Not using a release word", "Punishing the dog for breaking stay"],
             prerequisites: ["sit"],
-            youtubeVideoId: "gp6lU4Whm0c"
+            youtubeVideoId: "E6XehinN8-k"  // Chewtorials - How To Teach A Dog To Stay
         ),
         Command(
             id: "down",
@@ -269,7 +269,7 @@ struct Command: Codable, Identifiable {
             tips: ["Use a soft surface initially", "Be patient - this can take time", "Don't push your dog down"],
             commonMistakes: ["Moving the treat too fast", "Holding the treat too high", "Not waiting for full down position"],
             prerequisites: ["sit"],
-            youtubeVideoId: "K-NMwNc6K-U"
+            youtubeVideoId: "UiZFM_q1bNw"  // Chewy - How to Teach a Dog to Lay Down
         ),
         Command(
             id: "come",
@@ -288,7 +288,7 @@ struct Command: Codable, Identifiable {
             tips: ["Never punish your dog when they come to you", "Use the best treats for recall training", "Practice randomly throughout the day"],
             commonMistakes: ["Calling the dog for unpleasant things", "Chasing the dog", "Using a stern voice"],
             prerequisites: nil,
-            youtubeVideoId: "rKlMirm4pIo"
+            youtubeVideoId: "FFMJHShVxg8"  // Chewy - How to Train Your Dog to Come When Called
         ),
         Command(
             id: "heel",
@@ -307,7 +307,7 @@ struct Command: Codable, Identifiable {
             tips: ["Keep sessions short and fun", "Use high-value treats", "Practice in low-distraction areas first"],
             commonMistakes: ["Walking too fast initially", "Not rewarding frequently enough", "Pulling on the leash"],
             prerequisites: ["sit", "stay"],
-            youtubeVideoId: "sFgtqgiAKoQ"
+            youtubeVideoId: "wOpdHNqFfgY"  // Chewy - Leash Training: How to Leash Train a Dog
         ),
         Command(
             id: "leave_it",
@@ -326,7 +326,7 @@ struct Command: Codable, Identifiable {
             tips: ["Always reward with a different treat", "Never let them get the 'leave it' item", "Be patient"],
             commonMistakes: ["Letting them get the forbidden item", "Moving too fast in progression"],
             prerequisites: nil,
-            youtubeVideoId: "pHmKqe4T2x0"
+            youtubeVideoId: "lkGmpAEyA6o"  // Chewy - How to Train Your Dog to Leave It
         ),
         Command(
             id: "drop_it",
@@ -345,7 +345,7 @@ struct Command: Codable, Identifiable {
             tips: ["Always trade for something of equal or higher value", "Make it a fun game"],
             commonMistakes: ["Chasing the dog", "Not returning the toy sometimes"],
             prerequisites: nil,
-            youtubeVideoId: "ndTiVOCNY4M"
+            youtubeVideoId: "2Je27l4aKPc"  // Chewtorials - How To Teach A Dog To Drop It
         ),
         Command(
             id: "wait",
@@ -364,7 +364,7 @@ struct Command: Codable, Identifiable {
             tips: ["Use before meals and at doors", "Keep it short - wait is temporary"],
             commonMistakes: ["Confusing with Stay", "Making them wait too long initially"],
             prerequisites: nil,
-            youtubeVideoId: "wLryNwaIEsA"
+            youtubeVideoId: "LGxhcb-itO4"
         ),
         Command(
             id: "watch_me",
@@ -383,7 +383,7 @@ struct Command: Codable, Identifiable {
             tips: ["Start with brief moments of eye contact", "Use it before giving other commands"],
             commonMistakes: ["Holding the treat too far from your face"],
             prerequisites: nil,
-            youtubeVideoId: "pAqwKD5AQKw"
+            youtubeVideoId: "2zeZrOPzO-c"  // Chewy - How to Teach Your Dog "Watch Me"
         ),
         Command(
             id: "place",
@@ -402,7 +402,7 @@ struct Command: Codable, Identifiable {
             tips: ["Use the same spot initially", "Make it comfortable"],
             commonMistakes: ["Changing spots too early", "Not rewarding on the spot"],
             prerequisites: ["stay"],
-            youtubeVideoId: "MIkBrjWn9ZY"
+            youtubeVideoId: "xq6HsbfV_lQ"  // Chewy - How to Teach Your Dog to Go to Bed
         ),
         Command(
             id: "shake",
@@ -421,7 +421,7 @@ struct Command: Codable, Identifiable {
             tips: ["Be gentle with their paw", "Keep sessions short and fun"],
             commonMistakes: ["Grabbing the paw too firmly"],
             prerequisites: ["sit"],
-            youtubeVideoId: "RgKIcAPXWXk"
+            youtubeVideoId: "Tc6gm48CTKo"  // Chewtorials - How To Teach A Dog To Shake A Paw
         ),
         Command(
             id: "spin",
@@ -440,7 +440,7 @@ struct Command: Codable, Identifiable {
             tips: ["Start slow", "Be enthusiastic with praise"],
             commonMistakes: ["Moving the treat too fast"],
             prerequisites: nil,
-            youtubeVideoId: "SyVCdxb1spw"
+            youtubeVideoId: "67x0EhX7Wto"  // Howcast - How to Teach Your Dog to Spin
         )
     ]
 

@@ -231,8 +231,8 @@ struct HomeView: View {
 
             // Trophy/target icon on the right
             if goalAchieved {
-                // Lottie trophy animation for premium celebration
-                LottieView.trophy(size: 70)
+                // Random celebration animation for variety
+                LottieView.randomCelebration(size: 70)
             } else {
                 ZStack {
                     Circle()
@@ -596,10 +596,13 @@ struct QuickActionCard: View {
             Text(title)
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundStyle(AppColors.textPrimary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
 
             Spacer()
         }
-        .padding(18)
+        .padding(.horizontal, 14)
+        .padding(.vertical, 18)
         .frame(maxWidth: .infinity)
         .background(.white)
         .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -631,7 +634,9 @@ struct WeekDayCircle: View {
                         .fill(AppColors.success)
                         .frame(width: 36, height: 36)
 
-                    PiAPIIcon(name: PiAPIIcons.checkmark, size: 20)
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundStyle(.white)
                 } else {
                     Circle()
                         .fill(Color(red: 0.94, green: 0.94, blue: 0.94))

@@ -1,46 +1,35 @@
 import SwiftUI
 import SwiftData
-import WebKit
+import YouTubePlayerKit
 
-// MARK: - YouTube Player
+// MARK: - YouTube Video Card (Embedded Player)
 
-struct YouTubePlayerView: UIViewRepresentable {
+struct YouTubeVideoCard: View {
     let videoId: String
+    let commandName: String
 
-    func makeUIView(context: Context) -> WKWebView {
-        let configuration = WKWebViewConfiguration()
-        configuration.allowsInlineMediaPlayback = true
-        configuration.mediaTypesRequiringUserActionForPlayback = []
-
-        let webView = WKWebView(frame: .zero, configuration: configuration)
-        webView.scrollView.isScrollEnabled = false
-        webView.isOpaque = false
-        webView.backgroundColor = .clear
-        return webView
+    // Configure YouTube player with inline playback and fullscreen enabled
+    // Block navigation to YouTube by using empty openURLAction handler
+    private var player: YouTubePlayer {
+        YouTubePlayer(
+            source: .video(id: videoId),
+            configuration: .init(
+                fullscreenMode: .system,
+                openURLAction: .init { _ in },  // Block YouTube icon navigation
+                showControls: true,
+                showFullscreenButton: true,
+                playInline: true,
+                showRelatedVideos: false
+            )
+        )
     }
 
-    func updateUIView(_ webView: WKWebView, context: Context) {
-        let embedHTML = """
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-            <style>
-                * { margin: 0; padding: 0; }
-                html, body { width: 100%; height: 100%; background: #1a1a1c; }
-                iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; border-radius: 12px; }
-            </style>
-        </head>
-        <body>
-            <iframe
-                src="https://www.youtube.com/embed/\(videoId)?playsinline=1&rel=0&modestbranding=1"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen>
-            </iframe>
-        </body>
-        </html>
-        """
-        webView.loadHTMLString(embedHTML, baseURL: nil)
+    var body: some View {
+        YouTubePlayerView(player)
+            .aspectRatio(16/9, contentMode: .fit)
+            .clipShape(.rect(cornerRadius: AppRadius.md))
+            .accessibilityLabel("\(commandName) training video")
+            .accessibilityHint("Tap the video to play")
     }
 }
 
@@ -414,9 +403,7 @@ struct CommandDetailView: View {
                     .font(AppFonts.headline())
                     .foregroundStyle(AppColors.textPrimary)
 
-                YouTubePlayerView(videoId: videoId)
-                    .frame(height: 200)
-                    .clipShape(.rect(cornerRadius: AppRadius.lg))
+                YouTubeVideoCard(videoId: videoId, commandName: command.name)
             }
             .padding(AppSpacing.lg)
             .background(.white)

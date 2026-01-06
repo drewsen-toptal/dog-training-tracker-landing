@@ -136,7 +136,7 @@ final class SubscriptionManager {
     private(set) var isLoading = false
     private(set) var errorMessage: String?
 
-    // nonisolated to allow cancellation in deinit
+    // nonisolated(unsafe) to allow cancellation in deinit
     private nonisolated(unsafe) var transactionListener: Task<Void, Error>?
 
     var currentTier: SubscriptionTier {
@@ -178,15 +178,33 @@ final class SubscriptionManager {
     // MARK: - Load Products
 
     func loadProducts() async {
+        guard !isLoading else { return }
         isLoading = true
         errorMessage = nil
 
         do {
             let productIDs = PuppyProProduct.allCases.map { $0.rawValue }
-            products = try await Product.products(for: productIDs)
-            products.sort { ($0.price as NSDecimalNumber).doubleValue < ($1.price as NSDecimalNumber).doubleValue }
+            let fetchedProducts = try await Product.products(for: productIDs)
+
+            // Sort by price (ascending)
+            products = fetchedProducts.sorted {
+                ($0.price as NSDecimalNumber).doubleValue < ($1.price as NSDecimalNumber).doubleValue
+            }
+
+            // Log for debugging (only in debug builds)
+            #if DEBUG
+            print("[StoreKit] Loaded \(products.count) products: \(products.map { $0.id })")
+            if products.count < productIDs.count {
+                let loadedIDs = Set(products.map { $0.id })
+                let missingIDs = Set(productIDs).subtracting(loadedIDs)
+                print("[StoreKit] Missing products: \(missingIDs)")
+            }
+            #endif
         } catch {
-            errorMessage = "Failed to load products: \(error.localizedDescription)"
+            #if DEBUG
+            print("[StoreKit] Failed to load products: \(error)")
+            #endif
+            errorMessage = "Unable to load products. Please check your connection and try again."
         }
 
         isLoading = false

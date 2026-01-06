@@ -34,6 +34,11 @@ struct SettingsView: View {
                 // Legal Section
                 legalSection
 
+                // Debug Section (QA Testing)
+                #if DEBUG
+                debugSection
+                #endif
+
                 // App Version
                 appVersionFooter
             }
@@ -224,7 +229,7 @@ struct SettingsView: View {
     @ViewBuilder
     private var legalSection: some View {
         VStack(spacing: AppSpacing.md) {
-            Link(destination: URL(string: "https://puppypro.app/privacy")!) {
+            Link(destination: URL(string: "https://dog-training-tracker-landing.vercel.app/privacy")!) {
                 SettingsRow(
                     iconName: PiAPIIcons.shieldCheck,
                     title: "Privacy Policy",
@@ -235,7 +240,7 @@ struct SettingsView: View {
             .accessibilityLabel("Privacy Policy")
             .accessibilityHint("Double-tap to view our privacy policy")
 
-            Link(destination: URL(string: "https://puppypro.app/terms")!) {
+            Link(destination: URL(string: "https://dog-training-tracker-landing.vercel.app/terms")!) {
                 SettingsRow(
                     iconName: PiAPIIcons.help,
                     title: "Terms of Use",
@@ -251,6 +256,32 @@ struct SettingsView: View {
         .clipShape(RoundedRectangle(cornerRadius: AppRadius.lg))
         .shadow(color: .black.opacity(0.05), radius: 8, y: 2)
     }
+
+    // MARK: - Debug Section
+
+    #if DEBUG
+    @ViewBuilder
+    private var debugSection: some View {
+        VStack(spacing: AppSpacing.md) {
+            NavigationLink {
+                CelebrationAnimationsQAView()
+            } label: {
+                SettingsRow(
+                    iconName: PiAPIIcons.trophy,
+                    title: "QA: All Celebrations",
+                    subtitle: "View all 20 animations"
+                )
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("QA All Celebrations")
+            .accessibilityHint("Double-tap to view all celebration animations")
+        }
+        .padding(AppSpacing.md)
+        .background(.white)
+        .clipShape(RoundedRectangle(cornerRadius: AppRadius.lg))
+        .shadow(color: .black.opacity(0.05), radius: 8, y: 2)
+    }
+    #endif
 
     // MARK: - App Version Footer
 
