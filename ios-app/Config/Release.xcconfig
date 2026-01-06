@@ -4,5 +4,9 @@
 
 #include "Shared.xcconfig"
 
-// No additional release-specific overrides needed
-// All release settings use Xcode project defaults
+// ==========================================
+// Release-specific Settings
+// ==========================================
+// Exclude StoreKit configuration file from release builds
+// This prevents the "Purchases are only available when testing from Xcode" error
+EXCLUDED_SOURCE_FILE_NAMES = $(inherited) *.storekit
